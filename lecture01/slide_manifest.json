@@ -8,384 +8,356 @@
       ],
       [
         "p",
-        "Five hand ciphers. Five ways to see what secrecy leaves behind."
+        "Historical constructions, mathematical definitions, and worked cryptanalysis."
       ],
       [
         "code",
         "LECTURE 01",
-        "Master’s level • Computer science & engineering"
+        "Master’s level • Mathematics",
+        19
       ]
     ],
-    "sub": "From secret writing to systematic cryptanalysis",
-    "take": "Three hours • Worked examples • Two breaks",
+    "sub": "Cryptography lecture series",
+    "take": "Three hours, including two 10-minute breaks • Revised edition",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "cover"
   },
   {
-    "title": "The question for today",
+    "title": "Why would we want secret writing?",
     "blocks": [
       [
         "p",
-        "You intercept a message. You know the encryption method, but not the key."
+        "Alice wants to send Bob a message. Eve may read whatever crosses the communication channel."
       ],
       [
         "code",
-        "INTERCEPTED",
-        "PHHWPHDWQRRQ"
+        "THE MESSAGE",
+        "Meet at the north gate at noon.",
+        19
       ],
       [
         "p",
-        "What information would let you recover the message?"
+        "Can Alice make the intercepted message unintelligible to Eve while allowing Bob to recover it?"
       ]
     ],
     "sub": "",
-    "take": "Think about the attacker’s information before choosing an attack.",
+    "take": "Start with the communication problem; the construction comes next.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "What you will be able to do",
+    "title": "What is cryptography?",
     "blocks": [
       [
-        "b",
-        "Encrypt and decrypt with the five ciphers in this lecture."
+        "p",
+        "<b>Cryptography</b> studies mathematical methods for protecting information in the presence of adversaries."
       ],
       [
-        "b",
-        "Use frequency, repetition, and position as evidence in an attack."
+        "p",
+        "<b>Cryptanalysis</b> studies how to defeat a proposed protection under specified assumptions."
       ],
       [
-        "b",
-        "Explain why a large key space alone does not establish security."
-      ],
-      [
-        "b",
-        "Separate a historical teaching cipher from a tool suitable for real data."
+        "p",
+        "Today we focus on <b>confidentiality</b>: preventing an interceptor from learning the message."
       ]
     ],
     "sub": "",
-    "take": "",
+    "take": "Other goals, including authenticity and integrity, belong to later lectures.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Our three-hour route",
+    "title": "Plaintext, ciphertext, algorithm, key",
     "blocks": [
       [
         "table",
         [
-          "Elapsed time",
-          "Focus"
+          "Term",
+          "Meaning in today’s setting"
         ],
         [
           [
-            "00–50 min",
-            "Foundations, shift, substitution"
+            "Plaintext",
+            "The message before encryption."
           ],
           [
-            "50–60 min",
-            "Break"
+            "Ciphertext",
+            "The transformed message sent over the channel."
           ],
           [
-            "60–110 min",
-            "Frequency analysis and Vigenère"
+            "Cipher / algorithm",
+            "The rule used to encrypt and decrypt."
           ],
           [
-            "110–120 min",
-            "Break"
-          ],
-          [
-            "120–170 min",
-            "Playfair and transposition"
-          ],
-          [
-            "170–180 min",
-            "Synthesis and exit questions"
+            "Key",
+            "The parameter that selects a particular transformation."
           ]
         ],
         [
-          180,
-          676
+          240,
+          616
         ]
       ]
     ],
     "sub": "",
-    "take": "Exercises and discussion are included in these timings.",
+    "take": "Knowing a ciphertext is different from knowing the key that produced it.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Five ciphers, three design ideas",
-    "blocks": [
-      [
-        "table",
-        [
-          "Design idea",
-          "Ciphers in this lecture",
-          "What changes?"
-        ],
-        [
-          [
-            "One symbol at a time",
-            "Shift; monoalphabetic substitution",
-            "Letter identity"
-          ],
-          [
-            "Change by position / by pair",
-            "Vigenère; Playfair",
-            "Mapping with context"
-          ],
-          [
-            "Rearrange a block",
-            "Transposition (permutation)",
-            "Letter positions"
-          ]
-        ],
-        [
-          220,
-          360,
-          276
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "For each cipher: define a key, work an example, and identify what remains visible.",
-    "section": "FOUNDATIONS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Why study ciphers we should not deploy?",
-    "blocks": [
-      [
-        "b",
-        "Small examples make the key, algorithm, and attacker visible."
-      ],
-      [
-        "b",
-        "Failures expose recurring problems: predictable data and repeated structure."
-      ],
-      [
-        "b",
-        "Manual attacks introduce the logic behind automated cryptanalysis."
-      ]
-    ],
-    "sub": "",
-    "take": "Historical relevance does not imply present-day security.",
-    "section": "FOUNDATIONS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "A short historical thread",
-    "blocks": [
-      [
-        "table",
-        [
-          "Period",
-          "Milestone"
-        ],
-        [
-          [
-            "Antiquity",
-            "Caesar uses a fixed alphabet shift in correspondence."
-          ],
-          [
-            "9th century",
-            "Al-Kindi describes frequency-based cryptanalysis."
-          ],
-          [
-            "1553",
-            "Bellaso describes a repeating-key polyalphabetic scheme."
-          ],
-          [
-            "1854",
-            "Wheatstone invents the cipher promoted by Playfair."
-          ],
-          [
-            "19th century",
-            "Kasiski publishes a method attacking periodic substitution."
-          ]
-        ],
-        [
-          170,
-          686
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "",
-    "section": "FOUNDATIONS",
-    "source": "Historical overview: original deck; Kahn, The Codebreakers; Kasiski (1863).",
-    "kind": "normal"
-  },
-  {
-    "title": "The basic communication model",
+    "title": "Encryption and decryption",
     "blocks": [
       [
         "pipeline"
       ],
       [
         "p",
-        "Plaintext is the original message; ciphertext is the encrypted message."
+        "Alice encrypts using a key. Bob uses the corresponding key to undo the transformation."
       ],
       [
         "p",
-        "A cipher is the algorithm. A key selects one transformation from the family."
+        "Eve observes the ciphertext; she should not be able to recover the message without the required secret."
       ]
     ],
     "sub": "",
-    "take": "Correctness: decrypting an encrypted message with the right key recovers it.",
+    "take": "",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Algorithm ≠ key",
+    "title": "Symmetric-key encryption",
     "blocks": [
       [
-        "two",
+        "p",
+        "Alice and Bob share a secret key before they communicate."
+      ],
+      [
+        "p",
+        "All five ciphers in this lecture are <b>symmetric-key</b> constructions: both operations are determined by that shared key."
+      ],
+      [
+        "p",
+        "Distributing and protecting the key is a separate task. For now, assume Alice and Bob already share it."
+      ]
+    ],
+    "sub": "",
+    "take": "The algorithm can be public; the key is the secret parameter.",
+    "section": "FOUNDATIONS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A mathematical model of a cipher",
+    "blocks": [
+      [
+        "p",
+        "Specify a plaintext space, a ciphertext space, and a key space."
+      ],
+      [
+        "math",
+        "\\mathcal P,\\quad\\mathcal C,\\quad\\mathcal K;\\qquad E_k:\\mathcal P\\to\\mathcal C,\\quad D_k:\\mathcal C\\to\\mathcal P"
+      ],
+      [
+        "p",
+        "Correctness means that decryption recovers every allowed plaintext:"
+      ],
+      [
+        "math",
+        "D_k(E_k(p))=p\\qquad\\text{for every }p\\in\\mathcal P\\text{ and }k\\in\\mathcal K."
+      ]
+    ],
+    "sub": "",
+    "take": "We will identify these objects explicitly for each construction.",
+    "section": "FOUNDATIONS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "What does the attacker know?",
+    "blocks": [
+      [
+        "p",
+        "Assume Eve knows the cipher algorithm, but not the particular key."
+      ],
+      [
+        "table",
         [
-          [
-            "code",
-            "PUBLIC METHOD",
-            "shift each letter by K"
-          ],
-          [
-            "p",
-            "Assume the attacker knows the algorithm."
-          ]
+          "Information available",
+          "Attack setting"
         ],
         [
           [
-            "code",
-            "SECRET KEY",
-            "K = 3"
+            "Only intercepted ciphertext",
+            "Ciphertext-only"
           ],
           [
-            "p",
-            "The key is the information the sender and receiver must protect."
+            "Some matching plaintext and ciphertext",
+            "Known-plaintext"
+          ],
+          [
+            "Encryptions of messages selected by Eve",
+            "Chosen-plaintext"
           ]
+        ],
+        [
+          460,
+          396
         ]
       ]
     ],
     "sub": "",
-    "take": "Kerckhoffs’s principle: security should not depend on hiding the method.",
+    "take": "Our main substitution and Vigenère attacks use ciphertext-only information.",
     "section": "FOUNDATIONS",
-    "source": "Kerckhoffs, La Cryptographie Militaire (1883), principle 2.",
+    "source": "Public-algorithm principle: Kerckhoffs, La Cryptographie Militaire (1883).",
     "kind": "normal"
   },
   {
-    "title": "Shared keys / the setup behind every example",
+    "title": "The alphabet as a mathematical object",
     "blocks": [
       [
-        "p",
-        "The sender and receiver share a secret key before exchanging messages."
+        "code",
+        "LETTER ENCODING",
+        "A B C D E … X  Y  Z\n0 1 2 3 4 … 23 24 25",
+        19
+      ],
+      [
+        "math",
+        "\\mathbb Z_{26}=\\{0,1,\\ldots,25\\},\\qquad\\mathcal P=\\mathcal C=\\mathbb Z_{26}^{\\,n}"
       ],
       [
         "p",
-        "All five ciphers here use symmetric-key encryption: the decryption operation is determined by the same shared key."
-      ],
-      [
-        "p",
-        "An interceptor who learns that key can also decrypt. Getting the key to the receiver securely is a separate problem."
+        "Normalize examples to letters only. We use uppercase for message rows; partial substitution solutions use lowercase."
       ]
     ],
     "sub": "",
-    "take": "Encryption aims to protect confidentiality; it does not by itself guarantee authenticity.",
+    "take": "Removing spaces or merging letters is preprocessing, and may discard information.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "A minimal threat model",
+    "title": "Modulo 26: the alphabet wraps around",
+    "blocks": [
+      [
+        "math",
+        "(24+2)\\bmod26=0,\\qquad (0-2)\\bmod26=24"
+      ],
+      [
+        "code",
+        "LETTER INTERPRETATION",
+        "Y + 2 → A        A − 2 → Y",
+        19
+      ],
+      [
+        "p",
+        "We represent every residue by an integer from 0 to 25."
+      ],
+      [
+        "p",
+        "When using indexed messages, positions start at 0. Permutation tables later explicitly use positions 1 through m."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "FOUNDATIONS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Historical motivation and our route",
     "blocks": [
       [
         "table",
         [
-          "Attacker’s information",
-          "What can be attempted?"
+          "Construction",
+          "Historical / mathematical idea"
         ],
         [
           [
-            "Ciphertext only",
-            "Infer patterns using a language model."
+            "Shift",
+            "A small offset makes hand encryption simple."
           ],
           [
-            "Known plaintext + matching ciphertext",
-            "Recover key constraints directly."
+            "Substitution",
+            "An arbitrary alphabet gives many more keys."
           ],
           [
-            "Chosen plaintext",
-            "Observe encryption of selected messages."
+            "Vigenère",
+            "Change the alphabet with the key position."
+          ],
+          [
+            "Playfair",
+            "Encrypt pairs using a compact square."
+          ],
+          [
+            "Transposition",
+            "Rearrange positions instead of changing letters."
           ]
         ],
         [
-          330,
-          526
+          220,
+          636
         ]
-      ],
-      [
-        "p",
-        "We mainly use ciphertext-only attacks today; known plaintext gives useful contrasts."
       ]
     ],
     "sub": "",
-    "take": "Always say what the attacker can see or request.",
+    "take": "We will understand each construction before examining its limitations.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Our notation and conventions",
+    "title": "Plan for the three hours",
     "blocks": [
       [
-        "b",
-        "Use the 26-letter English alphabet: A = 0, B = 1, …, Z = 25."
-      ],
-      [
-        "b",
-        "Examples are normalized to uppercase; spaces and punctuation are removed."
-      ],
-      [
-        "b",
-        "Indices start at 0 unless a table explicitly uses positions 1, 2, … ."
-      ],
-      [
-        "b",
-        "For each cipher, define any padding or filler rule before using it."
+        "table",
+        [
+          "Elapsed time",
+          "Topic"
+        ],
+        [
+          [
+            "00–30 min",
+            "Foundations, shift, and substitution"
+          ],
+          [
+            "30–60 min",
+            "A complete guided frequency-analysis example"
+          ],
+          [
+            "60–70 min",
+            "Break"
+          ],
+          [
+            "70–120 min",
+            "Vigenère, Kasiski, IC, and key recovery"
+          ],
+          [
+            "120–130 min",
+            "Break"
+          ],
+          [
+            "130–172 min",
+            "Playfair and transposition"
+          ],
+          [
+            "172–180 min",
+            "Comparison, reflection, and reading"
+          ]
+        ],
+        [
+          210,
+          646
+        ]
       ]
     ],
     "sub": "",
-    "take": "Normalization loses information before encryption; it is not encryption.",
-    "section": "FOUNDATIONS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Arithmetic on a circular alphabet",
-    "blocks": [
-      [
-        "code",
-        "WRAP AROUND",
-        "Y + 2 → A        A − 2 → Y"
-      ],
-      [
-        "p",
-        "Modulo 26 keeps the result in {0, 1, …, 25}."
-      ],
-      [
-        "code",
-        "NUMERIC CHECK",
-        "(24 + 2) mod 26 = 0\n(0 − 2) mod 26 = 24"
-      ]
-    ],
-    "sub": "",
-    "take": "In code, ensure negative remainders are normalized to 0–25.",
+    "take": "Short exercises are included in these allocations. Appendix tables support the worked examples.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
@@ -395,40 +367,37 @@
     "blocks": [
       [
         "p",
-        "One secret offset for every letter."
-      ],
-      [
-        "code",
-        "KEY",
-        "K ∈ {0, …, 25}"
+        "Use one fixed offset throughout the message."
       ],
       [
         "p",
-        "We include K = 0 mathematically; it leaves the message unchanged."
+        "A familiar historical example is Caesar’s shift by three positions."
       ]
     ],
     "sub": "",
-    "take": "The Caesar cipher conventionally uses K = 3.",
+    "take": "The offset is the key; the alphabet and rule are public.",
     "section": "SHIFT",
     "source": "",
     "kind": "divider"
   },
   {
-    "title": "Encrypt and decrypt a shift",
+    "title": "Shift cipher: definition",
     "blocks": [
       [
-        "code",
-        "ENCRYPT",
-        "C[i] = (P[i] + K) mod 26"
+        "math",
+        "\\mathcal P=\\mathcal C=\\mathbb Z_{26}^{\\,n},\\qquad\\mathcal K=\\mathbb Z_{26}"
       ],
       [
-        "code",
-        "DECRYPT",
-        "P[i] = (C[i] − K) mod 26"
+        "math",
+        "c_i=E_k(p)_i=(p_i+k)\\bmod26"
+      ],
+      [
+        "math",
+        "p_i=D_k(c)_i=(c_i-k)\\bmod26"
       ],
       [
         "p",
-        "The same shared key K controls both operations."
+        "There are 26 mathematical keys. The key 0 is the identity, leaving 25 nontrivial shifts."
       ]
     ],
     "sub": "",
@@ -438,41 +407,116 @@
     "kind": "normal"
   },
   {
-    "title": "Worked example / K = 2",
+    "title": "Why does decryption work?",
     "blocks": [
       [
-        "code",
-        "PLAINTEXT",
-        "CRYPTOGRAPHYISFUN"
+        "p",
+        "Encryption adds the same residue that decryption subtracts."
+      ],
+      [
+        "math",
+        "D_k(E_k(p))_i=((p_i+k)-k)\\bmod26=p_i"
       ],
       [
         "code",
-        "CIPHERTEXT",
-        "ETARVQITCRJAKUHWP"
+        "WRAP-AROUND CHECK",
+        "Y → A with k = 2\nA → Y when we subtract 2",
+        19
       ],
       [
         "p",
-        "Wrap-around checks: Y (24) → A (0); Z (25) → B (1)."
+        "The equality is in the residue class ring; our displayed values are its representatives."
       ]
     ],
     "sub": "",
-    "take": "Check both ordinary letters and wrap-around cases.",
+    "take": "",
     "section": "SHIFT",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Attack the shift cipher",
+    "title": "Shift example: compute the first letters",
     "blocks": [
       [
-        "p",
-        "Try each key and inspect the candidate plaintext."
+        "code",
+        "PLAINTEXT AND KEY",
+        "CRYPTOGRAPHYISFUN       k = 2",
+        19
       ],
       [
         "table",
         [
-          "Candidate K",
-          "Decrypt KHOORZRUOG"
+          "Plaintext",
+          "Numeric calculation",
+          "Ciphertext"
+        ],
+        [
+          [
+            "C = 2",
+            "(2 + 2) mod 26 = 4",
+            "E"
+          ],
+          [
+            "R = 17",
+            "(17 + 2) mod 26 = 19",
+            "T"
+          ],
+          [
+            "Y = 24",
+            "(24 + 2) mod 26 = 0",
+            "A"
+          ],
+          [
+            "P = 15",
+            "(15 + 2) mod 26 = 17",
+            "R"
+          ]
+        ],
+        [
+          210,
+          436,
+          210
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Compute before revealing the complete row on the next slide.",
+    "section": "SHIFT",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Shift example: finish and reverse",
+    "blocks": [
+      [
+        "code",
+        "ALIGNED MESSAGE ROWS",
+        "Plaintext   CRYPTOGRAPHYISFUN\nCiphertext  ETARVQITCRJAKUHWP",
+        19
+      ],
+      [
+        "math",
+        "(4-2)\\bmod26=2\\;(C),\\qquad(0-2)\\bmod26=24\\;(Y)"
+      ],
+      [
+        "p",
+        "Apply the same subtraction to every ciphertext symbol to recover the normalized plaintext."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "SHIFT",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Recovering a shift key",
+    "blocks": [
+      [
+        "table",
+        [
+          "Candidate k",
+          "Decryption of KHOORZRUOG"
         ],
         [
           [
@@ -493,537 +537,765 @@
           ]
         ],
         [
-          230,
-          626
+          240,
+          616
         ]
       ],
       [
         "p",
-        "Only 26 keys exist, including the identity key. Exhaustive search is tiny."
+        "Exhaustive search has only 26 candidates. Readable language helps choose among them."
+      ],
+      [
+        "math",
+        "\\text{Known }p_i,c_i\\quad\\Longrightarrow\\quad k=(c_i-p_i)\\bmod26."
       ]
     ],
     "sub": "",
-    "take": "The successful candidate is HELLOWORLD at K = 3.",
+    "take": "",
     "section": "SHIFT",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Try it / a shift challenge",
+    "title": "Exercise: recover the message",
     "blocks": [
       [
         "code",
-        "CIPHERTEXT",
-        "PHHWPHDIWHUFODVV"
+        "INTERCEPTED",
+        "PHHWPHDIWHUFODVV",
+        19
       ],
       [
         "p",
-        "1. Recover the plaintext without being given K."
+        "Find a plausible key and plaintext. Explain the evidence for your choice."
       ],
       [
         "p",
-        "2. Explain how you know your answer is plausible."
-      ],
-      [
-        "p",
-        "3. If you know plaintext M corresponds to ciphertext P, what is K?"
+        "If you are told M encrypts to P, recover the key directly."
       ]
     ],
-    "sub": "Pair exercise • 3 minutes",
-    "take": "Work first; the next slide reveals the answer.",
+    "sub": "Individual calculation • 2 minutes",
+    "take": "An answer and calculation are in the instructor guide.",
     "section": "SHIFT",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Debrief / little search, useful structure",
-    "blocks": [
-      [
-        "code",
-        "SOLUTION",
-        "K = 3 → MEETMEAFTERCLASS"
-      ],
-      [
-        "code",
-        "KNOWN-PLAINTEXT CHECK",
-        "K = (15 − 12) mod 26 = 3"
-      ],
-      [
-        "p",
-        "Readable language helps select a key. Very short strings may admit several plausible readings."
-      ]
-    ],
-    "sub": "",
-    "take": "An attacker need not recover the key by brute force if a matching letter is known.",
-    "section": "SHIFT",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "02 / Monoalphabetic substitution",
+    "title": "02 / Substitution cipher",
     "blocks": [
       [
         "p",
-        "Replace the fixed shift with an arbitrary alphabet permutation."
+        "Replace the fixed shift by an arbitrary permutation of the alphabet."
       ],
       [
         "p",
-        "Each plaintext letter still always becomes the same ciphertext letter."
+        "Every occurrence of one plaintext letter still receives the same ciphertext letter."
       ]
     ],
     "sub": "",
-    "take": "More keys—but the language still leaves fingerprints.",
+    "take": "Historical appeal: a much larger family of secret alphabets.",
     "section": "SUBSTITUTION",
     "source": "",
     "kind": "divider"
   },
   {
-    "title": "The key is a bijection",
+    "title": "Substitution: a bijection and its inverse",
     "blocks": [
       [
-        "code",
-        "PLAINTEXT ALPHABET",
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      ],
-      [
-        "code",
-        "SUBSTITUTION ALPHABET",
-        "QWERTYUIOPASDFGHJKLZXCVBNM"
-      ],
-      [
-        "code",
-        "WORKED EXAMPLE",
-        "BECAUSE → WTEQXLT"
+        "math",
+        "\\mathcal P=\\mathcal C=\\mathbb Z_{26}^{\\,n},\\qquad\\mathcal K=S_{26}"
       ],
       [
         "p",
-        "Decryption uses the inverse table. Distinct input letters must have distinct outputs."
+        "Here S₂₆ is the set of all permutations of the 26 alphabet symbols."
+      ],
+      [
+        "math",
+        "c_i=\\sigma(p_i),\\qquad p_i=\\sigma^{-1}(c_i)"
+      ],
+      [
+        "math",
+        "\\sigma^{-1}(\\sigma(p_i))=p_i."
       ]
     ],
     "sub": "",
-    "take": "A repeated output letter would make unique decryption impossible.",
+    "take": "A one-to-one map is essential: a collision would prevent unique decryption.",
     "section": "SUBSTITUTION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "A huge key space is not enough",
+    "title": "Substitution example: use the table",
     "blocks": [
       [
         "code",
-        "NUMBER OF TABLES",
-        "26! ≈ 4.03 × 10²⁶ ≈ 2^88.4"
+        "INPUT ALPHABET",
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        19
       ],
       [
-        "p",
-        "At one billion keys per second, trying every table would take about 12.8 billion years."
+        "code",
+        "OUTPUT ALPHABET",
+        "QWERTYUIOPASDFGHJKLZXCVBNM",
+        19
       ],
       [
-        "p",
-        "Yet a substitution preserves letter counts and repeated-letter patterns."
-      ]
-    ],
-    "sub": "",
-    "take": "An attack can exploit structure rather than enumerate every key.",
-    "section": "SUBSTITUTION",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "What survives substitution?",
-    "blocks": [
-      [
-        "two",
+        "table",
         [
-          [
-            "code",
-            "PATTERN",
-            "MEET → DTTZ"
-          ],
-          [
-            "p",
-            "The two middle letters remain equal."
-          ]
+          "Input letters",
+          "Look up each image",
+          "Result"
         ],
         [
           [
-            "code",
-            "ANOTHER PATTERN",
-            "LETTER → STZZTK"
-          ],
-          [
-            "p",
-            "Equalities survive; letter identities change."
+            "B E C A U S E",
+            "W T E Q X L T",
+            "WTEQXLT"
           ]
+        ],
+        [
+          220,
+          400,
+          236
         ]
-      ],
-      [
-        "p",
-        "Word boundaries, if retained, reveal even more. We remove them in our main example."
       ]
     ],
     "sub": "",
-    "take": "A bijective substitution relabels the frequency histogram.",
+    "take": "Decrypt W by finding it in the output row: it lies under B.",
     "section": "SUBSTITUTION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Break / return in 10 minutes",
+    "title": "Counting keys and preserving patterns",
     "blocks": [
       [
-        "p",
-        "Before you go: why does 26! fail to guarantee security?"
+        "math",
+        "|\\mathcal K|=26\\cdot25\\cdots2\\cdot1=26!\\approx4.03\\times10^{26}\\approx2^{88.4}"
       ],
       [
         "p",
-        "After the break, we will use the surviving patterns to attack a complete message."
-      ]
-    ],
-    "sub": "",
-    "take": "Elapsed time: 50–60 minutes",
-    "section": "BREAK 01",
-    "source": "",
-    "kind": "divider"
-  },
-  {
-    "title": "Frequency analysis / evidence, not certainty",
-    "blocks": [
-      [
-        "b",
-        "Count letters in the ciphertext and compare with a plausible language model."
+        "Trying the entire space at one billion keys per second takes approximately 12.8 billion years."
       ],
       [
-        "b",
-        "Use pairs, triples, repeated patterns, and context to test candidate mappings."
+        "math",
+        "p_i=p_j\\quad\\Longleftrightarrow\\quad\\sigma(p_i)=\\sigma(p_j)"
       ],
-      [
-        "b",
-        "Revise guesses when they contradict other evidence."
-      ]
-    ],
-    "sub": "",
-    "take": "The most frequent ciphertext letter is not guaranteed to represent E.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "A histogram with the labels scrambled",
-    "blocks": [
-      [
-        "freqchart"
-      ],
-      [
-        "p",
-        "This is the actual distribution of our example—not a universal English frequency table."
-      ]
-    ],
-    "sub": "",
-    "take": "The substitution changes the labels, while the counts stay exactly the same.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "The intercepted message",
-    "blocks": [
       [
         "code",
-        "123 LETTERS • SPACES REMOVED",
-        "ZITLTEKTZDTTZOFUOLOFZITTQLZZGVTKZITDTLLTFUTKFTTR\nLZITLTEKTZSTZZTKLTFRZITSTZZTKZGZITTQLZZGVTKQFRZI\nTFDTTZZITDTLLTFUTKQZZITUQZT"
+        "A PATTERN THAT SURVIVES",
+        "LETTER → STZZTK",
+        19
+      ]
+    ],
+    "sub": "",
+    "take": "A large key space rules out one simple attack; it does not rule out every attack.",
+    "section": "SUBSTITUTION",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Frequency analysis: why counting helps",
+    "blocks": [
+      [
+        "p",
+        "A substitution changes the labels of the letters, but not their occurrence counts."
+      ],
+      [
+        "math",
+        "f_C(\\sigma(a))=f_P(a),\\qquad\\frac{f_C(\\sigma(a))}{N}=\\frac{f_P(a)}N"
       ],
       [
         "p",
-        "Assume a single substitution table was used throughout."
-      ],
-      [
-        "p",
-        "This deliberately repetitive example is not representative English prose."
+        "If the language has characteristic frequencies, the ciphertext inherits them under unknown labels."
       ]
     ],
     "sub": "",
     "take": "",
     "section": "FREQUENCY ANALYSIS",
-    "source": "",
+    "source": "Historical context: al-Kindi described frequency-based cryptanalysis in the 9th century.",
     "kind": "normal"
   },
   {
-    "title": "Count first; guess second",
+    "title": "A language model is a guide",
     "blocks": [
       [
         "table",
         [
-          "Ciphertext symbol",
-          "Count",
-          "Relative frequency"
+          "Letter",
+          "E",
+          "T",
+          "A",
+          "O",
+          "I",
+          "N"
         ],
         [
           [
-            "T",
-            "35",
-            "28.5%"
-          ],
-          [
-            "Z",
-            "24",
-            "19.5%"
-          ],
-          [
-            "L",
-            "11",
-            "8.9%"
-          ],
-          [
-            "I",
-            "9",
-            "7.3%"
-          ],
-          [
-            "K",
-            "8",
-            "6.5%"
-          ],
-          [
-            "F",
-            "8",
-            "6.5%"
+            "Illustrative frequency",
+            "12.7%",
+            "9.1%",
+            "8.2%",
+            "7.5%",
+            "7.0%",
+            "6.7%"
           ]
         ],
         [
-          300,
-          200,
-          356
+          230,
+          104,
+          104,
+          104,
+          104,
+          104,
+          106
         ]
       ],
       [
         "p",
-        "T is a reasonable E candidate. Other mappings need additional evidence."
+        "These are approximate English frequencies, not exact properties of every message."
+      ],
+      [
+        "p",
+        "Pairs such as TH, HE, IN, ER and triples such as THE, AND, ING provide additional evidence."
       ]
     ],
     "sub": "",
-    "take": "Message topic, length, and style can shift the expected ranking.",
+    "take": "Absence of a common pair in a short message is weak evidence, not a logical impossibility.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Use repeated triples to test a guess",
+    "title": "Our intercepted message",
     "blocks": [
       [
         "code",
-        "REPEATED CIPHERTEXT PATTERN",
-        "ZIT"
+        "168 LETTERS • ORIGINAL REFERENCE EXAMPLE",
+        "YIFQFMZRWQFYVECFMDZPCVMRZWNMDZVEJBTXCDDUMJ\nNDIFEFMDZCDMQZKCEYFCJMYRNCWJCSZREXCHZUNMXZ\nNZUCDRJXYYSMRTMEYIFZWDYVZVYFZUMRZCRWNZDZJJ\nXZWGCHSMRNMDHNCMFQCHZJMXJZWIEJYUCFWDJNZDIR",
+        19
       ],
       [
         "p",
-        "Hypothesis: ZIT represents THE. Then Z → T, I → H, and T → E."
-      ],
-      [
-        "code",
-        "A CONSEQUENCE TO CHECK",
-        "ZITLTEKTZ → THESECRET"
+        "Assume English plaintext. The unknown substitution key differs from the earlier illustrative table."
       ],
       [
         "p",
-        "A plausible completion is THESECRET. This adds L → S, E → C, and K → R."
+        "We will recover the message incrementally, keeping a partial key and checking each hypothesis."
       ]
     ],
     "sub": "",
-    "take": "A word-shaped guess must agree with every occurrence of its letters.",
+    "take": "",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "Ciphertext and plaintext retained from the supplied deck, slides 18–36.",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 1: count the letters",
+    "blocks": [
+      [
+        "table",
+        [
+          "Ciphertext letter",
+          "Z",
+          "M",
+          "C",
+          "D",
+          "F",
+          "J"
+        ],
+        [
+          [
+            "Count",
+            "20",
+            "16",
+            "15",
+            "13",
+            "11",
+            "11"
+          ],
+          [
+            "Frequency",
+            "0.119",
+            "0.095",
+            "0.089",
+            "0.077",
+            "0.065",
+            "0.065"
+          ]
+        ],
+        [
+          230,
+          104,
+          104,
+          104,
+          104,
+          104,
+          106
+        ]
+      ],
+      [
+        "math",
+        "\\widehat p_M=\\frac{16}{168}\\approx0.0952,\\qquad\\widehat p_Z=\\frac{20}{168}\\approx0.1190"
+      ],
+      [
+        "p",
+        "Z is a reasonable candidate for plaintext e. M could correspond to several common letters."
+      ]
+    ],
+    "sub": "",
+    "take": "This proposes Z → e; it does not establish that mapping with certainty.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Reveal only the letters supported so far",
+    "title": "Step 2: try Z → e",
     "blocks": [
       [
         "code",
-        "MAPPINGS USED",
-        "Z→T  I→H  T→E  L→S  E→C  K→R"
-      ],
-      [
-        "partial"
-      ],
-      [
-        "p",
-        "Repeated fragments suggest further word hypotheses."
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "······e···········e·····e····e············\n········e····e················e·····e····e\n·e·················e····e···e···e····e·e··\n·e··················e····e············e···",
+        19
       ],
       [
         "p",
-        "Try a new mapping everywhere before accepting it."
+        "Write an e at every occurrence of Z. Leave every other position undetermined."
+      ],
+      [
+        "p",
+        "Now examine pairs involving Z: if Z means e, then ZW means e? and WZ means ?e."
       ]
     ],
     "sub": "",
-    "take": "Here we show plaintext letters in uppercase and unknown letters as dots.",
+    "take": "Maintain consistency by applying a proposed mapping to the whole message.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Exercise / grow the partial key",
+    "title": "Step 3: use ZW and WZ",
     "blocks": [
       [
-        "code",
-        "LOOK FOR THESE FRAGMENTS",
-        "DTTZOFU     DTLLTFUTK     STZZTK"
+        "table",
+        [
+          "Observed pair",
+          "Count",
+          "If Z → e"
+        ],
+        [
+          [
+            "ZW",
+            4,
+            "e?"
+          ],
+          [
+            "WZ",
+            0,
+            "?e"
+          ],
+          [
+            "W alone",
+            8,
+            "8/168 ≈ 0.0476"
+          ]
+        ],
+        [
+          240,
+          160,
+          456
+        ]
       ],
       [
         "p",
-        "Use the current partial key to decode what you can."
+        "Common continuations of e include r, s, n, d, a, t. The asymmetry and W’s frequency make d a useful candidate to test."
       ],
       [
         "p",
-        "Propose two additional letter mappings and justify them with context."
-      ],
-      [
-        "p",
-        "Which of your conclusions are evidence-based guesses rather than certainties?"
+        "Adopt W → d provisionally. A zero WZ count does not prove that alternatives are impossible."
       ]
     ],
-    "sub": "Small-group exercise • 4 minutes",
-    "take": "The next slide shows the full teaching plaintext.",
+    "sub": "",
+    "take": "We combine imperfect clues rather than treating one statistic as decisive.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Debrief / reconstruct the message",
+    "title": "Step 4: test R → n",
     "blocks": [
       [
         "p",
-        "THE SECRET MEETING IS IN THE EAST TOWER. THE MESSENGER NEEDS THE SECRET LETTER. SEND THE LETTER TO THE EAST TOWER AND THEN MEET THE MESSENGER AT THE GATE."
-      ],
-      [
-        "code",
-        "EXAMPLE NEW MAPPINGS",
-        "D→M   O→I   U→G   S→L   F→N"
+        "RW occurs twice. With W → d, it becomes ?d."
       ],
       [
         "p",
-        "The recovered letters must also produce a consistent one-to-one substitution."
+        "The common pairs nd and ed suggest n or e. If Z → e is retained, injectivity prevents R → e."
+      ],
+      [
+        "code",
+        "PARTIAL KEY",
+        "Z → e     W → d     R → n",
+        19
+      ],
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "······end·········e····ned···e············\n········e····e·········n··d···en····e····e\n·e···n······n······ed···e···e··ne·nd·e·e··\n·ed·····n···········e····ed·······d···e··n",
+        19
       ]
     ],
     "sub": "",
-    "take": "Letters absent from the message may remain undetermined even after reading it.",
+    "take": "The exclusion uses bijectivity; the initial language guess remains provisional.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "When simple frequency analysis struggles",
+    "title": "Step 5: test N → h",
     "blocks": [
       [
-        "b",
-        "Short messages: counts are noisy, and many readings can fit."
+        "table",
+        [
+          "Pair",
+          "Actual count",
+          "Candidate reading"
+        ],
+        [
+          [
+            "NZ",
+            3,
+            "he if N → h"
+          ],
+          [
+            "ZN",
+            1,
+            "eh if N → h"
+          ]
+        ],
+        [
+          200,
+          200,
+          456
+        ]
       ],
       [
-        "b",
-        "Unusual vocabulary or a different language: the assumed model may be wrong."
+        "p",
+        "HE is common in English. Try N → h and inspect the emerging fragments."
       ],
       [
-        "b",
-        "Missing spaces: word boundaries must be inferred."
-      ],
-      [
-        "b",
-        "Longer language patterns help: pairs, triples, and four-letter sequences."
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "······end·········e····nedh··e············\nh·······e····e·········nh·d···en····e·h··e\nhe···n······n······ed···e···e··ne·ndhe·e··\n·ed·····nh···h······e····ed·······d··he··n",
+        19
       ]
     ],
     "sub": "",
-    "take": "More ciphertext often helps—but there is no universal length that guarantees success.",
+    "take": "Counts are recomputed from the displayed ciphertext, including the one occurrence of ZN.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
+  },
+  {
+    "title": "Step 6: recognize a candidate AND",
+    "blocks": [
+      [
+        "code",
+        "BEFORE AND AFTER THE HYPOTHESIS",
+        "RZCRWNZ → ne·ndhe\nRZCRWNZ → neandhe",
+        19
+      ],
+      [
+        "p",
+        "The middle pattern ·nd suggests and. This proposes C → a."
+      ],
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "······end·····a···e·a··nedh··e······a·····\nh·······ea···e·a···a···nhad·a·en··a·e·h··e\nhe·a·n······n······ed···e···e··neandhe·e··\n·ed·a···nh···ha···a·e····ed·····a·d··he··n",
+        19
+      ]
+    ],
+    "sub": "",
+    "take": "A plausible word boundary gives “…ne and he…”, but must agree with the rest of the text.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 7: choose a candidate for M",
+    "blocks": [
+      [
+        "p",
+        "M occurs 16 times. We will test the candidate M → i."
+      ],
+      [
+        "p",
+        "RNM becomes nh·, suggesting a word boundary before h followed by a vowel. CM becomes a·; ai is more plausible than ao."
+      ],
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "·····iend·····a·i·e·a·inedhi·e······a···i·\nh·····i·ea·i·e·a···a·i·nhad·a·en··a·e·hi·e\nhe·a·n·····in·i····ed···e···e·ineandhe·e··\n·ed·a··inhi··hai··a·e·i··ed·····a·d··he··n",
+        19
+      ]
+    ],
+    "sub": "",
+    "take": "These language arguments rank hypotheses; they do not constitute a proof.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 8: recover a likely t",
+    "blocks": [
+      [
+        "p",
+        "JN occurs twice. Since N → h, the pair becomes ·h."
+      ],
+      [
+        "p",
+        "TH is a common English pair. Try J → t and apply it everywhere."
+      ],
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "·····iend·····a·i·e·a·inedhi·e··t···a···it\nh·····i·ea·i·e·a···ati·nhadta·en··a·e·hi·e\nhe·a·nt····in·i····ed···e···e·ineandhe·ett\n·ed·a··inhi··hai··a·eti·ted··t··a·d·the··n",
+        19
+      ]
+    ],
+    "sub": "",
+    "take": "Emerging fragments include “…had ta·en…” and “…and he ·ett·ed…”.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 9: complete some word patterns",
+    "blocks": [
+      [
+        "p",
+        "The fragment ·oo·in· suggests looking: Y → o is a useful test. Four occurrences of MD become i·; D → s gives is."
+      ],
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "o····iend··o··a·ise·a·inedhise··t···ass·it\nhs····iseasi·e·a·o·ationhadta·en··a·e·hi·e\nhe·asnt·oo·in·i·o··edso·e·o·e·ineandhesett\n·ed·a··inhis·hai··a·eti·ted··to·a·dsthes·n",
+        19
+      ],
+      [
+        "p",
+        "HNCMF now reads ·hai·. The candidate chair gives H → c and F → r."
+      ]
+    ],
+    "sub": "",
+    "take": "Check every new letter assignment against earlier guesses and the one-to-one constraint.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 10: extend the partial solution",
+    "blocks": [
+      [
+        "code",
+        "PARTIAL PLAINTEXT • · = UNDETERMINED",
+        "o·r·riend·ro··arise·a·inedhise··t···ass·it\nhs·r·riseasi·e·a·orationhadta·en··ace·hi·e\nhe·asnt·oo·in·i·o·redso·e·ore·ineandhesett\n·ed·ac·inhischair·aceti·ted··to·ardsthes·n",
+        19
+      ],
+      [
+        "table",
+        [
+          "Visible fragment",
+          "Plausible completion",
+          "New mappings"
+        ],
+        [
+          [
+            "o·r ·riend",
+            "our friend",
+            "I → u; Q → f"
+          ],
+          [
+            "·ro· ·aris",
+            "from paris",
+            "V → m; E → p"
+          ],
+          [
+            "·oo·in·",
+            "looking",
+            "X → l; S → k; T → g"
+          ]
+        ],
+        [
+          240,
+          290,
+          326
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Each completion is tested across the entire ciphertext before it is retained.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Step 11: complete the remaining letters",
+    "blocks": [
+      [
+        "p",
+        "Apply the previous extensions first. The remaining unknowns occur inside strongly recognizable words."
+      ],
+      [
+        "table",
+        [
+          "Current fragment",
+          "Candidate word",
+          "New mapping"
+        ],
+        [
+          [
+            "e·amined",
+            "examined",
+            "P → x"
+          ],
+          [
+            "empt·",
+            "empty",
+            "B → y"
+          ],
+          [
+            "·ith / ·hile / ·ine",
+            "with / while / wine",
+            "U → w"
+          ],
+          [
+            "e·aporation",
+            "evaporation",
+            "K → v"
+          ],
+          [
+            "·ack",
+            "back",
+            "G → b"
+          ]
+        ],
+        [
+          280,
+          320,
+          256
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "These complete all 23 letter mappings observed in the message; check them at every occurrence.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "The recovered message",
+    "blocks": [
+      [
+        "p",
+        "Our friend from Paris examined his empty glass with surprise, as if evaporation had taken place while he wasn’t looking. I poured some more wine and he settled back in his chair, face tilted up towards the sun."
+      ],
+      [
+        "code",
+        "OBSERVED INPUT LETTERS",
+        "ABCDEFGHIKLMNOPRSTUVWXY",
+        19
+      ],
+      [
+        "code",
+        "THEIR CIPHERTEXT IMAGES",
+        "CGHWZQTNMSXVRYEFDJIKUPB",
+        19
+      ]
+    ],
+    "sub": "",
+    "take": "J, Q, Z are absent: 3! = 6 full substitution tables still extend the 23 observed mappings.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "Original reference example; spacing and punctuation restored by interpretation.",
+    "kind": "normal"
+  },
+  {
+    "title": "What the attack has taught us",
+    "blocks": [
+      [
+        "p",
+        "We combined counts, pair statistics, repeated fragments, and plausible word boundaries."
+      ],
+      [
+        "p",
+        "Some decisions followed from the bijection constraint; others were statistical or contextual hypotheses."
+      ],
+      [
+        "p",
+        "A successful reconstruction explains all observed positions with one consistent substitution."
+      ]
+    ],
+    "sub": "",
+    "take": "Exercise: identify one logical exclusion and one probabilistic guess in the walkthrough.",
+    "section": "FREQUENCY ANALYSIS",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Break / 10 minutes",
+    "blocks": [
+      [
+        "p",
+        "We have seen how a fixed substitution preserves the language’s structure."
+      ],
+      [
+        "p",
+        "Next we change the substitution with position and ask which patterns remain."
+      ]
+    ],
+    "sub": "",
+    "take": "Elapsed time: 60–70 minutes",
+    "section": "BREAK 01",
+    "source": "",
+    "kind": "divider"
   },
   {
     "title": "03 / Vigenère cipher",
     "blocks": [
       [
         "p",
-        "Use several shifts, selected by a repeating keyword."
+        "Use several shift substitutions, selected by a repeating keyword."
       ],
       [
-        "code",
-        "KEY IDEA",
-        "Position in the key changes the mapping."
+        "p",
+        "Repeating-key polyalphabetic methods were described by Bellaso in 1553; the familiar name is associated with Vigenère."
       ]
     ],
     "sub": "",
-    "take": "The weakness moves from one fixed mapping to a repeating schedule.",
+    "take": "Historical objective: weaken the direct link between letter identity and frequency.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "divider"
   },
   {
-    "title": "A repeating key selects the shifts",
+    "title": "Vigenère: spaces and key schedule",
     "blocks": [
       [
-        "code",
-        "RULE",
-        "C[i] = (P[i] + K[i mod m]) mod 26"
+        "math",
+        "\\mathcal P=\\mathcal C=\\mathbb Z_{26}^{\\,n},\\qquad\\mathcal K=\\mathbb Z_{26}^{\\,m}"
       ],
       [
-        "code",
-        "WORKED EXAMPLE",
-        "Plaintext   ATTACKATDAWN\nKey         LEMONLEMONLE\nCiphertext  LXFOPVEFRNHR"
+        "math",
+        "k=(k_0,\\ldots,k_{m-1}),\\qquad c_i=(p_i+k_{i\\bmod m})\\bmod26"
       ],
       [
-        "p",
-        "The key length is m = 5. Decryption subtracts the corresponding key value."
-      ]
-    ],
-    "sub": "",
-    "take": "The two A letters at positions 0 and 3 encrypt differently.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Exercise / encrypt, then reverse",
-    "blocks": [
-      [
-        "code",
-        "PLAINTEXT",
-        "CRYPTOGRAPHY"
-      ],
-      [
-        "code",
-        "KEY",
-        "LUCK"
+        "math",
+        "p_i=(c_i-k_{i\\bmod m})\\bmod26"
       ],
       [
         "p",
-        "Repeat the key, encrypt the first six letters, and check the wrap-around."
-      ],
-      [
-        "p",
-        "Then decrypt your result by subtracting the same repeated key."
-      ]
-    ],
-    "sub": "Pair exercise • 3 minutes",
-    "take": "A = 0; the first key shift L is 11, not 12.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Debrief / check every column",
-    "blocks": [
-      [
-        "code",
-        "ALIGNED ROWS",
-        "Plaintext   CRYPTOGRAPHY\nKey         LUCKLUCKLUCK\nCiphertext  NLAZEIIBLJJI"
-      ],
-      [
-        "code",
-        "FIRST TWO LETTERS",
-        "C + L: (2 + 11) mod 26 = 13 → N\nR + U: (17 + 20) mod 26 = 11 → L"
-      ],
-      [
-        "p",
-        "One plaintext letter can have different ciphertext letters."
+        "The keyword has m letters. Its effective repeating period can be smaller, as in ABCABC."
       ]
     ],
     "sub": "",
@@ -1033,370 +1305,922 @@
     "kind": "normal"
   },
   {
-    "title": "The attack has two stages",
+    "title": "Encryption example: repeat the keyword",
+    "blocks": [
+      [
+        "code",
+        "WRITE THE ALIGNMENT FIRST",
+        "Plaintext   CRYPTOGRAPHY\nKeyword     LUCK\nKey stream  LUCKLUCKLUCK",
+        19
+      ],
+      [
+        "table",
+        [
+          "Position i",
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        [
+          [
+            "Plaintext value",
+            "2",
+            "17",
+            "24",
+            "15",
+            "19",
+            "14"
+          ],
+          [
+            "Key value",
+            "11",
+            "20",
+            "2",
+            "10",
+            "11",
+            "20"
+          ]
+        ],
+        [
+          230,
+          104,
+          104,
+          104,
+          104,
+          104,
+          106
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Predict the first six ciphertext letters before continuing.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Encryption example: do the arithmetic",
+    "blocks": [
+      [
+        "table",
+        [
+          "i",
+          "pᵢ",
+          "Key value",
+          "Sum mod 26",
+          "Ciphertext"
+        ],
+        [
+          [
+            "0",
+            "2",
+            "11",
+            "13",
+            "N"
+          ],
+          [
+            "1",
+            "17",
+            "20",
+            "11",
+            "L"
+          ],
+          [
+            "2",
+            "24",
+            "2",
+            "0",
+            "A"
+          ],
+          [
+            "3",
+            "15",
+            "10",
+            "25",
+            "Z"
+          ],
+          [
+            "4",
+            "19",
+            "11",
+            "4",
+            "E"
+          ],
+          [
+            "5",
+            "14",
+            "20",
+            "8",
+            "I"
+          ]
+        ],
+        [
+          100,
+          140,
+          180,
+          230,
+          206
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "The wrap-around at i = 1 gives (17 + 20) mod 26 = 11, or L.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Complete the example and decrypt",
+    "blocks": [
+      [
+        "code",
+        "COMPLETE ROWS",
+        "Plaintext   CRYPTOGRAPHY\nKey stream  LUCKLUCKLUCK\nCiphertext  NLAZEIIBLJJI",
+        19
+      ],
+      [
+        "math",
+        "p_1=(11-20)\\bmod26=17\\quad(R)"
+      ],
+      [
+        "p",
+        "Decryption subtracts the same aligned key value. Adding and subtracting cancel at each position."
+      ]
+    ],
+    "sub": "",
+    "take": "R at positions 1 and 7 encrypts to L and B, because the aligned key letters differ.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Why does ordinary frequency analysis weaken?",
+    "blocks": [
+      [
+        "p",
+        "A plaintext letter can be shifted in several different ways, depending on its position in the key schedule."
+      ],
+      [
+        "p",
+        "The aggregate histogram mixes these shifted distributions."
+      ],
+      [
+        "p",
+        "However, positions sharing the same key index still use one fixed shift."
+      ]
+    ],
+    "sub": "",
+    "take": "The attack will isolate those positions instead of treating all letters as one population.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Cryptanalysis has two linked stages",
     "blocks": [
       [
         "table",
         [
           "Stage",
-          "Question",
-          "Tool"
-        ],
-        [
-          [
-            "1. Find a plausible period",
-            "When does the shift schedule repeat?",
-            "Kasiski; index of coincidence"
-          ],
-          [
-            "2. Recover each shift",
-            "Which Caesar shift fits each column?",
-            "Language scoring; trial decryption"
-          ]
-        ],
-        [
-          220,
-          330,
-          306
-        ]
-      ],
-      [
-        "p",
-        "The effective period can be shorter than the written keyword: ABCABC repeats every three letters."
-      ]
-    ],
-    "sub": "",
-    "take": "Finding a candidate key length is a hypothesis, not the end of the attack.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Kasiski / repetitions reveal distances",
-    "blocks": [
-      [
-        "code",
-        "PLAINTEXT",
-        "THESUNANDTHEMANINTHEMOON"
-      ],
-      [
-        "code",
-        "KEY",
-        "KINGKINGKINGKINGKINGKING"
-      ],
-      [
-        "code",
-        "CIPHERTEXT",
-        "DPRYEVNTNBUKWIAOXBUKWWBT"
-      ],
-      [
-        "p",
-        "The plaintext THE at positions 9 and 17 has the same key alignment: distance 8."
-      ],
-      [
-        "p",
-        "Both occurrences encrypt to BUK. The period 4 divides their distance."
-      ]
-    ],
-    "sub": "",
-    "take": "Positions are zero-based. Repeated segments can also occur by coincidence.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Kasiski / turn distances into candidates",
-    "blocks": [
-      [
-        "p",
-        "Find repeated ciphertext segments, usually at least three letters long."
-      ],
-      [
-        "p",
-        "Measure distances between their starting positions and look for common factors."
-      ],
-      [
-        "code",
-        "ILLUSTRATIVE DISTANCE SET",
-        "Distances: 30, 45, 75\ngcd(30, 45, 75) = 15\nCandidate periods: 1, 3, 5, 15"
-      ],
-      [
-        "p",
-        "Coincidences can spoil a gcd; true repeats may reveal a multiple of the period."
-      ]
-    ],
-    "sub": "",
-    "take": "Use several repeats and cross-check the candidate periods statistically.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Index of coincidence / count collisions",
-    "blocks": [
-      [
-        "p",
-        "Pick two distinct positions at random. What is the chance their letters match?"
-      ],
-      [
-        "code",
-        "DEFINITION",
-        "IC = Σ f[a](f[a] − 1) / (N(N − 1))"
-      ],
-      [
-        "p",
-        "f[a] is the count of letter a; N is the number of letters. Require N ≥ 2."
-      ],
-      [
-        "code",
-        "SMALL CHECK",
-        "AAB: IC = 2 / 6 = 1/3"
-      ]
-    ],
-    "sub": "",
-    "take": "The sum is over all 26 letters; ordered pairs are counted consistently.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "What IC does—and does not—measure",
-    "blocks": [
-      [
-        "table",
-        [
-          "Text model",
-          "Expected / typical IC"
-        ],
-        [
-          [
-            "Independent uniform letters",
-            "1/26 ≈ 0.0385"
-          ],
-          [
-            "Ordinary English prose",
-            "Often about 0.065; varies by text"
-          ],
-          [
-            "One fixed substitution of that prose",
-            "Exactly the same IC as the original text"
-          ]
-        ],
-        [
-          550,
-          306
-        ]
-      ],
-      [
-        "p",
-        "IC is a statistical clue, not a general test of security."
-      ]
-    ],
-    "sub": "",
-    "take": "A Caesar shift preserves counts up to relabeling, so it preserves IC.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Guess a period; split into columns",
-    "blocks": [
-      [
-        "code",
-        "FOR CANDIDATE PERIOD m = 5",
-        "Column 0: C[0], C[5], C[10], …\nColumn 1: C[1], C[6], C[11], …\n…\nColumn 4: C[4], C[9], C[14], …"
-      ],
-      [
-        "p",
-        "At the correct period, each column is encrypted by a single fixed shift."
-      ],
-      [
-        "p",
-        "Wrong periods usually mix shifts. Multiples of the true period may also look good."
-      ]
-    ],
-    "sub": "",
-    "take": "Short columns make IC estimates unreliable; prefer enough data and corroborating evidence.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "A reproducible IC experiment",
-    "blocks": [
-      [
-        "table",
-        [
-          "Candidate period",
-          "Mean column IC",
-          "Interpretation"
+          "Goal",
+          "Evidence / method"
         ],
         [
           [
             "1",
-            "0.0429",
-            "Mixed key positions"
+            "Find plausible periods",
+            "Repeated segments; index of coincidence"
           ],
           [
             "2",
-            "0.0429",
-            "Mixed key positions"
-          ],
-          [
-            "3",
-            "0.0428",
-            "Mixed key positions"
-          ],
-          [
-            "4",
-            "0.0432",
-            "Mixed key positions"
-          ],
-          [
-            "5",
-            "0.0668",
-            "Strong candidate / multiple"
-          ],
-          [
-            "10",
-            "0.0684",
-            "Strong candidate / multiple"
+            "Recover the shifts",
+            "Frequency counts within aligned columns"
           ]
         ],
         [
-          240,
+          100,
           250,
-          366
+          506
         ]
       ],
       [
         "p",
-        "Computed from 1045 letters of original English prose, encrypted with key LEMON."
+        "Validate the combined result by decrypting the message. A plausible period alone does not identify the key."
       ]
     ],
     "sub": "",
-    "take": "The full plaintext, ciphertext, and calculations accompany this deck.",
+    "take": "",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Recover a column by scoring all 26 shifts",
+    "title": "Kasiski: why repeated segments can help",
+    "blocks": [
+      [
+        "code",
+        "KNOWN ALIGNMENT EXAMPLE",
+        "Plaintext   THESUNANDTHEMANINTHEMOON\nKey stream  KINGKINGKINGKINGKINGKING\nCiphertext  DPRYEVNTNBUKWIAOXBUKWWBT",
+        19
+      ],
+      [
+        "p",
+        "THE begins at positions 9 and 17. Their distance 8 is divisible by the period 4, so both occurrences encrypt to BUK."
+      ],
+      [
+        "p",
+        "THE at position 0 has a different key alignment and encrypts differently."
+      ]
+    ],
+    "sub": "",
+    "take": "Positions are zero-based. Same plaintext plus same key alignment implies the same ciphertext.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Kasiski: extract evidence from a ciphertext",
     "blocks": [
       [
         "p",
-        "For each candidate shift, decrypt the column and compare its letter counts with an English model."
+        "Now use one longer ciphertext for the remaining attack: 1,045 normalized letters, with the key hidden."
       ],
       [
         "code",
-        "ONE STANDARD SCORE",
-        "χ² = Σ (observed − expected)² / expected"
+        "ITS FIRST 126 LETTERS",
+        "ELQVVDXAFLZJESPCIFKETXUBTTWMZFZETWFESDMBQT\nQCCWIRWAOMZUCLXFSEYWMGRYHQFZLCDSCWEOSRGIDM\nYPXFSEHMFVNYSFVRCWKAOZPMBQSSBSGSEFHUPQQGFL",
+        19
       ],
       [
         "p",
-        "Lower scores indicate a closer fit to that model; try promising candidates in the complete message."
-      ],
-      [
-        "p",
-        "Use every letter count—not only the most frequent letter."
+        "The complete ciphertext is printed in Appendix A1–A2. All positions and statistics below refer to that same text."
       ]
     ],
     "sub": "",
-    "take": "Enumerating 26 candidates per column is practical; language scoring makes it useful.",
+    "take": "The repeated trigram FVR begins at positions 97, 147, 552, and 897.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Recover the key / confirm the message",
+    "title": "Kasiski: measure the actual distances",
     "blocks": [
       [
         "table",
         [
-          "Column",
-          "Best-scoring shift",
-          "Key letter"
+          "Occurrence",
+          "Starting index",
+          "Distance from first"
+        ],
+        [
+          [
+            "1",
+            "97",
+            "—"
+          ],
+          [
+            "2",
+            "147",
+            "50"
+          ],
+          [
+            "3",
+            "552",
+            "455"
+          ],
+          [
+            "4",
+            "897",
+            "800"
+          ]
+        ],
+        [
+          210,
+          260,
+          386
+        ]
+      ],
+      [
+        "math",
+        "\\gcd(50,455,800)=5"
+      ],
+      [
+        "p",
+        "The factors 1 and 5 are candidates. Chance repeats can mislead; check these candidates by a second method."
+      ]
+    ],
+    "sub": "",
+    "take": "These distances are measured from the displayed dataset, not a separate hypothetical example.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Index of coincidence: the experiment",
+    "blocks": [
+      [
+        "p",
+        "Let X be a string of N letters. Select an ordered pair of distinct positions uniformly at random."
+      ],
+      [
+        "p",
+        "IC is the probability that the two selected letters are equal."
+      ],
+      [
+        "math",
+        "N\\ge2,\\qquad f_a=\\#\\{i:X_i=a\\},\\qquad\\sum_{a\\in\\mathbb Z_{26}}f_a=N."
+      ]
+    ],
+    "sub": "",
+    "take": "This is sampling positions without replacement from the observed string.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Deriving the finite-sample IC formula",
+    "blocks": [
+      [
+        "p",
+        "There are N(N − 1) ordered pairs of distinct positions."
+      ],
+      [
+        "p",
+        "For a letter a, exactly fₐ(fₐ − 1) pairs have a in both positions. These events are disjoint across letters."
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(X)=\\frac{\\sum_{a=0}^{25}f_a(f_a-1)}{N(N-1)}"
+      ],
+      [
+        "math",
+        "=\\sum_{a=0}^{25}\\frac{f_a}{N}\\frac{f_a-1}{N-1}."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A small IC calculation, fully worked",
+    "blocks": [
+      [
+        "code",
+        "STRING",
+        "AABAAB",
+        19
+      ],
+      [
+        "table",
+        [
+          "Letter",
+          "Count fₐ",
+          "fₐ(fₐ − 1)"
+        ],
+        [
+          [
+            "A",
+            "4",
+            "12"
+          ],
+          [
+            "B",
+            "2",
+            "2"
+          ],
+          [
+            "All others",
+            "0",
+            "0"
+          ]
+        ],
+        [
+          260,
+          260,
+          336
+        ]
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(\\text{AABAAB})=\\frac{12+2}{6\\cdot5}=\\frac7{15}\\approx0.4667."
+      ]
+    ],
+    "sub": "",
+    "take": "Count matching pairs; do not divide by N² when positions must be distinct.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "From sample counts to language probabilities",
+    "blocks": [
+      [
+        "p",
+        "If independent letters have probabilities q₀, …, q₂₅, then the probability of equality is:"
+      ],
+      [
+        "math",
+        "\\Pr[X_i=X_j]=\\sum_{a=0}^{25}q_a^2\\qquad(i\\ne j)."
+      ],
+      [
+        "p",
+        "Writing q̂ₐ = fₐ/N gives an exact relation for the observed sample:"
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(X)=\\frac{N\\sum_a\\widehat q_a^{\\,2}-1}{N-1}\\;\\approx\\;\\sum_a\\widehat q_a^{\\,2}."
+      ]
+    ],
+    "sub": "",
+    "take": "The approximation improves with N. Real language also has dependencies between positions.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Reference values and a useful invariant",
+    "blocks": [
+      [
+        "math",
+        "\\text{Uniform independent letters:}\\qquad\\sum_{a=0}^{25}(1/26)^2=1/26\\approx0.0385."
+      ],
+      [
+        "p",
+        "English prose often has IC around 0.065, depending on the corpus and length."
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(\\sigma(X))=\\operatorname{IC}(X)\\quad\\text{for any alphabet permutation }\\sigma."
+      ],
+      [
+        "p",
+        "Reason: relabeling the alphabet merely rearranges the same counts in the sum."
+      ]
+    ],
+    "sub": "",
+    "take": "A Caesar shift preserves IC exactly; the value is not a general measure of security.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Turn a candidate period into columns",
+    "blocks": [
+      [
+        "math",
+        "X^{(\\beta)}=(c_\\beta,c_{\\beta+m},c_{\\beta+2m},\\ldots),\\qquad0\\le\\beta<m."
+      ],
+      [
+        "math",
+        "c_{\\beta+jm}=(p_{\\beta+jm}+k_\\beta)\\bmod26\\quad\\text{if }m\\text{ is the period.}"
+      ],
+      [
+        "p",
+        "Every symbol in a column has the same key shift, so each column should have language-like IC."
+      ],
+      [
+        "p",
+        "Wrong periods usually mix shifts; multiples of the true period can also separate them."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Make the columns explicit",
+    "blocks": [
+      [
+        "code",
+        "FOR CANDIDATE PERIOD 5",
+        "β = 0: c₀, c₅, c₁₀, c₁₅, …\nβ = 1: c₁, c₆, c₁₁, c₁₆, …\nβ = 2: c₂, c₇, c₁₂, c₁₇, …\nβ = 3: c₃, c₈, c₁₃, c₁₈, …\nβ = 4: c₄, c₉, c₁₄, c₁₉, …",
+        19
+      ],
+      [
+        "p",
+        "For our 1,045-letter dataset, each of these five columns contains 209 letters."
+      ]
+    ],
+    "sub": "",
+    "take": "Exercise: explain why a guessed period of 10 can also give language-like columns.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Compute IC for each candidate’s columns",
+    "blocks": [
+      [
+        "table",
+        [
+          "Candidate m",
+          "Individual column IC values"
+        ],
+        [
+          [
+            "1",
+            "0.0429"
+          ],
+          [
+            "2",
+            "0.0416, 0.0441"
+          ],
+          [
+            "3",
+            "0.0424, 0.0430, 0.0428"
+          ],
+          [
+            "4",
+            "0.0426, 0.0452, 0.0402, 0.0449"
+          ],
+          [
+            "5",
+            "0.0646, 0.0679, 0.0638, 0.0679, 0.0699"
+          ]
+        ],
+        [
+          180,
+          676
+        ]
+      ],
+      [
+        "p",
+        "All five values at m = 5 are near the English reference range. This supports the Kasiski candidate 5."
+      ]
+    ],
+    "sub": "",
+    "take": "Inspect individual columns; an average can conceal an inconsistent split.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "One actual column: show the counts",
+    "blocks": [
+      [
+        "code",
+        "FIRST 42 SYMBOLS OF COLUMN 0",
+        "EDZCTTZEQWOLYYLWGPHYCZSSPLWLOPSDLRGYCRNYPT",
+        19
+      ],
+      [
+        "table",
+        [
+          "Symbol",
+          "P",
+          "Y",
+          "E",
+          "D",
+          "W",
+          "Total"
+        ],
+        [
+          [
+            "Count",
+            "27",
+            "20",
+            "18",
+            "18",
+            "9",
+            "209"
+          ]
+        ],
+        [
+          230,
+          104,
+          104,
+          104,
+          104,
+          104,
+          106
+        ]
+      ],
+      [
+        "math",
+        "\\sum_a f_a(f_a-1)=2808,\\quad\\operatorname{IC}(X^{(0)})=0.0646."
+      ],
+      [
+        "p",
+        "The complete 26-symbol count table is in Appendix A3. The numerator uses every symbol, not just those shown here."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Recover the first shift: a candidate",
+    "blocks": [
+      [
+        "p",
+        "P is the most frequent symbol in column 0, with 27 occurrences. If P is shifted E:"
+      ],
+      [
+        "math",
+        "k_0=(15-4)\\bmod26=11\\quad(L)."
+      ],
+      [
+        "code",
+        "TRY SUBTRACTING 11",
+        "TSORIIOTFLDANNALVEWNROHHEALADEHSAGVNRGCNEI",
+        19
+      ],
+      [
+        "p",
+        "A column is every fifth plaintext letter, so it will not read like a continuous sentence. Use its distribution to test the shift."
+      ]
+    ],
+    "sub": "",
+    "take": "The most frequent-letter guess is a starting point; we next compare all 26 shifts.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Score a candidate using all letter counts",
+    "blocks": [
+      [
+        "p",
+        "Let Oₐ(k) count plaintext letter a after subtracting candidate shift k from the column."
+      ],
+      [
+        "math",
+        "E_a=Nq_a,\\qquad\\chi^2(k)=\\sum_{a=0}^{25}\\frac{(O_a(k)-E_a)^2}{E_a}."
+      ],
+      [
+        "p",
+        "The qₐ values form an illustrative English frequency model, normalized to sum to 1."
+      ],
+      [
+        "p",
+        "A smaller score means a closer fit to that model. This is a ranking heuristic, not proof that a key is correct."
+      ]
+    ],
+    "sub": "",
+    "take": "The full model probabilities are included in Appendix A4.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Work out several score contributions",
+    "blocks": [
+      [
+        "table",
+        [
+          "Plaintext a",
+          "Observed Oₐ(11)",
+          "Expected Nqₐ",
+          "Contribution"
+        ],
+        [
+          [
+            "E",
+            "27",
+            "26.547",
+            "0.008"
+          ],
+          [
+            "N",
+            "20",
+            "14.106",
+            "2.463"
+          ],
+          [
+            "A",
+            "18",
+            "17.069",
+            "0.051"
+          ],
+          [
+            "Z",
+            "0",
+            "0.155",
+            "0.155"
+          ]
+        ],
+        [
+          170,
+          220,
+          230,
+          236
+        ]
+      ],
+      [
+        "math",
+        "\\chi^2(11)=\\sum_{a=0}^{25}\\text{contribution}_a=22.297."
+      ],
+      [
+        "p",
+        "Sum all 26 terms. The four rows above are selected contributions, not the complete sum."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Compare the candidate shifts",
+    "blocks": [
+      [
+        "table",
+        [
+          "Shift k",
+          "Key letter",
+          "Full χ² score"
+        ],
+        [
+          [
+            "11",
+            "L",
+            "22.297"
+          ],
+          [
+            "24",
+            "Y",
+            "526.998"
+          ],
+          [
+            "22",
+            "W",
+            "699.130"
+          ],
+          [
+            "17",
+            "R",
+            "839.822"
+          ]
+        ],
+        [
+          240,
+          260,
+          356
+        ]
+      ],
+      [
+        "p",
+        "Shift 11 gives the smallest score among all 26 candidates for this column."
+      ],
+      [
+        "p",
+        "Repeat the same calculation independently for the other four columns."
+      ]
+    ],
+    "sub": "",
+    "take": "This avoids enumerating the entire product of 26⁵ possible five-letter keys.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Recover all five key letters",
+    "blocks": [
+      [
+        "table",
+        [
+          "Column β",
+          "Best shift",
+          "Key letter",
+          "Full χ² score"
         ],
         [
           [
             "0",
             "11",
-            "L"
+            "L",
+            "22.297"
           ],
           [
             "1",
             "4",
-            "E"
+            "E",
+            "29.388"
           ],
           [
             "2",
             "12",
-            "M"
+            "M",
+            "28.459"
           ],
           [
             "3",
             "14",
-            "O"
+            "O",
+            "23.656"
           ],
           [
             "4",
             "13",
-            "N"
+            "N",
+            "23.953"
           ]
         ],
         [
-          240,
-          330,
-          286
+          190,
+          210,
+          190,
+          266
         ]
       ],
       [
         "p",
-        "Recovered key: LEMON. Decryption begins THEHISTORYOFSECRETWRITING…"
+        "The resulting key hypothesis is LEMON. We must now test it on the interleaved complete message."
       ]
     ],
     "sub": "",
-    "take": "We do not need to enumerate all 26ᵐ complete keys: columns can be scored independently.",
+    "take": "",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Checkpoint / what broke Vigenère?",
+    "title": "Validate by decrypting the full message",
     "blocks": [
       [
-        "p",
-        "Explain why repeating the key creates several interleaved shift ciphers."
+        "code",
+        "FIRST 42 LETTERS",
+        "Ciphertext  ELQVVDXAFLZJESPCIFKETXUBTTWMZFZETWFESDMBQT\nPlaintext   THEHISTORYOFSECRETWRITINGISALSOAHISTORYOFP",
+        19
       ],
       [
         "p",
-        "Why can a candidate period of 10 look convincing when the true period is 5?"
+        "Restoring word boundaries gives “The history of secret writing is also a history…”"
       ],
       [
         "p",
-        "What extra uncertainty would you expect from a 25-letter message?"
+        "The complete recovered prose is printed in Appendix A5–A6. It uses one key consistently across the entire message."
       ]
     ],
-    "sub": "Discussion • 3 minutes",
-    "take": "Answers: periodic alignment; multiples preserve alignment; too little data per column.",
+    "sub": "",
+    "take": "Re-encryption checks consistency; coherent full-message decryption supplies additional evidence.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Break / return in 10 minutes",
+    "title": "What did each stage establish?",
     "blocks": [
       [
-        "p",
-        "So far: a huge table leaks frequencies; a repeating key leaks periodicity."
-      ],
-      [
-        "p",
-        "Next: encrypt pairs of letters, then try moving the letters instead."
+        "table",
+        [
+          "Evidence",
+          "Conclusion supported"
+        ],
+        [
+          [
+            "Repeated FVR; gcd of distances is 5",
+            "Candidate periods include 1 and 5."
+          ],
+          [
+            "Individual IC values near English at m = 5",
+            "Period 5 is statistically plausible."
+          ],
+          [
+            "Column-wise frequency scores",
+            "A specific key hypothesis: LEMON."
+          ],
+          [
+            "Coherent complete decryption",
+            "The combined hypothesis explains this dataset."
+          ]
+        ],
+        [
+          380,
+          476
+        ]
       ]
     ],
     "sub": "",
-    "take": "Elapsed time: 110–120 minutes",
+    "take": "Short texts, unusual language, and accidental repeats can make every statistical stage less decisive.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Break / 10 minutes",
+    "blocks": [
+      [
+        "p",
+        "The attack used arithmetic, probability, and language evidence together."
+      ],
+      [
+        "p",
+        "Next we replace single-letter substitution with pairs, then rearrange positions."
+      ]
+    ],
+    "sub": "",
+    "take": "Elapsed time: 120–130 minutes",
     "section": "BREAK 02",
     "source": "",
     "kind": "divider"
@@ -1406,7 +2230,7 @@
     "blocks": [
       [
         "p",
-        "Encrypt pairs of letters using a small key square."
+        "A compact construction for encrypting letter pairs by hand."
       ],
       [
         "p",
@@ -1414,301 +2238,378 @@
       ]
     ],
     "sub": "",
-    "take": "A practical historical hand cipher—not a present-day security mechanism.",
+    "take": "Historical attraction: pair substitution without carrying a huge substitution table.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "divider"
   },
   {
-    "title": "From codebooks to letter pairs",
+    "title": "Why substitute more than one letter?",
     "blocks": [
       [
         "p",
-        "A codebook can assign a code group to an entire word or instruction."
-      ],
-      [
-        "code",
-        "CODEBOOK ILLUSTRATION",
-        "“Attack at dawn” → 48271"
+        "Single-letter substitution leaves each letter’s frequency directly visible under another label."
       ],
       [
         "p",
-        "Playfair instead uses a compact rule to substitute letter pairs. It avoids distributing a huge phrase table."
+        "Playfair works with <b>digrams</b>: pairs of distinct letters prepared from the message."
       ],
       [
         "p",
-        "Historical attraction: manual operation with more complexity than a single-letter substitution."
+        "Codebooks could replace entire words or instructions, but large books were harder to distribute and protect."
       ]
     ],
     "sub": "",
-    "take": "Codebooks operate on meaningful units; Playfair operates on prepared letter pairs.",
+    "take": "This is polygraphic substitution; Vigenère instead changes a single-letter mapping with position.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Build the Playfair square",
-    "blocks": [
-      [
-        "two",
-        [
-          [
-            "p",
-            "Keyword: PLAYFAIR EXAMPLE"
-          ],
-          [
-            "p",
-            "1. Merge J into I."
-          ],
-          [
-            "p",
-            "2. Remove spaces and repeated letters, keeping first occurrences."
-          ],
-          [
-            "p",
-            "3. Append unused letters in alphabetical order."
-          ]
-        ],
-        [
-          [
-            "grid",
-            []
-          ]
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "Distinct keyword letters: P L A Y F I R E X M. The square has 25 cells.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Prepare pairs carefully",
+    "title": "Build the square: normalize the keyword",
     "blocks": [
       [
         "code",
-        "RULE",
-        "Scan left to right; form pairs of distinct letters."
+        "KEYWORD",
+        "PLAYFAIR EXAMPLE",
+        19
+      ],
+      [
+        "code",
+        "KEEP FIRST OCCURRENCES ONLY",
+        "P L A Y F I R E X M",
+        19
       ],
       [
         "p",
-        "If the next two letters match, insert X after the first and reconsider the second letter."
+        "Merge J into I, remove spaces, and scan left to right, skipping any letter already entered."
       ],
       [
         "p",
-        "Pad a final single letter with X. For a repeated or final X, use Q instead."
-      ],
-      [
-        "code",
-        "EXAMPLE",
-        "BALLOON → BA LX LO ON\nX → XQ      XX → XQ XQ"
-      ]
-    ],
-    "sub": "",
-    "take": "This lecture specifies Q as the alternate filler; implementations can use different conventions.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Three geometric rules",
-    "blocks": [
-      [
-        "two",
-        [
-          [
-            "p",
-            "<b>Same row:</b> move each letter one cell right, wrapping at the edge."
-          ],
-          [
-            "p",
-            "<b>Same column:</b> move each letter one cell down, wrapping at the bottom."
-          ],
-          [
-            "p",
-            "<b>Rectangle:</b> keep each letter’s row and use the other letter’s column."
-          ]
-        ],
-        [
-          [
-            "grid",
-            []
-          ]
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "Apply exactly one rule to each prepared pair.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Worked pairs / see each rule",
-    "blocks": [
-      [
-        "two",
-        [
-          [
-            "code",
-            "SAME ROW",
-            "PL → LA"
-          ],
-          [
-            "code",
-            "SAME COLUMN",
-            "PI → IB"
-          ],
-          [
-            "code",
-            "RECTANGLE",
-            "HI → BM"
-          ]
-        ],
-        [
-          [
-            "grid",
-            [
-              "PL",
-              "PI",
-              "HI"
-            ]
-          ]
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "For a rectangle, preserve the order of the two input rows.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "A complete Playfair example",
-    "blocks": [
-      [
-        "code",
-        "NORMALIZED PLAINTEXT",
-        "HIDETHEGOLDINTHETREESTUMP"
-      ],
-      [
-        "code",
-        "PREPARED PAIRS",
-        "HI DE TH EG OL DI NT HE TR EX ES TU MP"
-      ],
-      [
-        "code",
-        "ENCRYPTED PAIRS",
-        "BM OD ZB XD NA BE KU DM UI XM MO UV IF"
-      ],
-      [
-        "p",
-        "Notice the inserted X in TREE: preparation changes the representation before encryption."
+        "These ten distinct letters occupy the first two rows of the 5 × 5 square."
       ]
     ],
     "sub": "",
     "take": "",
     "section": "PLAYFAIR",
-    "source": "Standard PLAYFAIR EXAMPLE illustration, also used in the supplied deck.",
+    "source": "",
     "kind": "normal"
   },
   {
-    "title": "Decrypt by reversing the movement",
+    "title": "Build the square: fill the remaining cells",
     "blocks": [
       [
         "two",
         [
           [
             "p",
-            "<b>Same row:</b> move left."
+            "First enter the keyword letters."
           ],
           [
-            "p",
-            "<b>Same column:</b> move up."
-          ],
-          [
-            "p",
-            "<b>Rectangle:</b> use the same opposite-corner rule."
-          ],
-          [
-            "code",
-            "CHECK",
-            "BM → HI\nLA → PL\nIB → PI"
+            "grid",
+            "",
+            10
           ]
         ],
         [
           [
+            "p",
+            "Then append unused letters in order."
+          ],
+          [
             "grid",
-            []
+            "",
+            25
           ]
         ]
       ]
     ],
     "sub": "",
-    "take": "Decryption recovers the prepared text, including any inserted fillers.",
+    "take": "Unused letters: B C D G H K N O Q S T U V W Z. Both parties build the same square.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Exercise / decrypt a Playfair message",
+    "title": "Prepare the message, one pair at a time",
+    "blocks": [
+      [
+        "table",
+        [
+          "Remaining text",
+          "Action",
+          "Pair emitted"
+        ],
+        [
+          [
+            "BALLOON",
+            "B and A differ; consume both.",
+            "BA"
+          ],
+          [
+            "LLOON",
+            "Repeated L: consume first L; insert X.",
+            "LX"
+          ],
+          [
+            "LOON",
+            "L and O differ; consume both.",
+            "LO"
+          ],
+          [
+            "ON",
+            "O and N differ; consume both.",
+            "ON"
+          ]
+        ],
+        [
+          220,
+          480,
+          156
+        ]
+      ],
+      [
+        "p",
+        "Thus BALLOON becomes BA LX LO ON. Do not consume both repeated L letters when inserting the filler."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Preparation conventions and the gold example",
+    "blocks": [
+      [
+        "p",
+        "If one letter remains, append X. For a repeated or final X, use Q as the alternate filler."
+      ],
+      [
+        "code",
+        "EXAMPLES",
+        "X → XQ     XX → XQ XQ",
+        19
+      ],
+      [
+        "code",
+        "HIDE THE GOLD IN THE TREE STUMP",
+        "HI DE TH EG OL DI NT HE TR EX ES TU MP",
+        19
+      ],
+      [
+        "p",
+        "Only letters within the next proposed pair trigger the repeated-letter rule."
+      ]
+    ],
+    "sub": "",
+    "take": "Preparation can lose information; we keep it separate from the reversible pair transformation.",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Rule 1: letters in the same row",
+    "blocks": [
+      [
+        "two",
+        [
+          [
+            "p",
+            "1. Locate P and L in row 1."
+          ],
+          [
+            "p",
+            "2. Move each one cell to the right."
+          ],
+          [
+            "p",
+            "3. Preserve their order."
+          ],
+          [
+            "code",
+            "RESULT",
+            "PL → LA\nWrap-around: FP → PL",
+            19
+          ]
+        ],
+        [
+          [
+            "grid",
+            "PL",
+            25
+          ]
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Grid shading marks the input pair. Decryption moves left instead of right.",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Rule 2: letters in the same column",
+    "blocks": [
+      [
+        "two",
+        [
+          [
+            "p",
+            "1. Locate P and I in column 1."
+          ],
+          [
+            "p",
+            "2. Move each one cell down."
+          ],
+          [
+            "p",
+            "3. Wrap from the bottom to the top."
+          ],
+          [
+            "code",
+            "RESULT",
+            "PI → IB\nWrap-around: TP → PI",
+            19
+          ]
+        ],
+        [
+          [
+            "grid",
+            "PI",
+            25
+          ]
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Decryption moves up; both row and column rules wrap around the square.",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Rule 3: opposite rectangle corners",
+    "blocks": [
+      [
+        "two",
+        [
+          [
+            "p",
+            "H is at (row 3, column 5)."
+          ],
+          [
+            "p",
+            "I is at (row 2, column 1)."
+          ],
+          [
+            "p",
+            "Keep each input row; exchange the columns."
+          ],
+          [
+            "code",
+            "RESULT",
+            "H → B at (3,1)\nI → M at (2,5)\nHI → BM",
+            19
+          ]
+        ],
+        [
+          [
+            "grid",
+            "HI",
+            25
+          ]
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "The first output stays in the first input’s row; pair order matters.",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Encrypt the prepared message in stages",
+    "blocks": [
+      [
+        "table",
+        [
+          "Input pair",
+          "Relation in the square",
+          "Output"
+        ],
+        [
+          [
+            "HI",
+            "Rectangle",
+            "BM"
+          ],
+          [
+            "DE",
+            "Same column",
+            "OD"
+          ],
+          [
+            "TH",
+            "Rectangle",
+            "ZB"
+          ],
+          [
+            "EG",
+            "Rectangle",
+            "XD"
+          ]
+        ],
+        [
+          210,
+          436,
+          210
+        ]
+      ],
+      [
+        "p",
+        "Work through these first four pairs before applying the same rules to the rest."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Complete the encryption and reverse it",
     "blocks": [
       [
         "code",
-        "KEYWORD",
-        "PLAYFAIR EXAMPLE"
+        "PREPARED PLAINTEXT",
+        "HI DE TH EG OL DI NT HE TR EX ES TU MP",
+        19
       ],
       [
         "code",
         "CIPHERTEXT",
-        "RO NC FL WI"
+        "BM OD ZB XD NA BE KU DM UI XM MO UV IF",
+        19
       ],
       [
         "p",
-        "Use the same square and write down the rule used for each pair."
+        "For decryption: move left in a row, up in a column, or apply the same rectangle rule."
       ],
       [
         "p",
-        "After decryption, decide whether any filler should be removed."
-      ]
-    ],
-    "sub": "Pair exercise • 4 minutes",
-    "take": "The answer follows on the next slide.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Debrief / fillers require interpretation",
-    "blocks": [
-      [
-        "code",
-        "PAIR-BY-PAIR SOLUTION",
-        "RO → EN    NC → CR\nFL → YP    WI → TX"
-      ],
-      [
-        "code",
-        "PREPARED PLAINTEXT",
-        "ENCRYPTX"
-      ],
-      [
-        "p",
-        "The prepared plaintext is ENCRYPTX. The final X pads the last single letter."
-      ],
-      [
-        "p",
-        "The intended reading is ENCRYPT. We remove the final X using context, not a cipher rule."
+        "Check BM → HI and OD → DE using the square."
       ]
     ],
     "sub": "",
-    "take": "Keep the padding in the mechanical decryption; interpret it in a separate step.",
+    "take": "",
     "section": "PLAYFAIR",
-    "source": "",
+    "source": "Standard PLAYFAIR EXAMPLE illustration, also present in the supplied deck.",
     "kind": "normal"
   },
   {
-    "title": "One more challenge / repeated letters",
+    "title": "Exercise: decrypt with the same square",
     "blocks": [
       [
         "two",
@@ -1716,91 +2617,136 @@
           [
             "code",
             "CIPHERTEXT",
-            "DP YR AN QO"
+            "RO NC FL WI",
+            19
           ],
           [
             "p",
-            "Decrypt with the same square. Then infer a likely original word."
+            "Decrypt each pair and name the rule used."
+          ],
+          [
+            "p",
+            "Keep any filler until you have recovered all the prepared letters."
           ]
         ],
         [
           [
             "grid",
-            []
+            "",
+            25
           ]
         ]
       ]
     ],
-    "sub": "Pair exercise • 2 minutes",
-    "take": "Solution: BA LX LO ON → BALLOON. The inserted X splits the original repeated L.",
+    "sub": "Pair exercise • 3 minutes",
+    "take": "The complete calculation follows on the next slide.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Why filler removal is ambiguous",
+    "title": "Solution: show every pair and rule",
+    "blocks": [
+      [
+        "table",
+        [
+          "Ciphertext",
+          "Inverse rule",
+          "Prepared plaintext"
+        ],
+        [
+          [
+            "RO",
+            "Rectangle",
+            "EN"
+          ],
+          [
+            "NC",
+            "Same column: move up",
+            "CR"
+          ],
+          [
+            "FL",
+            "Same row: move left",
+            "YP"
+          ],
+          [
+            "WI",
+            "Rectangle",
+            "TX"
+          ]
+        ],
+        [
+          210,
+          436,
+          210
+        ]
+      ],
+      [
+        "code",
+        "RESULT",
+        "EN CR YP TX → ENCRYPTX",
+        19
+      ],
+      [
+        "p",
+        "The intended reading is ENCRYPT, with a final X supplied during preparation."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "PLAYFAIR",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Why exact spelling may not be recoverable",
     "blocks": [
       [
         "code",
-        "EXAMPLE",
-        "AXA → AX AX\nAA  → AX AX"
+        "TWO DIFFERENT ORIGINALS",
+        "AXA → AX AX\nAA  → AX AX",
+        19
       ],
       [
         "p",
-        "Both messages prepare to AXAX under our rules, so they encrypt identically."
+        "Both originals produce the same prepared text and therefore the same ciphertext."
       ],
       [
         "p",
-        "Removing every X would corrupt genuine X letters. Merging I/J also loses information."
+        "Merging I and J also loses information. Do not automatically remove every X from a decryption."
       ]
     ],
     "sub": "",
-    "take": "The cipher is reversible on prepared pairs; preparation is not reversible in general.",
+    "take": "The pair transformation is invertible on prepared pairs; preprocessing need not be invertible.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "How Playfair can still be attacked",
+    "title": "Historical usefulness and cryptanalysis",
     "blocks": [
       [
-        "b",
-        "Single-letter frequencies are less direct, but pair and longer patterns survive."
+        "p",
+        "Playfair offered a practical balance between manual operation and more complex substitution; it saw military field use."
       ],
       [
-        "b",
-        "Try a candidate square; decrypt and score the result using language statistics."
+        "p",
+        "Pair and longer language patterns still survive. A computer can decrypt with candidate squares and score the results."
       ],
-      [
-        "b",
-        "Change the square and retain better candidates. Use restarts to escape poor local choices."
-      ]
-    ],
-    "sub": "",
-    "take": "Search quality depends on text length, language, scoring, and computation—not a fixed guarantee.",
-    "section": "PLAYFAIR",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Hill climbing / the attack as an algorithm",
-    "blocks": [
       [
         "code",
-        "SEARCH LOOP",
-        "candidate square → decrypt → language score\n          ↑                         ↓\n          └──── change square ← keep if better"
+        "HILL-CLIMBING OUTLINE",
+        "square → decrypt → language score\nmodify square → keep improvement → repeat",
+        19
       ],
       [
         "p",
-        "For example, swap two square entries and compare four-letter sequence scores."
-      ],
-      [
-        "p",
-        "A local optimum may not be the correct square. Multiple random starts help."
+        "Random restarts help with local optima. Success depends on the message, language model, and search effort."
       ]
     ],
     "sub": "",
-    "take": "A readable result must be checked by re-encryption and contextual consistency.",
+    "take": "Understand the historical design goal before judging it by present-day requirements.",
     "section": "PLAYFAIR",
     "source": "",
     "kind": "normal"
@@ -1810,27 +2756,48 @@
     "blocks": [
       [
         "p",
-        "Keep the letters. Change only their positions."
-      ],
-      [
-        "code",
-        "FOCUS",
-        "Fixed-size block permutation"
+        "Keep letter identities unchanged and permute their positions within each block."
       ]
     ],
     "sub": "",
-    "take": "A permutation is a one-to-one rearrangement of positions.",
+    "take": "Substitution changes symbols; transposition changes where they occur.",
     "section": "TRANSPOSITION",
     "source": "",
     "kind": "divider"
   },
   {
-    "title": "Define the direction of the permutation",
+    "title": "Permutation cipher: formal definition",
+    "blocks": [
+      [
+        "math",
+        "\\mathcal P=\\mathcal C=\\mathbb Z_{26}^{\\,m},\\qquad\\mathcal K=S_m"
+      ],
+      [
+        "math",
+        "E_\\pi(p_1,\\ldots,p_m)=(p_{\\pi(1)},\\ldots,p_{\\pi(m)})"
+      ],
+      [
+        "math",
+        "D_\\pi(c_1,\\ldots,c_m)=(c_{\\pi^{-1}(1)},\\ldots,c_{\\pi^{-1}(m)})"
+      ],
+      [
+        "p",
+        "Apply this operation block by block. Positions here are explicitly numbered 1 through m."
+      ]
+    ],
+    "sub": "",
+    "take": "For incomplete blocks, pad with X and retain the original message length separately.",
+    "section": "TRANSPOSITION",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Read the permutation in the right direction",
     "blocks": [
       [
         "table",
         [
-          "Ciphertext position i",
+          "Output position i",
           "1",
           "2",
           "3",
@@ -1840,7 +2807,7 @@
         ],
         [
           [
-            "Plaintext position π(i)",
+            "Input position π(i)",
             "3",
             "1",
             "4",
@@ -1850,294 +2817,295 @@
           ]
         ],
         [
-          310,
-          91,
-          91,
-          91,
-          91,
-          91,
-          91
+          250,
+          101,
+          101,
+          101,
+          101,
+          101,
+          101
+        ]
+      ],
+      [
+        "p",
+        "The i-th ciphertext letter comes from input position π(i)."
+      ],
+      [
+        "code",
+        "FIRST THREE OUTPUTS",
+        "c₁ = p₃     c₂ = p₁     c₃ = p₄",
+        19
+      ],
+      [
+        "p",
+        "Some sources define the reverse direction. This table fixes the convention used throughout our example."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "TRANSPOSITION",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Encrypt one block, step by step",
+    "blocks": [
+      [
+        "table",
+        [
+          "Output position",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        [
+          [
+            "Read input position",
+            "3",
+            "1",
+            "4",
+            "6",
+            "2",
+            "5"
+          ],
+          [
+            "Input letter from ATTACK",
+            "T",
+            "A",
+            "A",
+            "K",
+            "T",
+            "C"
+          ]
+        ],
+        [
+          250,
+          101,
+          101,
+          101,
+          101,
+          101,
+          101
         ]
       ],
       [
         "code",
-        "RULE",
-        "C[i] = P[π(i)]"
+        "TWO-BLOCK MESSAGE",
+        "ATTACK ATDAWN\nTAAKTC DAANTW",
+        19
       ],
       [
         "p",
-        "This table tells us which plaintext position supplies each output position."
-      ],
-      [
-        "p",
-        "The block size is 6. Pad the last block with X; retain the original length separately."
+        "Every letter appears exactly as often after rearrangement as before it."
       ]
     ],
     "sub": "",
-    "take": "Some sources define the reverse direction; a worked example prevents ambiguity.",
+    "take": "",
     "section": "TRANSPOSITION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Worked example / rearrange two blocks",
+    "title": "Construct the inverse permutation",
     "blocks": [
       [
-        "code",
-        "PLAINTEXT",
-        "ATTACK ATDAWN"
+        "table",
+        [
+          "Original input j",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        [
+          [
+            "Output position containing j",
+            "2",
+            "5",
+            "1",
+            "3",
+            "6",
+            "4"
+          ]
+        ],
+        [
+          250,
+          101,
+          101,
+          101,
+          101,
+          101,
+          101
+        ]
       ],
       [
         "code",
-        "PERMUTATION",
-        "Read positions 3, 1, 4, 6, 2, 5"
+        "READ THE INVERSE",
+        "π⁻¹ = [2, 5, 1, 3, 6, 4]\nTAAKTC → ATTACK",
+        19
       ],
       [
-        "code",
-        "CIPHERTEXT",
-        "TAAKTC DAANTW"
-      ],
-      [
-        "p",
-        "First block: input positions 3, 1, 4, 6, 2, 5 give T, A, A, K, T, C."
+        "math",
+        "c_{\\pi^{-1}(j)}=p_{\\pi(\\pi^{-1}(j))}=p_j."
       ]
     ],
     "sub": "",
-    "take": "No letter changes identity; every block retains exactly its original letter counts.",
+    "take": "The equality explains why the inverse table undoes encryption.",
     "section": "TRANSPOSITION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Decryption uses the inverse permutation",
+    "title": "Exercise: encrypt, then explain an invariant",
     "blocks": [
       [
         "code",
-        "ENCRYPTION ORDER",
-        "π = [3, 1, 4, 6, 2, 5]"
-      ],
-      [
-        "code",
-        "DECRYPTION ORDER",
-        "π⁻¹ = [2, 5, 1, 3, 6, 4]"
-      ],
-      [
-        "code",
-        "CHECK",
-        "TAAKTC → ATTACK"
+        "PLAINTEXT AND KEY",
+        "DEFEND\nπ = [3, 1, 4, 6, 2, 5]",
+        19
       ],
       [
         "p",
-        "Equivalently, place each ciphertext letter back into the plaintext position named by the encryption table."
+        "Encrypt the block and recover it using the inverse permutation."
+      ],
+      [
+        "p",
+        "How many keys are possible at block size 6? Which letter statistics are unchanged?"
       ]
     ],
-    "sub": "",
-    "take": "Verify the direction by checking one full round trip.",
+    "sub": "Individual calculation • 2 minutes",
+    "take": "Use the declared output-to-input convention, not a memorized alternative.",
     "section": "TRANSPOSITION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Exercise / the letters are all still there",
-    "blocks": [
-      [
-        "code",
-        "PLAINTEXT",
-        "DEFEND"
-      ],
-      [
-        "p",
-        "Encrypt with π = [3, 1, 4, 6, 2, 5]. Then decrypt your result."
-      ],
-      [
-        "p",
-        "How many possible permutations are there for this block size?"
-      ],
-      [
-        "p",
-        "Would ordinary single-letter frequency counts change?"
-      ]
-    ],
-    "sub": "Pair exercise • 3 minutes",
-    "take": "Check repeated letters as well as the table direction.",
-    "section": "TRANSPOSITION",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Debrief / preserved counts expose structure",
+    "title": "Solution and security discussion",
     "blocks": [
       [
         "code",
         "SOLUTION",
-        "DEFEND → FDEDEN"
+        "DEFEND → FDEDEN → DEFEND",
+        19
+      ],
+      [
+        "math",
+        "|S_6|=6!=720,\\qquad f_C(a)=f_P(a)\\text{ for every letter }a."
       ],
       [
         "p",
-        "There are 6! = 720 possible keys for this particular block size."
+        "For this block size, exhaustive search is small. Candidate rearrangements can also be ranked using language patterns."
       ],
       [
         "p",
-        "The histogram is unchanged. Candidate rearrangements can be ranked by language patterns."
-      ],
-      [
-        "p",
-        "With longer blocks, exhaustive search grows, but preserved statistics remain a weakness."
+        "With larger blocks there are more keys, but unchanged counts remain an important structural property."
       ]
     ],
     "sub": "",
-    "take": "Permutation is a useful design ingredient; this simple cipher alone is weak.",
+    "take": "",
     "section": "TRANSPOSITION",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Compare the five ciphers",
+    "title": "Compare the five constructions",
     "blocks": [
       [
         "table",
         [
           "Cipher",
-          "Key / structure",
-          "Useful attack clue"
+          "Mathematical key",
+          "Information exploited in an attack"
         ],
         [
           [
             "Shift",
-            "One offset",
-            "26 candidates; readable text"
+            "k ∈ ℤ₂₆",
+            "Small key space"
           ],
           [
             "Substitution",
-            "One alphabet permutation",
-            "Counts and repeated patterns"
+            "σ ∈ S₂₆",
+            "Letter and word-pattern statistics"
           ],
           [
             "Vigenère",
-            "Periodic shifts",
-            "Repetitions; column statistics"
+            "k ∈ ℤ₂₆ᵐ",
+            "Periodicity and column statistics"
           ],
           [
             "Playfair",
-            "5 × 5 square; letter pairs",
-            "Language-scored square search"
+            "A keyed 5 × 5 square",
+            "Pair and longer language statistics"
           ],
           [
             "Transposition",
-            "A fixed position permutation",
-            "Unchanged counts; word patterns"
+            "π ∈ Sₘ",
+            "Preserved counts and positional patterns"
           ]
         ],
         [
           180,
-          310,
-          366
+          260,
+          416
         ]
       ]
     ],
     "sub": "",
-    "take": "For each design, ask: what does the transformation fail to hide?",
+    "take": "Each construction illustrates a different relationship between a transformation and its invariants.",
     "section": "SYNTHESIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "A contemporary reason to care",
+    "title": "From historical alphabets to digital messages",
     "blocks": [
       [
         "p",
-        "A team stores an API credential in a configuration file, shifted by 13 letters, and calls it “encrypted”."
+        "Our hand-cipher examples first removed spaces and punctuation. That preprocessing prevented exact recovery of the original formatting."
       ],
       [
         "p",
-        "An attacker who reads the file can try every shift immediately. Hiding the transformation offers little help."
+        "Digital encryption operates on encoded bytes or bits and can recover the complete original representation."
       ],
       [
         "p",
-        "The engineering question is who can obtain the secret—and what assumptions protect it."
+        "The next lectures develop stronger constructions and additional security goals. These five ciphers establish the language and methods for that study."
       ]
     ],
     "sub": "",
-    "take": "Illustrative present-day scenario, not a reported incident. Never protect real secrets with these ciphers.",
+    "take": "Historical usefulness and present-day suitability are different questions.",
     "section": "SYNTHESIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "From letters to exact digital data",
-    "blocks": [
-      [
-        "code",
-        "BYTES • HEXADECIMAL",
-        "A → 41     0 → 30     ? → 3F     space → 20"
-      ],
-      [
-        "p",
-        "These are ASCII code values represented as bytes; ASCII itself is a 7-bit code."
-      ],
-      [
-        "p",
-        "Modern encryption accepts bytes or bits, so spaces, files, and images can be recovered exactly."
-      ],
-      [
-        "p",
-        "Security needs more than obscuring letter frequencies: key handling and protection against tampering also matter."
-      ]
-    ],
-    "sub": "",
-    "take": "We motivate later lectures here without introducing additional cipher algorithms.",
-    "section": "SYNTHESIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Exit questions / explain your reasoning",
+    "title": "Reflection questions",
     "blocks": [
       [
         "p",
-        "1. Why can a cipher with 26! keys still be breakable?"
+        "1. Why is the inverse map necessary in a substitution cipher?"
       ],
       [
         "p",
-        "2. Which observation makes a repeating-key cipher vulnerable?"
+        "2. Which step of the frequency attack was a logical exclusion, and which was a statistical guess?"
       ],
       [
         "p",
-        "3. Why can Playfair decryption fail to recover the exact original spelling?"
+        "3. Derive the denominator of IC and explain why a shift preserves IC."
       ],
       [
         "p",
-        "4. Which cipher leaves the complete letter histogram unchanged?"
+        "4. Explain why candidate periods 5 and 10 can both look plausible."
       ]
     ],
-    "sub": "Individual reflection • 4 minutes",
-    "take": "A useful answer identifies a surviving property, not just an attack name.",
-    "section": "SYNTHESIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Exit discussion / the four ideas",
-    "blocks": [
-      [
-        "b",
-        "Substitution preserves frequency structure even when exhaustive search is infeasible."
-      ],
-      [
-        "b",
-        "Vigenère repeats the shift schedule; aligned columns reduce to shift ciphers."
-      ],
-      [
-        "b",
-        "Playfair preparation inserts fillers and merges I/J, losing information."
-      ],
-      [
-        "b",
-        "Transposition leaves letter identities—and therefore their counts—unchanged."
-      ]
-    ],
-    "sub": "",
-    "take": "All five ciphers are learning tools, not recommendations for real-world encryption.",
+    "sub": "Closing discussion • 3 minutes",
+    "take": "Use definitions, calculations, and examples to support your answers.",
     "section": "SYNTHESIS",
     "source": "",
     "kind": "normal"
@@ -2147,24 +3115,302 @@
     "blocks": [
       [
         "p",
-        "<b>Primary teaching reference:</b> supplied <i>Lecture02_Classical_Ciphers.pdf</i>, Wu Hongjun, 79 pages. Scope and example-based approach retained; examples and explanations revised."
+        "<b>Core reading:</b> Stinson &amp; Paterson, <i>Cryptography: Theory and Practice</i>, 4th edition, Chapter 1. Consult the classical-cipher sections in your edition."
       ],
       [
         "p",
-        "<b>Technical reading:</b> Stinson &amp; Paterson, <i>Cryptography: Theory and Practice</i>, 4th ed., Chapter 1. Section numbering differs across editions."
+        "<b>Lecture reference:</b> Wu Hongjun, supplied <i>Lecture02_Classical_Ciphers.pdf</i>. The 168-letter substitution example and standard Playfair example are retained."
       ],
       [
         "p",
-        "<b>History:</b> Kahn, <i>The Codebreakers</i> (rev. ed., 1996); Kerckhoffs (1883); Kasiski (1863)."
+        "<b>History:</b> Kahn, <i>The Codebreakers</i> (revised edition, 1996); Kerckhoffs (1883); Kasiski (1863)."
       ],
       [
         "p",
-        "<b>Companion materials:</b> teaching guide, reproducible examples, and build source accompany this PDF. No external images or copied news articles are used."
+        "<b>Appendix:</b> complete Vigenère ciphertext, column counts, language model, and recovered prose. The model is illustrative and corpus dependent."
       ]
     ],
     "sub": "",
-    "take": "The lecture ends here. All numerical examples in this deck are generated and checked in the build source.",
+    "take": "End of the scheduled lecture. The following data pages support the worked calculations.",
     "section": "REFERENCES",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A1 / Complete Vigenère ciphertext",
+    "blocks": [
+      [
+        "code",
+        "POSITIONS 0–527 • ZERO-BASED",
+        "ELQVVDXAFLZJESPCIFKETXUBTTWMZFZETWFESDMBQTQCCWIR\nWAOMZUCLXFSEYWMGRYHQFZLCDSCWEOSRGIDMYPXFSEHMFVNY\nSFVRCWKAOZPMBQSSBSGSEFHUPQQGFLKQKVWPDSZLMZVVOHQB\nLPXFVRSENWGDSROYLRSINRIEIEGMHSVYWGFCCMEWARAMMFNS\nYABYPQHGPVEGGTPXCPNYDCSEIZFRAIMHROAAFQDPQOIPVQDR\nLXQRFSEBSFLRPTNXMXWNCTTFNDIEDEZZURRNPGSFLGMFRQYX\nFRLHQFQZIEBBEXDSNEEZMFTRSZRNPGSNDTDCBQMZGGPEPHUP\nVQOQPVYOXPWMUHPWEQUPGWGVEWOCADICIRYGQGNYHOVNYKQG\nGSISIRDWIVRYXTSRGMPSANIPWFLKDSRDGAACFXQFFXEWSGSM\nEDEZGQGFQEEHRCFGHQZRAHEPQAJRELQBRPHRCELGXSNCQARR\nWSRHUPTDCOWIYKUPRMGUZVFYRJMEFRAIMHROEOFBDWMZBYKY",
+        14
+      ],
+      [
+        "p",
+        "Join both pages without spaces or line breaks. All Kasiski positions and IC values refer to this 1,045-letter string."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A2 / Complete Vigenère ciphertext",
+    "blocks": [
+      [
+        "code",
+        "POSITIONS 528–1044 • ZERO-BASED",
+        "SFDESSGSIEOZPTAGVEMABFTRFVRVIKFREYDBNREUBNYHMUNT\nREDYTXFWARXTSZPWEOTPMZHBNSXIZYWOOACIHSNWEEWZAPQD\nNEXQFATREWQPIMQUNSXIZYIZCHRLFSKEKUJRDXTSNYEXMFEE\nNSGEIDQULROSBQHUGGTRSIVDLUBTLYESSFPBOGEIDBSCSYOP\nZMZQVOIZQRELQZRDWABVDXTOGLPMFTPRGAOPVATCZWEWOWIW\nSLDMECAWCABRAEDHBQWQQHCMFMJPQGGGLPECNDOIVNEMZTBC\nQMHVZRDSZLMZGITWUPYPEZRJSEFOAZFESEGIDQNYPQOEYJDC\nZTXSCBOIZUVYIQFVYKEHNCXEPLDXMHVYKFVRLWEIZAXUCADG\nTSPVMZURIEYDYPWMBQWSAYVYKRCEHEKGGSEFOFJWFSZNEZTN\nTPMGRNYDSQPWUUAXYEHFFVHWIPGMFRQYXDHMPUQFEYPMELXT\nSEELMBQPTQBQZRWSRAMZUGSIYSGSSPIAVRAKA",
+        14
+      ],
+      [
+        "p",
+        "Join both pages without spaces or line breaks. All Kasiski positions and IC values refer to this 1,045-letter string."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A3 / All counts for Vigenère column 0",
+    "blocks": [
+      [
+        "table",
+        [
+          "Letter",
+          "Count",
+          "Letter",
+          "Count",
+          "Letter",
+          "Count",
+          "Letter",
+          "Count"
+        ],
+        [
+          [
+            "A",
+            "6",
+            "B",
+            "0",
+            "C",
+            "11",
+            "D",
+            "18"
+          ],
+          [
+            "E",
+            "18",
+            "F",
+            "3",
+            "G",
+            "4",
+            "H",
+            "2"
+          ],
+          [
+            "I",
+            "1",
+            "J",
+            "2",
+            "K",
+            "0",
+            "L",
+            "18"
+          ],
+          [
+            "M",
+            "1",
+            "N",
+            "9",
+            "O",
+            "6",
+            "P",
+            "27"
+          ],
+          [
+            "Q",
+            "7",
+            "R",
+            "5",
+            "S",
+            "11",
+            "T",
+            "12"
+          ],
+          [
+            "U",
+            "0",
+            "V",
+            "3",
+            "W",
+            "9",
+            "X",
+            "3"
+          ],
+          [
+            "Y",
+            "20",
+            "Z",
+            "13",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ],
+        [
+          80,
+          134,
+          80,
+          134,
+          80,
+          134,
+          80,
+          134
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "These 26 counts sum to 209. Use all of them when computing IC or scoring candidate shifts.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A4 / Illustrative English frequency model",
+    "blocks": [
+      [
+        "table",
+        [
+          "Letter",
+          "qₐ",
+          "Letter",
+          "qₐ",
+          "Letter",
+          "qₐ",
+          "Letter",
+          "qₐ"
+        ],
+        [
+          [
+            "A",
+            "0.08167",
+            "B",
+            "0.01492",
+            "C",
+            "0.02782",
+            "D",
+            "0.04253"
+          ],
+          [
+            "E",
+            "0.12702",
+            "F",
+            "0.02228",
+            "G",
+            "0.02015",
+            "H",
+            "0.06094"
+          ],
+          [
+            "I",
+            "0.06966",
+            "J",
+            "0.00153",
+            "K",
+            "0.00772",
+            "L",
+            "0.04025"
+          ],
+          [
+            "M",
+            "0.02406",
+            "N",
+            "0.06749",
+            "O",
+            "0.07507",
+            "P",
+            "0.01929"
+          ],
+          [
+            "Q",
+            "0.00095",
+            "R",
+            "0.05987",
+            "S",
+            "0.06327",
+            "T",
+            "0.09056"
+          ],
+          [
+            "U",
+            "0.02758",
+            "V",
+            "0.00978",
+            "W",
+            "0.02360",
+            "X",
+            "0.00150"
+          ],
+          [
+            "Y",
+            "0.01974",
+            "Z",
+            "0.00074",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ],
+        [
+          80,
+          134,
+          80,
+          134,
+          80,
+          134,
+          80,
+          134
+        ]
+      ]
+    ],
+    "sub": "",
+    "take": "Rounded for display. Calculations use normalized unrounded values; corpus frequencies vary.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A5 / Recovered Vigenère prose, part 1",
+    "blocks": [
+      [
+        "p",
+        "The history of secret writing is also a history of people finding patterns. A sender may replace every letter with another symbol and hope that the message will remain hidden. Yet the habits of a language survive in surprising ways. Common letters still occur often, repeated words leave repeated shapes, and familiar phrases provide clues. A careful reader does not treat any single clue as proof. Instead the reader makes a guess, checks its consequences, and changes the guess when the evidence disagrees. Computers make this process faster but do not remove the need for a clear model of the problem. "
+      ]
+    ],
+    "sub": "",
+    "take": "Word boundaries and punctuation are editorial reconstructions, not encoded by the cipher.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A6 / Recovered Vigenère prose, part 2",
+    "blocks": [
+      [
+        "p",
+        "When a short key is repeated across a long message, the same positions in the key return again and again. Splitting the message into columns can reveal a simple pattern inside each column. Enough text gives the analyst a better chance of distinguishing a useful pattern from a coincidence. The lesson is that a large number of possible keys is only one part of security. We must also ask what information remains visible and what an observer can learn from it. Good engineering starts by stating the assumptions, checking examples, and looking for ways that a system can fail. A secure design must survive careful public study rather than depend on keeping the method unknown."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
     "source": "",
     "kind": "normal"
   }

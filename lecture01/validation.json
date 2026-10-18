@@ -1,37 +1,97 @@
 {
-  "Lecture01_Classical_Ciphers.pdf": {
-    "pages": 74,
-    "page_size_points": [
-      960.0,
-      540.0
-    ],
-    "bytes": 188979,
-    "all_fonts_embedded": true,
-    "fonts": [
-      "AAAAAA+DejaVuSans-Bold",
-      "AAAAAA+DejaVuSans",
-      "AAAAAA+DejaVuSansMono",
-      "AAAAAA+DejaVuSans-Oblique"
-    ],
-    "out_of_page_text": 0,
-    "replacement_characters": 0
+  "edition": "Revised mathematics-department lecture",
+  "checks_passed": 53,
+  "checks": [
+    "Shift example and exercise",
+    "All shift keys round-trip the alphabet",
+    "Illustrative substitution is bijective and example matches",
+    "Original frequency example is consistent at every position",
+    "Original substitution has 23 observed letters and 6 extensions",
+    "Walkthrough counts are recomputed, including corrected ZN",
+    "Partial-key proposals match the retained message",
+    "Vigen\u00e8re worked encryption and reversal",
+    "Vigen\u00e8re numeric table matches each actual addition",
+    "Short Kasiski example has aligned BUK repeats",
+    "Long Kasiski example has the stated positions and gcd",
+    "One complete 1045-letter Vigen\u00e8re dataset",
+    "Column sample sizes and IC numerator match the slides",
+    "Exact IC identities: AABAAB",
+    "Exact IC identities: AAB",
+    "Exact IC identities: ABCDEFGHIJKL",
+    "Exact IC identities: YIFQFMZRWQFY",
+    "Exact IC identities: EDZCTTZEQWOL",
+    "IC is invariant under each of the 26 shifts",
+    "Finite example IC equals 7/15",
+    "Model is positive and normalized",
+    "Every key letter minimizes its complete column score",
+    "Printed chi-square contribution: E",
+    "Printed chi-square contribution: N",
+    "Printed chi-square contribution: A",
+    "Printed chi-square contribution: Z",
+    "Printed candidate scores use complete 26-term sums",
+    "Playfair square has all 25 allowed letters",
+    "Playfair scan and alternate fillers match the examples",
+    "All 600 distinct-letter Playfair pairs round-trip",
+    "Playfair worked message and challenge",
+    "Playfair wrap-around examples",
+    "Playfair preparation really is many-to-one",
+    "Playfair input pair and rule: HI",
+    "Playfair input pair and rule: DE",
+    "Playfair input pair and rule: TH",
+    "Playfair input pair and rule: EG",
+    "Playfair inverse pair and rule: RO",
+    "Playfair inverse pair and rule: NC",
+    "Playfair inverse pair and rule: FL",
+    "Playfair inverse pair and rule: WI",
+    "Permutation tables are genuine inverses",
+    "Permutation examples and exercise",
+    "Permutation inverse recovers complete blocks",
+    "Permutation preserves labeled histograms",
+    "Complete ciphertext is printed in the appendix without omissions",
+    "Content page counts",
+    "Lecture01_Classical_Ciphers.pdf page count",
+    "Lecture01_Classical_Ciphers.pdf text geometry and character checks",
+    "Lecture01_Classical_Ciphers.pdf embeds every referenced font",
+    "Lecture01_Instructor_Guide.pdf page count",
+    "Lecture01_Instructor_Guide.pdf text geometry and character checks",
+    "Lecture01_Instructor_Guide.pdf embeds every referenced font"
+  ],
+  "pdfs": {
+    "Lecture01_Classical_Ciphers.pdf": {
+      "pages": 99,
+      "bytes": 333515,
+      "sha256": "c029d3f1f79898148b627bbf06c1361380ea788f0cc8833043f1a7c169c2f52b",
+      "all_fonts_embedded": true,
+      "rendered_pages": 99,
+      "problems": [],
+      "fonts": [
+        "AAAAAA+DejaVuSans-Bold",
+        "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSansMono",
+        "AAAAAA+DejaVuSans-Oblique",
+        "DOZOSH+LMMathSymbols10-Regular",
+        "DNKJGT+LMMathItalic12-Regular",
+        "FABFMI+LMRoman17-Regular",
+        "AICAWW+MSBM10",
+        "EVXVTN+LMMathExtension10-Regular",
+        "DIGQWO+LMRoman12-Regular"
+      ]
+    },
+    "Lecture01_Instructor_Guide.pdf": {
+      "pages": 7,
+      "bytes": 58987,
+      "sha256": "7001b11472a7703e8f7f47d0b3e57eff7b3d5b57e5268c3cdfaba966815ce114",
+      "all_fonts_embedded": true,
+      "rendered_pages": 7,
+      "problems": [],
+      "fonts": [
+        "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSans-Bold"
+      ]
+    }
   },
-  "Lecture01_Instructor_Guide.pdf": {
-    "pages": 5,
-    "page_size_points": [
-      595.0,
-      842.0
-    ],
-    "bytes": 74225,
-    "all_fonts_embedded": true,
-    "fonts": [
-      "AAAAAA+DejaVuSans",
-      "AAAAAA+DejaVuSans-Bold",
-      "AAAAAA+DejaVuSansMono"
-    ],
-    "out_of_page_text": 0,
-    "replacement_characters": 0
-  },
-  "example_checks": "Passed: all assertions in build_lecture.py, including cipher examples, round trips, IC, and key recovery.",
-  "visual_review": "Rendered slide overview and representative full-size pages inspected; instructor guide inspected."
+  "scheduled_pages": 93,
+  "appendix_pages": 6,
+  "equation_blocks": 41,
+  "visual_review": "All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all seven guide pages reviewed."
 }

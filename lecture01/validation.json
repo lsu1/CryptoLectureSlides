@@ -1,0 +1,37 @@
+{
+  "Lecture01_Classical_Ciphers.pdf": {
+    "pages": 74,
+    "page_size_points": [
+      960.0,
+      540.0
+    ],
+    "bytes": 188979,
+    "all_fonts_embedded": true,
+    "fonts": [
+      "AAAAAA+DejaVuSans-Bold",
+      "AAAAAA+DejaVuSans",
+      "AAAAAA+DejaVuSansMono",
+      "AAAAAA+DejaVuSans-Oblique"
+    ],
+    "out_of_page_text": 0,
+    "replacement_characters": 0
+  },
+  "Lecture01_Instructor_Guide.pdf": {
+    "pages": 5,
+    "page_size_points": [
+      595.0,
+      842.0
+    ],
+    "bytes": 74225,
+    "all_fonts_embedded": true,
+    "fonts": [
+      "AAAAAA+DejaVuSans",
+      "AAAAAA+DejaVuSans-Bold",
+      "AAAAAA+DejaVuSansMono"
+    ],
+    "out_of_page_text": 0,
+    "replacement_characters": 0
+  },
+  "example_checks": "Passed: all assertions in build_lecture.py, including cipher examples, round trips, IC, and key recovery.",
+  "visual_review": "Rendered slide overview and representative full-size pages inspected; instructor guide inspected."
+}

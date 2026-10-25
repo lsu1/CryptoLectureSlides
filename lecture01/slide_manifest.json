@@ -4,7 +4,7 @@
     "blocks": [
       [
         "p",
-        "An introduction to cryptography"
+        "Historical ciphers and cryptanalysis"
       ]
     ],
     "sub": "Cryptography lecture series",
@@ -14,47 +14,23 @@
     "kind": "cover"
   },
   {
-    "title": "Why would we want secret writing?",
+    "title": "Today: constructing and analysing ciphers",
     "blocks": [
       [
         "p",
-        "Alice wants to send Bob a message. Eve may read whatever crosses the communication channel."
-      ],
-      [
-        "code",
-        "THE MESSAGE",
-        "Meet at the north gate at noon.",
-        19
+        "Lecture 00 surveyed confidentiality, integrity, and authentication. Here we focus on <b>confidentiality</b>: keeping the message private."
       ],
       [
         "p",
-        "Can Alice make the intercepted message unintelligible to Eve while allowing Bob to recover it?"
+        "<b>Cryptanalysis</b> studies how a proposed protection can be defeated under specified assumptions."
+      ],
+      [
+        "p",
+        "For each cipher, we will define the construction, work an example, and investigate what information it reveals."
       ]
     ],
     "sub": "",
-    "take": "Start with the communication problem; the construction comes next.",
-    "section": "FOUNDATIONS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "What is cryptography?",
-    "blocks": [
-      [
-        "p",
-        "<b>Cryptography</b> studies mathematical methods for protecting information in the presence of adversaries."
-      ],
-      [
-        "p",
-        "<b>Cryptanalysis</b> studies how to defeat a proposed protection under specified assumptions."
-      ],
-      [
-        "p",
-        "Today we focus on <b>confidentiality</b>: preventing an interceptor from learning the message."
-      ]
-    ],
-    "sub": "",
-    "take": "Other goals, including authenticity and integrity, belong to later lectures.",
+    "take": "From everyday applications to mathematical constructions and their analysis.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
@@ -106,11 +82,7 @@
       ],
       [
         "p",
-        "Alice encrypts using a key. Bob uses the corresponding key to undo the transformation."
-      ],
-      [
-        "p",
-        "Eve observes the ciphertext; she should not be able to recover the message without the required secret."
+        "Here Alice and Bob already share k. The diagram names plaintext p, ciphertext c, encryption Eₖ, and decryption Dₖ."
       ]
     ],
     "sub": "",
@@ -124,19 +96,19 @@
     "blocks": [
       [
         "p",
-        "Alice and Bob share a secret key before they communicate."
+        "Lecture 00’s browser example established a protected connection without a pre-shared secret."
       ],
       [
         "p",
-        "All five ciphers in this lecture are <b>symmetric-key</b> constructions: both operations are determined by that shared key."
+        "Today’s starting assumption: Alice and Bob already share a secret key."
       ],
       [
         "p",
-        "Distributing and protecting the key is a separate task. For now, assume Alice and Bob already share it."
+        "All five classical ciphers here are <b>symmetric-key</b> constructions: that shared key determines both encryption and decryption."
       ]
     ],
     "sub": "",
-    "take": "The algorithm can be public; the key is the secret parameter.",
+    "take": "Key distribution is a separate problem; we assume it is solved for these examples.",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "normal"
@@ -984,7 +956,7 @@
       ]
     ],
     "sub": "",
-    "take": "Elapsed time: 60–70 minutes",
+    "take": "7:40–7:50 pm • Resume at 7:50 pm",
     "section": "BREAK 01",
     "source": "",
     "kind": "divider"
@@ -1586,7 +1558,7 @@
       ]
     ],
     "sub": "",
-    "take": "Elapsed time: 120–130 minutes",
+    "take": "8:45–8:55 pm • Resume at 8:55 pm",
     "section": "BREAK 02",
     "source": "",
     "kind": "divider"

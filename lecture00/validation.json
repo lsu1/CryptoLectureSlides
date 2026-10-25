@@ -58,11 +58,11 @@
     },
     "Lecture00_Teaching_Notes.pdf": {
       "pages": 3,
-      "bytes": 50795,
-      "sha256": "77dcd0025eefcfa55e501becde19f276de097f8c5d7eb6ab215921ae2659dcdf",
+      "bytes": 51022,
+      "sha256": "47ccd34d297cd42cfef67908d998746bf769ed255adfbefc8520f72eef5b24a0",
       "word_counts": [
-        223,
-        383,
+        216,
+        394,
         268
       ],
       "fonts": [

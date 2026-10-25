@@ -1,6 +1,6 @@
 # Lecture 00: Introduction to Cryptography
 
-An **11-slide, nontechnical introduction** for master's students encountering cryptography for the first time. The suggested pacing is **11 minutes 45 seconds**, with room to adapt within a 10–15-minute opening before Lecture 01.
+An **11-slide, nontechnical introduction** for master's students encountering cryptography for the first time. Its suggested slide delivery is **11 minutes 45 seconds**, allocated within the **6:30–6:45 pm opening** of the 6:30–10:00 pm joint session. The remaining 3 minutes 15 seconds allows responses and the handoff to Lecture 01. The two decks remain separate.
 
 - [Lecture slides (PDF)](Lecture00_Introduction.pdf)
 - [Teaching notes (PDF)](Lecture00_Teaching_Notes.pdf): three pages of timing, delivery guidance, accuracy notes, and sources.
@@ -9,6 +9,23 @@ An **11-slide, nontechnical introduction** for master's students encountering cr
 The deck follows the gist of the supplied `Lecture01_Introduction.pdf`: cryptography's protection goals, changing technology and communication, practical applications, and its place within a secure system. It keeps the opening visual and approachable, without formulas or protocol tutorials.
 
 Examples include private messaging, HTTPS, payments, passkeys, electronic passports, and signed software updates. It omits the old Swift-volume and regional ATM timelines and uses an illustrative scam rather than a dated news case. Sources and nuanced technical qualifications are kept in the companion notes, rather than adding a reading or warning slide after every application.
+
+## Shared session plan
+
+Both teaching guides use the following 3.5-hour plan, with 190 teaching minutes and two ten-minute breaks:
+
+| Time (pm) | Focus |
+|---|---|
+| 6:30–6:45 | Lecture 00: introduction |
+| 6:45–7:40 | Lecture 01: foundations, shift, substitution, frequency analysis |
+| 7:40–7:50 | Break |
+| 7:50–8:45 | Lecture 01: Vigenère, Kasiski, IC, key recovery |
+| 8:45–8:55 | Break |
+| 8:55–9:30 | Lecture 01: Playfair |
+| 9:30–9:50 | Lecture 01: transposition |
+| 9:50–10:00 | Lecture 01: comparison and questions |
+
+Lecture 01 now avoids repeating this deck’s general motivation. It retains the formal vocabulary, mathematical model, attacker assumptions, and worked cipher examples. Lecture 00’s presentation remains unchanged; its guide now situates it within the full evening session.
 
 ## Edit and rebuild
 

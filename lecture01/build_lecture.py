@@ -178,7 +178,7 @@ for i,s in enumerate(slides,1):
   c.setFillColor(WHITE);c.setFont('Sans',14);c.drawString(52,463,s['sub'])
   c.setFillColor(ORANGE);c.rect(52,436,56,4,fill=1,stroke=0)
   c.setFillColor(WHITE);c.setFont('Bold',66);c.drawString(52,326,'Classical');c.drawString(52,246,'ciphers')
-  c.setFont('Sans',22);c.drawString(55,180,'An introduction to cryptography')
+  c.setFont('Sans',22);c.drawString(55,180,s['blocks'][0][1])
   cx,cy=730,276
   for radius,col in [(143,colors.HexColor('#365260')),(109,colors.HexColor('#365260'))]:
    c.setStrokeColor(col);c.setLineWidth(.6);c.circle(cx,cy,radius,fill=0,stroke=1)

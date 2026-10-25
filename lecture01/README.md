@@ -1,6 +1,6 @@
-# Lecture 01: Classical Ciphers — consolidated revision
+# Lecture 01: Classical Ciphers — historical ciphers and cryptanalysis
 
-A three-hour lecture for mathematics master's students with little prior cryptography background. The current PDF has **75 teaching slides and 13 optional appendix pages**, with two ten-minute breaks included in the instructor's pacing plan.
+The technical deck for a **6:30–10:00 pm joint session**, following the separate Lecture 00 introduction. The current PDF has **74 teaching slides and 13 optional appendix pages**. The 3.5-hour plan includes two ten-minute breaks, 15 minutes for Lecture 00, and 175 teaching minutes for Lecture 01 and questions.
 
 ## Files
 
@@ -11,25 +11,23 @@ A three-hour lecture for mathematics master's students with little prior cryptog
 - [Validation report](validation.json)
 - [Revision notes](CHANGES.md)
 
-The scope remains shift, monoalphabetic substitution, Vigenère, Playfair, and block transposition. The reference's 168-letter frequency-analysis example is explained through five grouped recovery stages. The Vigenère attack uses one consistent 1,045-letter dataset, with its complete ciphertext and recovered prose in the appendix.
+The opening assumes the Lecture 00 application survey is complete. It removes the duplicate motivation, preserves the definition of cryptanalysis, shortens the encryption diagram’s prose, and clarifies that these classical examples assume a shared secret. The scope remains shift, monoalphabetic substitution, Vigenère, Playfair, and block transposition. The reference's 168-letter frequency-analysis example is explained through five grouped recovery stages. The Vigenère attack uses one consistent 1,045-letter dataset, with its complete ciphertext and recovered prose in the appendix.
 
 ## Teaching sequence
 
-The timetable is kept here and in the instructor guide, rather than on a lecture slide. The longer allocations allow calculation pauses, board annotations, and questions; they are not intended as equal time per page.
+The decks remain separate. The timetable is kept here and in both teaching guides; the break slides show the corresponding return times. Lecture 00’s suggested delivery is 11 minutes 45 seconds within its 15-minute opening slot. The technical allocations allow calculation pauses, board annotations, and questions rather than equal time per slide.
 
-| Elapsed time | Slides | Material |
+| Time (pm) | Deck / slides | Material |
 |---|---|---|
-| 00–16 min | 1–11 | Communication problem, terminology, symmetric keys, mathematical model |
-| 16–25 min | 12–18 | Shift definition, inverse, worked calculation, and search stopping at key 3 |
-| 25–30 min | 19–22 | Substitution and the chosen permutation σ |
-| 30–60 min | 23–32 | Five representative frequency-analysis recovery stages and guided practice |
-| 60–70 min | 33 | Break |
-| 70–120 min | 34–50 | Vigenère, visual Kasiski repetitions, IC intuition, coloured columns, and key recovery |
-| 120–130 min | 51 | Break |
-| 130–158 min | 52–66 | Playfair square, preparation, geometric rules, and exercise |
-| 158–172 min | 67–73 | Permutation definition, example, and inverse |
-| 172–180 min | 74–75 | Compare constructions and connect to digital messages |
-| Optional support | 76–88 | Complete data, IC derivations, and detailed frequency scoring |
+| 6:30–6:45 | Lecture 00: 1–11 | Nontechnical orientation and handoff |
+| 6:45–7:40 | Lecture 01: 1–31 | Formal foundations, shift, substitution, frequency analysis |
+| 7:40–7:50 | Lecture 01: 32 | Break |
+| 7:50–8:45 | Lecture 01: 33–49 | Vigenère, visual Kasiski/IC, key recovery |
+| 8:45–8:55 | Lecture 01: 50 | Break |
+| 8:55–9:30 | Lecture 01: 51–65 | Playfair |
+| 9:30–9:50 | Lecture 01: 66–72 | Transposition |
+| 9:50–10:00 | Lecture 01: 73–74 | Comparison and questions |
+| Optional support | Lecture 01: 75–87 | Complete data, IC derivations, detailed scoring |
 
 The main presentation defines the **index of coincidence (IC)** as a letter-match probability, illustrates it with `AAB`, then introduces the essential count formula. The appendix retains the longer derivations and chi-squared calculations for optional mathematical depth.
 

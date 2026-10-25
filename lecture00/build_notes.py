@@ -33,21 +33,29 @@ def table(headers,rows,widths):
         st=ParagraphStyle('table',parent=STYLES['small'],fontName='Bold' if i==0 else 'Sans',textColor=colors.white if i==0 else NAVY)
         data.append([Paragraph(escape(str(cell)),st) for cell in row])
     t=Table(data,colWidths=widths,hAlign='LEFT')
-    t.setStyle(TableStyle([('FONTNAME',(0,0),(-1,-1),'Sans'),('BACKGROUND',(0,0),(-1,0),NAVY),('ROWBACKGROUNDS',(0,1),(-1,-1),[LIGHT,colors.HexColor('#F4F5F1')]),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),7),('BOTTOMPADDING',(0,0),(-1,-1),7)]))
+    t.setStyle(TableStyle([('FONTNAME',(0,0),(-1,-1),'Sans'),('BACKGROUND',(0,0),(-1,0),NAVY),('ROWBACKGROUNDS',(0,1),(-1,-1),[LIGHT,colors.HexColor('#F4F5F1')]),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),4)]))
     story.append(t);story.append(Spacer(1,8))
 
 TOTAL=sum(s['seconds'] for s in SLIDES)
 page('Lecture 00 / teaching notes')
-p(f'Introduction to cryptography • {len(SLIDES)} slides • Suggested delivery: {TOTAL//60} minutes {TOTAL%60} seconds, with room to adapt within a 10–15-minute opening.')
-h('Purpose and tone')
-p('Give students a reason to care before introducing notation. Retain the reference’s broad, inviting survey: what cryptography protects, how its uses evolved, where it appears in daily life, and why secure systems require more than cryptography. No formulas or algorithm descriptions are needed here.')
+p(f'{len(SLIDES)} slides • 15-minute opening within the 6:30–10:00 pm joint session. Suggested slide delivery: {TOTAL//60}:{TOTAL%60:02d}; the remaining 3:15 allows student responses and the handoff.')
+h('Shared session plan (pm)')
+table(['Time','Deck','Focus'],[
+['6:30–6:45','Lecture 00','Nontechnical introduction'],
+['6:45–7:40','Lecture 01','Foundations, shift, substitution, frequency analysis'],
+['7:40–7:50','Break','10 minutes'],
+['7:50–8:45','Lecture 01','Vigenère, Kasiski, IC, key recovery'],
+['8:45–8:55','Break','10 minutes'],
+['8:55–9:30','Lecture 01','Playfair'],
+['9:30–9:50','Lecture 01','Transposition'],
+['9:50–10:00','Lecture 01','Comparison and questions']],[92,75,332])
+h('Suggested pacing within the opening')
 rows=[];elapsed=0
 for i,s in enumerate(SLIDES,1):
     rows.append([str(i),s['title'],fmt(s['seconds']),f'{fmt(elapsed)}–{fmt(elapsed+s["seconds"])}'])
     elapsed+=s['seconds']
 table(['Slide','Main idea','Time','Elapsed'],rows,[45,277,55,122])
-h('Delivery')
-p('Keep the opening cover brief. On slide 2, invite one or two examples students used that morning. Spend more time on the three protection goals and the final system-level limitation. Avoid turning the application slides into protocol tutorials. The final slide leads directly into Lecture 01 on classical ciphers.')
+p('Keep the cover brief. Invite one or two everyday examples on slide 2, avoid protocol tutorials, and use the final slide to hand over to Lecture 01’s formal vocabulary and cipher constructions.','small')
 
 page('Explanations and accuracy notes')
 h('The three protection goals')
@@ -63,7 +71,7 @@ p('A signature can support checks of data origin and integrity. An electronic pa
 h('One clear limitations discussion')
 p('The transfer scam is illustrative, not a news report: a person can be manipulated into authorizing a genuine transaction whose cryptographic checks succeed. Secure devices, software, key handling, people, and processes also matter. Keep this point in one slide rather than repeating warnings after every application.')
 h('Bridge to the first technical lecture')
-p('The final glimpse MEET → PHHW uses a shift of three, but do not derive it here. Invite curiosity about how a message can be hidden and how another person might recover it. Lecture 01 supplies the construction and analysis.')
+p('The final glimpse MEET → PHHW uses a shift of three, but do not derive it here. Invite curiosity about hiding and recovering a message. Lecture 01 now begins with constructing and analysing ciphers; its repeated motivation is removed. It retains the precise vocabulary, shared-secret assumption, mathematical model, and worked examples.')
 
 page('Sources and updates from the reference')
 p('The source records distinguish material inspected in the uploaded reference, documentation retrieved from official repositories, and background standards cited bibliographically. The deck does not depend on live news or rapidly changing statistics.','small')

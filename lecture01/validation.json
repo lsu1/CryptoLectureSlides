@@ -1,5 +1,5 @@
 {
-  "edition": "Consolidated review revision: shorter guided examples and visual IC introduction",
+  "edition": "Coordinated Lecture 00/01 session: reduced overlap and 6:30\u201310:00 pm pacing",
   "checks_passed": 76,
   "checks": [
     "Shift example and exercise",
@@ -51,7 +51,7 @@
     "Content page counts",
     "Title cover retains the requested title, course name, and subtitle",
     "Title cover removes descriptive sentence, audience panel, and duration strip",
-    "All three explicitly removed slides are absent",
+    "Removed and replaced introductory or review slide titles are absent",
     "Shift example stops at the meaningful k=3 result",
     "Sigma and its inverse are explicitly explained in prose",
     "Sigma is explained before it is used to encrypt",
@@ -71,8 +71,8 @@
     "Kasiski and IC main sequence is shortened to ten example-led slides",
     "Lecture01_Classical_Ciphers.pdf page count",
     "Rendered cover omits every rejected red-box text item",
-    "Rendered cover retains its course and introductory subtitle",
-    "Rendered main lecture omits the three rejected slide titles",
+    "Rendered cover retains its course and construction-specific subtitle",
+    "Rendered main lecture omits removed or replaced slide titles",
     "Lecture01_Classical_Ciphers.pdf text geometry and character checks",
     "Lecture01_Classical_Ciphers.pdf embeds every referenced font",
     "Lecture01_Instructor_Guide.pdf page count",
@@ -81,11 +81,11 @@
   ],
   "pdfs": {
     "Lecture01_Classical_Ciphers.pdf": {
-      "pages": 88,
-      "bytes": 292232,
-      "sha256": "b7ca7e083a3492a3d9714764e09397cfe8b5b461409a61508a3023099415f825",
+      "pages": 87,
+      "bytes": 290979,
+      "sha256": "ee24a80552bb3cf845cbb6cf28a284ecc9fd44aeb40ed34050543267be7d2a46",
       "all_fonts_embedded": true,
-      "rendered_pages": 88,
+      "rendered_pages": 87,
       "problems": [],
       "fonts": [
         "AAAAAA+DejaVuSans",
@@ -101,8 +101,8 @@
     },
     "Lecture01_Instructor_Guide.pdf": {
       "pages": 6,
-      "bytes": 80720,
-      "sha256": "6079dcf3f09d24d66606b1f7682cf1bd88ebfb665c416e1eb9af0d8355737b44",
+      "bytes": 81155,
+      "sha256": "2a00f1aae9e3a342d0c354264ebd39997110611645931373f1e6bc3b897462b3",
       "all_fonts_embedded": true,
       "rendered_pages": 6,
       "problems": [],
@@ -113,7 +113,7 @@
       ]
     }
   },
-  "scheduled_pages": 75,
+  "scheduled_pages": 74,
   "appendix_pages": 13,
   "equation_blocks": 34,
   "visual_review": "All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all six guide pages reviewed."

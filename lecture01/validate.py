@@ -70,14 +70,14 @@ checked('Permutation inverse recovers complete blocks',all(''.join(perm(s)[i-1] 
 checked('Permutation preserves labeled histograms',all(Counter(perm(s))==Counter(s) for s in ['ABCDEF','ATTACK','ATDAWN','DEFEND']))
 appendix=''.join(next(b[2] for b in s['blocks'] if b[0]=='code').replace('\n','') for s in slides if s['title'].startswith(('A1 /','A2 /')))
 checked('Complete ciphertext is printed in the appendix without omissions',appendix==VC)
-checked('Content page counts',len(slides)==88 and MAIN_COUNT==75)
+checked('Content page counts',len(slides)==87 and MAIN_COUNT==74)
 
 # The requested changes are tested against the actual delivered content, not only its algorithms.
 cover=slides[0]
-checked('Title cover retains the requested title, course name, and subtitle',cover['kind']=='cover' and cover['title']=='Classical ciphers' and cover['sub']=='Cryptography lecture series' and cover['blocks']==[('p','An introduction to cryptography')])
+checked('Title cover retains the requested title, course name, and subtitle',cover['kind']=='cover' and cover['title']=='Classical ciphers' and cover['sub']=='Cryptography lecture series' and cover['blocks']==[('p','Historical ciphers and cryptanalysis')])
 checked('Title cover removes descriptive sentence, audience panel, and duration strip',not cover['take'] and all(t not in slide_text(cover) for t in ['Historical constructions','Master’s level','Three hours','Revised edition']))
-removed_titles={'Plan for the three hours','Reflection questions','Reading and sources'}
-checked('All three explicitly removed slides are absent',not any(s['title'] in removed_titles for s in slides))
+removed_titles={'Plan for the three hours','Reflection questions','Reading and sources','Why would we want secret writing?','What is cryptography?'}
+checked('Removed and replaced introductory or review slide titles are absent',not any(s['title'] in removed_titles for s in slides))
 trial_rows=table('Recovering a shift key')[2]
 checked('Shift example stops at the meaningful k=3 result',trial_rows==[[str(k),shift('KHOORZRUOG',-k)] for k in [1,2,3]] and trial_rows[-1][1]=='HELLOWORLD')
 sigma_slide=by_title('Substitution: a bijection and its inverse')
@@ -118,8 +118,8 @@ for name,expected_pages in [('Lecture01_Classical_Ciphers.pdf',len(slides)),('Le
  if name=='Lecture01_Classical_Ciphers.pdf':
   cover_text=' '.join(doc[0].get_text().casefold().split())
   checked('Rendered cover omits every rejected red-box text item',all(term not in cover_text for term in ['historical constructions','master’s level','three hours','revised edition']))
-  checked('Rendered cover retains its course and introductory subtitle','cryptography lecture series' in cover_text and 'an introduction to cryptography' in cover_text)
-  checked('Rendered main lecture omits the three rejected slide titles',all(not any(title.casefold() in page.get_text().casefold() for title in removed_titles) for page in doc[:MAIN_COUNT]))
+  checked('Rendered cover retains its course and construction-specific subtitle','cryptography lecture series' in cover_text and 'historical ciphers and cryptanalysis' in cover_text)
+  checked('Rendered main lecture omits removed or replaced slide titles',all(not any(title.casefold() in page.get_text().casefold() for title in removed_titles) for page in doc[:MAIN_COUNT]))
  for i,page in enumerate(doc,1):
   if not page.get_text().strip():problems.append((i,'blank page'))
   if '\ufffd' in page.get_text() or '\x00' in page.get_text():problems.append((i,'replacement or null character'))
@@ -134,6 +134,6 @@ for name,expected_pages in [('Lecture01_Classical_Ciphers.pdf',len(slides)),('Le
  checked(name+' text geometry and character checks',not problems)
  checked(name+' embeds every referenced font',all(fonts.values()))
  pdfs[name]=dict(pages=len(doc),bytes=path.stat().st_size,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),all_fonts_embedded=True,rendered_pages=renders,problems=problems,fonts=list(fonts))
-report=dict(edition='Consolidated review revision: shorter guided examples and visual IC introduction',checks_passed=len(checks),checks=checks,pdfs=pdfs,scheduled_pages=MAIN_COUNT,appendix_pages=len(slides)-MAIN_COUNT,equation_blocks=sum(1 for s in slides for b in s['blocks'] if b[0]=='math'),visual_review='All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all six guide pages reviewed.')
+report=dict(edition='Coordinated Lecture 00/01 session: reduced overlap and 6:30–10:00 pm pacing',checks_passed=len(checks),checks=checks,pdfs=pdfs,scheduled_pages=MAIN_COUNT,appendix_pages=len(slides)-MAIN_COUNT,equation_blocks=sum(1 for s in slides for b in s['blocks'] if b[0]=='math'),visual_review='All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all six guide pages reviewed.')
 (R/'validation.json').write_text(json.dumps(report,indent=2))
 print(f'Passed {len(checks)} checks; rendered {sum(v["rendered_pages"] for v in pdfs.values())} PDF pages. All fonts embedded.')

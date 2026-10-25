@@ -34,28 +34,29 @@ sections=defaultdict(list)
 for i,s in enumerate(slides,1):sections[s['section']].append(i)
 def slide_range(section):return f'{min(sections[section])}–{max(sections[section])}'
 def ref(title):return str(index[title])
-page('Instructor guide / consolidated revision')
+page('Instructor guide / joint session')
 appendix_count=len(slides)-MAIN_COUNT
-p(f'Classical ciphers • Mathematics master’s students new to cryptography • {MAIN_COUNT} teaching slides + {appendix_count} appendix pages • 180 minutes including two breaks')
-h('Pacing plan — instructor use only')
-table(['Elapsed time','Slides','Focus'],[
-['00–16',slide_range('FOUNDATIONS'),'Communication problem, terminology, symmetric keys, mathematical model'],
-['16–25',slide_range('SHIFT'),'Worked shift; stop the search once key 3 gives HELLOWORLD'],
-['25–30',slide_range('SUBSTITUTION'),'Define the chosen permutation σ and its inverse; work the table'],
-['30–60',slide_range('FREQUENCY ANALYSIS'),'Five representative recovery stages, partial plaintexts, and guided practice'],
-['60–70',slide_range('BREAK 01'),'Break'],
-['70–120',slide_range('VIGENÈRE'),'Worked encryption; visual repetitions; IC intuition; coloured columns; key recovery'],
-['120–130',slide_range('BREAK 02'),'Break'],
-['130–158',slide_range('PLAYFAIR'),'Square construction, preparation, geometric rules, and exercise'],
-['158–172',slide_range('TRANSPOSITION'),'Forward and inverse permutations, calculation, and exercise'],
-['172–180',slide_range('SYNTHESIS'),'Compare the constructions and connect to digital messages']],[78,55,366])
-h('Use the shorter explanations to make room for understanding')
-p('The lecture no longer displays a timetable or ends with the removed reflection and reading slides. Keep the pacing here. The smaller number of repeated trial-and-error slides gives time to annotate one partial key on the board, let students predict the next substitution, and revisit any unclear step.')
-p('Lead with the concrete examples and diagrams. Introduce notation after students understand the operation it describes. Optional IC derivations and chi-squared details are in the appendix; they are supporting material rather than required steps in the main presentation.')
+p(f'Lecture 00 followed by Lecture 01 • 6:30–10:00 pm • {MAIN_COUNT} classical-cipher teaching slides + {appendix_count} optional appendix pages • 210 minutes including two 10-minute breaks')
+h('Shared session plan — instructor use only')
+table(['Time (pm)','Deck / slides','Focus'],[
+['6:30–6:45','Lecture 00: 1–11','Nontechnical orientation; allow responses and handoff'],
+['6:45–7:40',f"Lecture 01: {min(sections['FOUNDATIONS'])}–{max(sections['FREQUENCY ANALYSIS'])}",'Foundations, shift, substitution, and frequency analysis'],
+['7:40–7:50',f"Lecture 01: {min(sections['BREAK 01'])}",'Break'],
+['7:50–8:45',f"Lecture 01: {slide_range('VIGENÈRE')}",'Worked Vigenère encryption, Kasiski, IC, and key recovery'],
+['8:45–8:55',f"Lecture 01: {min(sections['BREAK 02'])}",'Break'],
+['8:55–9:30',f"Lecture 01: {slide_range('PLAYFAIR')}",'Playfair square, preparation, geometric rules, and exercise'],
+['9:30–9:50',f"Lecture 01: {slide_range('TRANSPOSITION')}",'Forward and inverse permutations, calculation, and exercise'],
+['9:50–10:00',f"Lecture 01: {slide_range('SYNTHESIS')}",'Compare the constructions, connect to digital messages, and take questions']],[90,110,299])
+h('One session, two complementary decks')
+p('The 210-minute session contains 190 minutes of teaching. Reserve 15 minutes for Lecture 00, including its suggested 11-minute-45-second delivery and about three minutes for student responses and the handoff. The remaining 175 teaching minutes cover Lecture 01 and questions. Both decks remain separate.')
+p('The classical-cipher deck now assumes students have seen the application survey. It removes the repeated Alice-and-Bob motivation, makes cryptanalysis and confidentiality the opening focus, and uses the encryption diagram to introduce notation. Preserve the formal model, vocabulary, examples, and optional appendix.')
+h('Use the available time for worked understanding')
+p('The allocations include calculation pauses, board annotations, and questions; they are not equal time per page. Keep the five grouped frequency stages and the visual Kasiski/IC explanation. Optional derivations and detailed scoring remain supporting appendix material, rather than extra required lecture content.')
 page('Foundations, shift, and substitution')
 h('A clear opening')
-p('The redesigned cover retains only the lecture title, series name, and introductory subtitle. Begin with Alice, Bob, and Eve and an ordinary plaintext message. Establish plaintext, ciphertext, algorithm, and key before formal notation. Today’s focus is confidentiality; assume a shared secret and postpone key distribution.')
-p('Introduce plaintext, ciphertext, and key spaces as sets. Eₖ maps plaintext to ciphertext; Dₖ reverses the chosen transformation. Dₖ(Eₖ(p)) = p is a correctness condition, not a security claim.')
+p('Use the cover subtitle “Historical ciphers and cryptanalysis” to mark the move from Lecture 00’s application survey to construction and analysis. The repeated Alice-and-Bob motivation is removed. Focus the opening on confidentiality and introduce cryptanalysis as the study of how a proposed protection can be defeated under stated assumptions.')
+p('Retain plaintext, ciphertext, algorithm, and key as precise vocabulary. The shortened communication diagram introduces p, c, Eₖ, and Dₖ. Explain that today’s five hand ciphers assume a shared secret; Lecture 00’s browser example allowed a protected connection without a previously shared secret. Key distribution is assumed solved here.')
+p('Then introduce plaintext, ciphertext, and key spaces as sets. Eₖ maps plaintext to ciphertext; Dₖ reverses the chosen transformation. Dₖ(Eₖ(p)) = p is a correctness condition, not a security claim.')
 h('Alphabet and indexing conventions')
 p('Use A = 0 through Z = 25 and representatives 0–25 for residues modulo 26. Message positions start at 0 in the shift and Vigenère sections. Permutation tables later use positions 1 through m explicitly. Removing spaces and punctuation is preprocessing and can discard information.')
 h('Shift: calculate, then recognize the answer')
@@ -114,8 +115,8 @@ p('Language scores rank hypotheses and can fail on short or unusual text. Re-enc
 h('Reading and provenance — retained here rather than on a lecture slide')
 p('Stinson &amp; Paterson, <i>Cryptography: Theory and Practice</i>, 4th edition, Chapter 1, provides core reading. Section numbering differs across editions. The supplied <i>Lecture02_Classical_Ciphers.pdf</i>, Wu Hongjun, supplies the classical-cipher scope, 168-letter substitution example, and standard Playfair illustration.')
 p('Historical reading: Kahn, <i>The Codebreakers</i> (revised edition, 1996); Kerckhoffs, <i>La Cryptographie Militaire</i> (1883); Kasiski (1863). The original uploaded PDF is cited but not redistributed in the source bundle.')
-h('This consolidated revision')
-p('Applies the recorded cover redesign and slide removals, stops the worked shift search at key 3, defines σ explicitly, groups repeated substitution reasoning into five stages, and makes Kasiski/IC visual and example-led. It retains the same five cipher constructions and selected exercises. Page numbers in the final PDF reflect the removals and regrouping.')
+h('This revision and the previous feedback')
+p('Retains the approved cover layout and earlier slide removals, stops the worked shift search at key 3, defines σ explicitly, groups substitution reasoning into five stages, and keeps Kasiski/IC visual. The latest cleanup removes overlap with Lecture 00, changes the cover subtitle, and updates the guides and break timings for the 3.5-hour joint session. The same five ciphers and worked examples are retained.')
 h('Edit, build, and inspect')
 p('Requirements: Python 3 with ReportLab and PyMuPDF; DejaVu Sans and Sans Mono font files; pdflatex with amsmath, amssymb, Latin Modern, xcolor, and geometry. Equations are placed as vector PDF content; LaTeX shell escape is disabled.')
 p('Run python build_lecture.py, python build_guide.py, then python validate.py from lecture01. Edit slide_content.py for content, cipher_examples.py for examples, and build_lecture.py for layout. The manifest, numerical data, PDFs, and validation report are generated outputs. Inspect rendered pages after edits as well as running the checks.')

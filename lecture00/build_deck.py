@@ -145,7 +145,6 @@ def goals(s):
   for line in question.split('\n'):text(line,x+20,yy,27,'Bold',WHITE,maxwidth=230);yy-=34
   text(term,x+20,228,18,'Bold',MINT,maxwidth=230)
   icon(im,x+44,171,43,MINT);para(desc,x+80,195,170,16,color=WHITE,leading=22)
- text('Cryptanalysis asks how these protections could fail.',52,75,16,color=WHITE)
  footer('R',True)
 
 def history(s):
@@ -157,7 +156,6 @@ def history(s):
   text(title,x+129,200,21,'Bold',align='center',maxwidth=240)
   text(sub,x+129,165,14,align='center',maxwidth=240)
   if i<2:arrow(x+268,232,x+288,232)
- para('Enigma is one historical example; its cryptanalysis was a collective international effort.',52,102,856,15,color=MUTED)
  footer('R')
 
 def message_phone(x,y,label):

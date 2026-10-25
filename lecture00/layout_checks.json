@@ -321,16 +321,6 @@
   },
   {
     "page": 3,
-    "text": "Cryptanalysis asks how these protections could fail.",
-    "box": [
-      52,
-      71,
-      467.3046875,
-      91
-    ]
-  },
-  {
-    "page": 3,
     "text": "CRYPTOGRAPHY / INTRODUCTION  •  R",
     "box": [
       52,
@@ -437,16 +427,6 @@
       161,
       881.6689453125,
       179
-    ]
-  },
-  {
-    "page": 4,
-    "text": "Enigma is one historical example; its cryptanalysis was a collective international effort.",
-    "box": [
-      52,
-      81.3,
-      908,
-      102
     ]
   },
   {

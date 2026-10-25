@@ -17,7 +17,7 @@
     "Lecture00_Teaching_Notes.pdf all text inside page and no replacement characters",
     "Lecture00_Teaching_Notes.pdf all referenced fonts embedded",
     "Main deck is concise",
-    "Defines cryptography and cryptanalysis",
+    "Defines cryptography",
     "Retains the three original protection goals",
     "Retains history, payments, and passport applications",
     "Adds passkeys and software signing",
@@ -32,13 +32,13 @@
   "pdfs": {
     "Lecture00_Introduction.pdf": {
       "pages": 11,
-      "bytes": 83880,
-      "sha256": "0766e21b7f9fe86114770913ff36c07752fcd1a2b430da392c66d86e99a737be",
+      "bytes": 83702,
+      "sha256": "6e980419159fdadef934988710d27ffadcde137cac251948b3f76e39e86b7d5a",
       "word_counts": [
         13,
         35,
-        57,
-        56,
+        50,
+        44,
         48,
         53,
         42,

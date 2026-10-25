@@ -1,0 +1,44 @@
+[
+  {
+    "id": "R",
+    "label": "Teaching reference",
+    "citation": "Wu Hongjun, supplied Lecture01_Introduction.pdf, 12 pages.",
+    "url": "",
+    "status": "Uploaded reference inspected. Gist retained; original PDF not redistributed."
+  },
+  {
+    "id": "1",
+    "label": "HTTPS and TLS",
+    "citation": "Mozilla / MDN, HTTPS glossary and Transport Layer Security guide.",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Transport_Layer_Security",
+    "status": "Supporting text retrieved from the official mdn/content GitHub repository."
+  },
+  {
+    "id": "2",
+    "label": "Encryption and messaging",
+    "citation": "Mozilla / MDN, Encryption glossary; Signal Android official project README.",
+    "url": "https://developer.mozilla.org/en-US/docs/Glossary/Encryption",
+    "status": "Encryption definition and official messenger project description retrieved. The slide uses a generic end-to-end encrypted conversation, not a claim about all apps."
+  },
+  {
+    "id": "3",
+    "label": "Passkeys",
+    "citation": "W3C, Web Authentication specification; Mozilla / MDN, Passkeys guide.",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Authentication/Passkeys",
+    "status": "W3C specification source and MDN guide retrieved from their official GitHub repositories."
+  },
+  {
+    "id": "4",
+    "label": "Signed updates",
+    "citation": "The Update Framework, specification, motivation and metadata verification.",
+    "url": "https://theupdateframework.github.io/specification/latest/",
+    "status": "Specification source retrieved from the official theupdateframework/specification GitHub repository."
+  },
+  {
+    "id": "5",
+    "label": "Payment and passport background",
+    "citation": "EMVCo, EMV chip/contactless specifications; ICAO Doc 9303, Part 12, Security Mechanisms for MRTDs.",
+    "url": "",
+    "status": "Background standards cited bibliographically; no usage statistics, regional rollout dates, or claim of a newly published version."
+  }
+]

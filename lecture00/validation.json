@@ -1,0 +1,78 @@
+{
+  "lecture": "00",
+  "edition": "Short visual introduction",
+  "checks_passed": 24,
+  "checks": [
+    "Eleven content slides",
+    "Suggested pacing fits 10\u201315 minutes",
+    "Every slide has delivery notes",
+    "Includes source provenance",
+    "Bridge example really is a shift by three",
+    "Lecture00_Introduction.pdf expected page count",
+    "Lecture00_Introduction.pdf opens without a password",
+    "Lecture00_Introduction.pdf all text inside page and no replacement characters",
+    "Lecture00_Introduction.pdf all referenced fonts embedded",
+    "Lecture00_Teaching_Notes.pdf expected page count",
+    "Lecture00_Teaching_Notes.pdf opens without a password",
+    "Lecture00_Teaching_Notes.pdf all text inside page and no replacement characters",
+    "Lecture00_Teaching_Notes.pdf all referenced fonts embedded",
+    "Main deck is concise",
+    "Defines cryptography and cryptanalysis",
+    "Retains the three original protection goals",
+    "Retains history, payments, and passport applications",
+    "Adds passkeys and software signing",
+    "Messaging scope explicitly end-to-end encrypted",
+    "HTTPS example is fictional",
+    "Includes significance and system limitations",
+    "No dense algorithm or formula treatment",
+    "No time-sensitive usage statistics or old incident totals",
+    "No timetable or bibliography slide"
+  ],
+  "suggested_seconds": 705,
+  "pdfs": {
+    "Lecture00_Introduction.pdf": {
+      "pages": 11,
+      "bytes": 83880,
+      "sha256": "0766e21b7f9fe86114770913ff36c07752fcd1a2b430da392c66d86e99a737be",
+      "word_counts": [
+        13,
+        35,
+        57,
+        56,
+        48,
+        53,
+        42,
+        50,
+        57,
+        56,
+        48
+      ],
+      "fonts": [
+        "AAAAAA+DejaVuSans-Bold",
+        "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSansMono"
+      ],
+      "all_fonts_embedded": true,
+      "all_pages_rendered": true,
+      "issues": []
+    },
+    "Lecture00_Teaching_Notes.pdf": {
+      "pages": 3,
+      "bytes": 50795,
+      "sha256": "77dcd0025eefcfa55e501becde19f276de097f8c5d7eb6ab215921ae2659dcdf",
+      "word_counts": [
+        223,
+        383,
+        268
+      ],
+      "fonts": [
+        "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSans-Bold"
+      ],
+      "all_fonts_embedded": true,
+      "all_pages_rendered": true,
+      "issues": []
+    }
+  },
+  "visual_review": "All eleven slides and three teaching-note pages rendered and inspected; messaging labels and passkey diagram spacing corrected after review."
+}

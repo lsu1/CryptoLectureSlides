@@ -1,0 +1,1252 @@
+[
+  {
+    "page": 1,
+    "text": "LECTURE 00 / INTRODUCTION",
+    "box": [
+      52,
+      469,
+      249.173828125,
+      485
+    ]
+  },
+  {
+    "page": 1,
+    "text": "Cryptography",
+    "box": [
+      52,
+      319,
+      515.388671875,
+      383
+    ]
+  },
+  {
+    "page": 1,
+    "text": "Trust in a connected world",
+    "box": [
+      55,
+      266,
+      388.8623046875,
+      295
+    ]
+  },
+  {
+    "page": 1,
+    "text": "01 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 2,
+    "text": "EVERYDAY LIFE",
+    "box": [
+      98,
+      485,
+      184.8603515625,
+      499
+    ]
+  },
+  {
+    "page": 2,
+    "text": "You used it before class.",
+    "box": [
+      52,
+      435,
+      552.607421875,
+      475
+    ]
+  },
+  {
+    "page": 2,
+    "text": "Which of these have you done today?",
+    "box": [
+      52,
+      364.64,
+      908,
+      395
+    ]
+  },
+  {
+    "page": 2,
+    "text": "Open a website",
+    "box": [
+      72.84667968749999,
+      213,
+      230.1533203125,
+      235
+    ]
+  },
+  {
+    "page": 2,
+    "text": "WEB",
+    "box": [
+      138.75830078125,
+      165,
+      164.24169921875,
+      179
+    ]
+  },
+  {
+    "page": 2,
+    "text": "Tap to pay",
+    "box": [
+      316.7109375,
+      213,
+      424.2890625,
+      235
+    ]
+  },
+  {
+    "page": 2,
+    "text": "PAYMENTS",
+    "box": [
+      339.7578125,
+      165,
+      401.2421875,
+      179
+    ]
+  },
+  {
+    "page": 2,
+    "text": "Sign in",
+    "box": [
+      554.4580078125,
+      213,
+      624.5419921875,
+      235
+    ]
+  },
+  {
+    "page": 2,
+    "text": "IDENTITY",
+    "box": [
+      563.5869140625,
+      165,
+      615.4130859375,
+      179
+    ]
+  },
+  {
+    "page": 2,
+    "text": "Install an update",
+    "box": [
+      722.3232421875,
+      213,
+      894.6767578125,
+      235
+    ]
+  },
+  {
+    "page": 2,
+    "text": "SOFTWARE",
+    "box": [
+      777.171875,
+      165,
+      839.828125,
+      179
+    ]
+  },
+  {
+    "page": 2,
+    "text": "CRYPTOGRAPHY / INTRODUCTION",
+    "box": [
+      52,
+      18,
+      186.9921875,
+      30
+    ]
+  },
+  {
+    "page": 2,
+    "text": "02 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 3,
+    "text": "WHAT IS CRYPTOGRAPHY?",
+    "box": [
+      98,
+      485,
+      247.1650390625,
+      499
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Three questions behind digital trust.",
+    "box": [
+      52,
+      435,
+      800.0019531250001,
+      475
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Cryptography uses mathematics to protect information.",
+    "box": [
+      52,
+      371.02,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Who can",
+    "box": [
+      72,
+      319,
+      202.39892578125,
+      350
+    ]
+  },
+  {
+    "page": 3,
+    "text": "read it?",
+    "box": [
+      72,
+      285,
+      188.39794921875,
+      316
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Confidentiality",
+    "box": [
+      72,
+      224,
+      221.89746093750003,
+      246
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Keep the message private.",
+    "box": [
+      132,
+      151,
+      302,
+      195
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Has it",
+    "box": [
+      365,
+      319,
+      453.44873046875,
+      350
+    ]
+  },
+  {
+    "page": 3,
+    "text": "changed?",
+    "box": [
+      365,
+      285,
+      510.29638671875,
+      316
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Integrity",
+    "box": [
+      365,
+      224,
+      453.59375,
+      246
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Detect an altered message.",
+    "box": [
+      425,
+      151,
+      595,
+      195
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Who is on the",
+    "box": [
+      658,
+      319,
+      867.28955078125,
+      350
+    ]
+  },
+  {
+    "page": 3,
+    "text": "other end?",
+    "box": [
+      658,
+      285,
+      822.22802734375,
+      316
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Authentication",
+    "box": [
+      658,
+      224,
+      808.732421875,
+      246
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Check the claimed identity.",
+    "box": [
+      718,
+      151,
+      888,
+      195
+    ]
+  },
+  {
+    "page": 3,
+    "text": "Cryptanalysis asks how these protections could fail.",
+    "box": [
+      52,
+      71,
+      467.3046875,
+      91
+    ]
+  },
+  {
+    "page": 3,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  R",
+    "box": [
+      52,
+      18,
+      207.44140625,
+      30
+    ]
+  },
+  {
+    "page": 3,
+    "text": "03 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 4,
+    "text": "A SHORT HISTORICAL THREAD",
+    "box": [
+      98,
+      485,
+      268.0244140625,
+      499
+    ]
+  },
+  {
+    "page": 4,
+    "text": "New tools. New ways to communicate.",
+    "box": [
+      52,
+      435,
+      834.4023437500001,
+      475
+    ]
+  },
+  {
+    "page": 4,
+    "text": "As communication and computing changed, the methods of protection changed too.",
+    "box": [
+      52,
+      372.4,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Pen and paper",
+    "box": [
+      94.903076171875,
+      196,
+      267.096923828125,
+      221
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Letters and couriers",
+    "box": [
+      110.630859375,
+      161,
+      251.369140625,
+      179
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Machines",
+    "box": [
+      424.3212890625,
+      196,
+      535.6787109375,
+      221
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Military radio traffic",
+    "box": [
+      411.1484375,
+      161,
+      548.8515625,
+      179
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Connected devices",
+    "box": [
+      667.79638671875,
+      196,
+      890.20361328125,
+      221
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Global digital communication",
+    "box": [
+      676.3310546875,
+      161,
+      881.6689453125,
+      179
+    ]
+  },
+  {
+    "page": 4,
+    "text": "Enigma is one historical example; its cryptanalysis was a collective international effort.",
+    "box": [
+      52,
+      81.3,
+      908,
+      102
+    ]
+  },
+  {
+    "page": 4,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  R",
+    "box": [
+      52,
+      18,
+      207.44140625,
+      30
+    ]
+  },
+  {
+    "page": 4,
+    "text": "04 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 5,
+    "text": "MESSAGING",
+    "box": [
+      98,
+      485,
+      165.431640625,
+      499
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Private words. Public networks.",
+    "box": [
+      52,
+      435,
+      697.9257812500001,
+      475
+    ]
+  },
+  {
+    "page": 5,
+    "text": "End-to-end encryption protects a conversation’s content as it crosses the network.",
+    "box": [
+      52,
+      372.4,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Meet at noon.",
+    "box": [
+      98.51953125,
+      250,
+      209.48046875,
+      270
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Alice’s device",
+    "box": [
+      88.436279296875,
+      95,
+      219.563720703125,
+      116
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Meet at noon.",
+    "box": [
+      750.51953125,
+      250,
+      861.48046875,
+      270
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Bob’s device",
+    "box": [
+      745.242431640625,
+      95,
+      866.757568359375,
+      116
+    ]
+  },
+  {
+    "page": 5,
+    "text": "ENCRYPT",
+    "box": [
+      125.60302734375,
+      352,
+      182.39697265625,
+      367
+    ]
+  },
+  {
+    "page": 5,
+    "text": "DECRYPT",
+    "box": [
+      777.640625,
+      352,
+      834.359375,
+      367
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Protected message",
+    "box": [
+      400.674560546875,
+      256,
+      585.325439453125,
+      277
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Message service",
+    "box": [
+      405.45556640625,
+      188,
+      554.54443359375,
+      210
+    ]
+  },
+  {
+    "page": 5,
+    "text": "Keys let the intended devices unlock the message.",
+    "box": [
+      52,
+      62.400000000000006,
+      908,
+      90
+    ]
+  },
+  {
+    "page": 5,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  2",
+    "box": [
+      52,
+      18,
+      206.97265625,
+      30
+    ]
+  },
+  {
+    "page": 5,
+    "text": "05 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 6,
+    "text": "THE WEB",
+    "box": [
+      98,
+      485,
+      148.986328125,
+      499
+    ]
+  },
+  {
+    "page": 6,
+    "text": "How do strangers trust a connection?",
+    "box": [
+      52,
+      435,
+      816.3671875000001,
+      475
+    ]
+  },
+  {
+    "page": 6,
+    "text": "Your browser checks the server’s identity for the named domain.",
+    "box": [
+      52,
+      372.4,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 6,
+    "text": "https://bank.example",
+    "box": [
+      153,
+      328,
+      357.697265625,
+      349
+    ]
+  },
+  {
+    "page": 6,
+    "text": "Check domain identity",
+    "box": [
+      127.45922851562499,
+      202,
+      342.540771484375,
+      223
+    ]
+  },
+  {
+    "page": 6,
+    "text": "Agree on keys",
+    "box": [
+      411.788330078125,
+      202,
+      548.211669921875,
+      223
+    ]
+  },
+  {
+    "page": 6,
+    "text": "Protect the data",
+    "box": [
+      646.3916015625,
+      202,
+      803.6083984375,
+      223
+    ]
+  },
+  {
+    "page": 6,
+    "text": "Two computers can create a protected connection without sharing a secret in advance.",
+    "box": [
+      52,
+      76.80000000000001,
+      908,
+      132
+    ]
+  },
+  {
+    "page": 6,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  1 • fictional domain shown",
+    "box": [
+      52,
+      18,
+      309.45703125,
+      30
+    ]
+  },
+  {
+    "page": 6,
+    "text": "06 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 7,
+    "text": "PAYMENTS AND BANKING",
+    "box": [
+      98,
+      485,
+      242.6337890625,
+      499
+    ]
+  },
+  {
+    "page": 7,
+    "text": "One tap. A chain of trust.",
+    "box": [
+      52,
+      435,
+      566.6523437500001,
+      475
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Modern payments use cryptographic checks to authenticate transaction data.",
+    "box": [
+      52,
+      372.4,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Card or phone",
+    "box": [
+      98.009765625,
+      159,
+      257.990234375,
+      183
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Payment terminal",
+    "box": [
+      379.1845703125,
+      159,
+      580.8154296875,
+      183
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Bank",
+    "box": [
+      753.8603515625,
+      159,
+      810.1396484375,
+      183
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Protect payment data",
+    "box": [
+      94.506103515625,
+      91,
+      279.493896484375,
+      110
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Authenticate the transaction",
+    "box": [
+      357.63427734375,
+      91,
+      602.36572265625,
+      110
+    ]
+  },
+  {
+    "page": 7,
+    "text": "Detect changes",
+    "box": [
+      707.268798828125,
+      91,
+      838.731201171875,
+      110
+    ]
+  },
+  {
+    "page": 7,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  R • 5",
+    "box": [
+      52,
+      18,
+      222.3359375,
+      30
+    ]
+  },
+  {
+    "page": 7,
+    "text": "07 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 8,
+    "text": "SIGNING IN",
+    "box": [
+      98,
+      485,
+      161.369140625,
+      499
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Your face can unlock a key.",
+    "box": [
+      52,
+      435,
+      609.2265625000001,
+      475
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Your device proves it can use the right key.",
+    "box": [
+      52,
+      368.26,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Local check",
+    "box": [
+      143.2890625,
+      186,
+      260.7109375,
+      208
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Face • fingerprint • PIN",
+    "box": [
+      114.0654296875,
+      100,
+      289.9345703125,
+      119
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Use a passkey",
+    "box": [
+      376.721923828125,
+      173,
+      513.278076171875,
+      194
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Your account",
+    "box": [
+      651.984619140625,
+      324,
+      778.015380859375,
+      345
+    ]
+  },
+  {
+    "page": 8,
+    "text": "Proof verified",
+    "box": [
+      637.7880859375,
+      189,
+      792.2119140625,
+      213
+    ]
+  },
+  {
+    "page": 8,
+    "text": "The website receives cryptographic proof, not your fingerprint or face scan.",
+    "box": [
+      52,
+      59.160000000000004,
+      908,
+      84
+    ]
+  },
+  {
+    "page": 8,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  3",
+    "box": [
+      52,
+      18,
+      206.97265625,
+      30
+    ]
+  },
+  {
+    "page": 8,
+    "text": "08 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 9,
+    "text": "DOCUMENTS AND SOFTWARE",
+    "box": [
+      98,
+      485,
+      263.4638671875,
+      499
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Trust travels with the data.",
+    "box": [
+      52,
+      435,
+      610.5449218750001,
+      475
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Digital signatures help check origin and detect changes.",
+    "box": [
+      52,
+      369.64,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Electronic",
+    "box": [
+      234,
+      319,
+      362.8583984375,
+      346
+    ]
+  },
+  {
+    "page": 9,
+    "text": "passport",
+    "box": [
+      234,
+      289,
+      347.966796875,
+      316
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Check the issuer and integrity of signed chip data.",
+    "box": [
+      234,
+      171.48000000000002,
+      442,
+      246
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Software",
+    "box": [
+      678,
+      319,
+      795.07763671875,
+      346
+    ]
+  },
+  {
+    "page": 9,
+    "text": "update",
+    "box": [
+      678,
+      289,
+      769.416015625,
+      316
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Check the publisher and integrity of an update.",
+    "box": [
+      678,
+      171.48000000000002,
+      886,
+      246
+    ]
+  },
+  {
+    "page": 9,
+    "text": "Authenticity matters even when the information itself is not secret.",
+    "box": [
+      52,
+      77.4,
+      908,
+      105
+    ]
+  },
+  {
+    "page": 9,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  4 • 5",
+    "box": [
+      52,
+      18,
+      221.8671875,
+      30
+    ]
+  },
+  {
+    "page": 9,
+    "text": "09 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 10,
+    "text": "SIGNIFICANCE AND LIMITS",
+    "box": [
+      98,
+      485,
+      246.5498046875,
+      499
+    ]
+  },
+  {
+    "page": 10,
+    "text": "Cryptography is part of the system.",
+    "box": [
+      52,
+      435,
+      778.2753906250001,
+      475
+    ]
+  },
+  {
+    "page": 10,
+    "text": "Strong cryptography cannot make every decision safe.",
+    "box": [
+      52,
+      371.02,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 10,
+    "text": "ILLUSTRATIVE SCAM",
+    "box": [
+      74,
+      312,
+      188.873046875,
+      326
+    ]
+  },
+  {
+    "page": 10,
+    "text": "“Please approve this transfer to keep your account safe.”",
+    "box": [
+      74,
+      223,
+      494,
+      291
+    ]
+  },
+  {
+    "page": 10,
+    "text": "Cryptography",
+    "box": [
+      651,
+      300,
+      790.0166015625,
+      322
+    ]
+  },
+  {
+    "page": 10,
+    "text": "Devices & software",
+    "box": [
+      651,
+      222,
+      847.2509765625,
+      244
+    ]
+  },
+  {
+    "page": 10,
+    "text": "People & processes",
+    "box": [
+      651,
+      144,
+      849.615234375,
+      166
+    ]
+  },
+  {
+    "page": 10,
+    "text": "A payment can pass the checks and still be part of a scam.",
+    "box": [
+      52,
+      97.02000000000001,
+      872,
+      126
+    ]
+  },
+  {
+    "page": 10,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  Illustrative scenario",
+    "box": [
+      52,
+      18,
+      280.6796875,
+      30
+    ]
+  },
+  {
+    "page": 10,
+    "text": "10 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  },
+  {
+    "page": 11,
+    "text": "FROM INTUITION TO CONSTRUCTION",
+    "box": [
+      98,
+      485,
+      303.7177734375,
+      499
+    ]
+  },
+  {
+    "page": 11,
+    "text": "Next: ciphers you can see inside.",
+    "box": [
+      52,
+      435,
+      723.6601562500001,
+      475
+    ]
+  },
+  {
+    "page": 11,
+    "text": "We begin with historical examples that we can work through by hand.",
+    "box": [
+      52,
+      371.02,
+      908,
+      400
+    ]
+  },
+  {
+    "page": 11,
+    "text": "MEET",
+    "box": [
+      184.203125,
+      239,
+      299.796875,
+      291
+    ]
+  },
+  {
+    "page": 11,
+    "text": "PHHW",
+    "box": [
+      660.203125,
+      239,
+      775.796875,
+      291
+    ]
+  },
+  {
+    "page": 11,
+    "text": "How do we hide a message?",
+    "box": [
+      52,
+      152,
+      448.91162109375,
+      181
+    ]
+  },
+  {
+    "page": 11,
+    "text": "How could someone recover it?",
+    "box": [
+      52,
+      104,
+      493.1376953125,
+      133
+    ]
+  },
+  {
+    "page": 11,
+    "text": "CRYPTOGRAPHY / INTRODUCTION  •  Next: Lecture 01 / Classical ciphers",
+    "box": [
+      52,
+      18,
+      343.08203125,
+      30
+    ]
+  },
+  {
+    "page": 11,
+    "text": "11 / 11",
+    "box": [
+      879.859375,
+      18,
+      908.0,
+      30
+    ]
+  }
+]

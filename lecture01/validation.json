@@ -1,6 +1,6 @@
 {
-  "edition": "Revised mathematics-department lecture",
-  "checks_passed": 53,
+  "edition": "Consolidated review revision: shorter guided examples and visual IC introduction",
+  "checks_passed": 76,
   "checks": [
     "Shift example and exercise",
     "All shift keys round-trip the alphabet",
@@ -14,7 +14,7 @@
     "Short Kasiski example has aligned BUK repeats",
     "Long Kasiski example has the stated positions and gcd",
     "One complete 1045-letter Vigen\u00e8re dataset",
-    "Column sample sizes and IC numerator match the slides",
+    "Column sample sizes and finite-sample IC numerator are verified",
     "Exact IC identities: AABAAB",
     "Exact IC identities: AAB",
     "Exact IC identities: ABCDEFGHIJKL",
@@ -49,7 +49,30 @@
     "Permutation preserves labeled histograms",
     "Complete ciphertext is printed in the appendix without omissions",
     "Content page counts",
+    "Title cover retains the requested title, course name, and subtitle",
+    "Title cover removes descriptive sentence, audience panel, and duration strip",
+    "All three explicitly removed slides are absent",
+    "Shift example stops at the meaningful k=3 result",
+    "Sigma and its inverse are explicitly explained in prose",
+    "Sigma is explained before it is used to encrypt",
+    "Eleven repeated stages are condensed to five representative stages",
+    "Shortened frequency walkthrough still shows partial plaintext updates",
+    "The original full recovered message is retained",
+    "IC is explicitly introduced as the index of coincidence and defined in words",
+    "The abbreviation IC is introduced before other main-slide uses",
+    "Visual AAB example has one matching pair among three",
+    "IC intuition precedes its compact formula",
+    "Main lecture contains visual alignment, pair matching, coloured columns, and histogram comparison",
+    "Five-column illustration uses the actual Vigen\u00e8re dataset",
+    "All five printed IC values are retained without averaging away variation",
+    "Simple visual shift comparison is consistent with the actual column",
+    "Main lecture recovers all five key letters without full score tables",
+    "IC derivation and detailed chi-square calculations are optional appendix pages",
+    "Kasiski and IC main sequence is shortened to ten example-led slides",
     "Lecture01_Classical_Ciphers.pdf page count",
+    "Rendered cover omits every rejected red-box text item",
+    "Rendered cover retains its course and introductory subtitle",
+    "Rendered main lecture omits the three rejected slide titles",
     "Lecture01_Classical_Ciphers.pdf text geometry and character checks",
     "Lecture01_Classical_Ciphers.pdf embeds every referenced font",
     "Lecture01_Instructor_Guide.pdf page count",
@@ -58,40 +81,40 @@
   ],
   "pdfs": {
     "Lecture01_Classical_Ciphers.pdf": {
-      "pages": 99,
-      "bytes": 333515,
-      "sha256": "c029d3f1f79898148b627bbf06c1361380ea788f0cc8833043f1a7c169c2f52b",
+      "pages": 88,
+      "bytes": 292232,
+      "sha256": "b7ca7e083a3492a3d9714764e09397cfe8b5b461409a61508a3023099415f825",
       "all_fonts_embedded": true,
-      "rendered_pages": 99,
+      "rendered_pages": 88,
       "problems": [],
       "fonts": [
-        "AAAAAA+DejaVuSans-Bold",
         "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSans-Bold",
         "AAAAAA+DejaVuSansMono",
-        "AAAAAA+DejaVuSans-Oblique",
-        "DOZOSH+LMMathSymbols10-Regular",
-        "DNKJGT+LMMathItalic12-Regular",
-        "FABFMI+LMRoman17-Regular",
+        "DGGDAD+LMMathSymbols10-Regular",
+        "WETFHK+LMMathItalic12-Regular",
+        "FSMAGU+LMRoman17-Regular",
         "AICAWW+MSBM10",
         "EVXVTN+LMMathExtension10-Regular",
-        "DIGQWO+LMRoman12-Regular"
+        "MDJGZL+LMRoman12-Regular"
       ]
     },
     "Lecture01_Instructor_Guide.pdf": {
-      "pages": 7,
-      "bytes": 58987,
-      "sha256": "7001b11472a7703e8f7f47d0b3e57eff7b3d5b57e5268c3cdfaba966815ce114",
+      "pages": 6,
+      "bytes": 80720,
+      "sha256": "6079dcf3f09d24d66606b1f7682cf1bd88ebfb665c416e1eb9af0d8355737b44",
       "all_fonts_embedded": true,
-      "rendered_pages": 7,
+      "rendered_pages": 6,
       "problems": [],
       "fonts": [
         "AAAAAA+DejaVuSans",
-        "AAAAAA+DejaVuSans-Bold"
+        "AAAAAA+DejaVuSans-Bold",
+        "AAAAAA+DejaVuSans-Oblique"
       ]
     }
   },
-  "scheduled_pages": 93,
-  "appendix_pages": 6,
-  "equation_blocks": 41,
-  "visual_review": "All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all seven guide pages reviewed."
+  "scheduled_pages": 75,
+  "appendix_pages": 13,
+  "equation_blocks": 34,
+  "visual_review": "All slides inspected in rendered overviews; representative mathematical, worked-example, and appendix pages reviewed at full size; all six guide pages reviewed."
 }

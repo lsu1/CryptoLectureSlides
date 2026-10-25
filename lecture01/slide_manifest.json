@@ -5,20 +5,10 @@
       [
         "p",
         "An introduction to cryptography"
-      ],
-      [
-        "p",
-        "Historical constructions, mathematical definitions, and worked cryptanalysis."
-      ],
-      [
-        "code",
-        "LECTURE 01",
-        "Master’s level • Mathematics",
-        19
       ]
     ],
     "sub": "Cryptography lecture series",
-    "take": "Three hours, including two 10-minute breaks • Revised edition",
+    "take": "",
     "section": "FOUNDATIONS",
     "source": "",
     "kind": "cover"
@@ -312,57 +302,6 @@
     "kind": "normal"
   },
   {
-    "title": "Plan for the three hours",
-    "blocks": [
-      [
-        "table",
-        [
-          "Elapsed time",
-          "Topic"
-        ],
-        [
-          [
-            "00–30 min",
-            "Foundations, shift, and substitution"
-          ],
-          [
-            "30–60 min",
-            "A complete guided frequency-analysis example"
-          ],
-          [
-            "60–70 min",
-            "Break"
-          ],
-          [
-            "70–120 min",
-            "Vigenère, Kasiski, IC, and key recovery"
-          ],
-          [
-            "120–130 min",
-            "Break"
-          ],
-          [
-            "130–172 min",
-            "Playfair and transposition"
-          ],
-          [
-            "172–180 min",
-            "Comparison, reflection, and reading"
-          ]
-        ],
-        [
-          210,
-          646
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "Short exercises are included in these allocations. Appendix tables support the worked examples.",
-    "section": "FOUNDATIONS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
     "title": "01 / Shift cipher",
     "blocks": [
       [
@@ -530,10 +469,6 @@
           [
             "3",
             "HELLOWORLD"
-          ],
-          [
-            "4",
-            "GDKKNVNQKC"
           ]
         ],
         [
@@ -543,7 +478,7 @@
       ],
       [
         "p",
-        "Exhaustive search has only 26 candidates. Readable language helps choose among them."
+        "At k = 3, HELLOWORLD is meaningful, so we stop. There are at most 26 candidate keys to try."
       ],
       [
         "math",
@@ -607,11 +542,15 @@
       ],
       [
         "p",
-        "Here S₂₆ is the set of all permutations of the 26 alphabet symbols."
+        "S₂₆ is the set of all alphabet permutations. The secret key σ (sigma) is one chosen permutation: a one-to-one reassignment of the 26 symbols."
       ],
       [
         "math",
         "c_i=\\sigma(p_i),\\qquad p_i=\\sigma^{-1}(c_i)"
+      ],
+      [
+        "p",
+        "Its inverse σ⁻¹ maps each ciphertext symbol back to its original plaintext symbol."
       ],
       [
         "math",
@@ -791,7 +730,7 @@
     "kind": "normal"
   },
   {
-    "title": "Step 1: count the letters",
+    "title": "1 / Count letters and propose a mapping",
     "blocks": [
       [
         "table",
@@ -835,267 +774,133 @@
         ]
       ],
       [
-        "math",
-        "\\widehat p_M=\\frac{16}{168}\\approx0.0952,\\qquad\\widehat p_Z=\\frac{20}{168}\\approx0.1190"
+        "p",
+        "Z is the most frequent symbol: 20/168 ≈ 0.119. English e is often frequent, so begin by testing Z → e."
       ],
       [
         "p",
-        "Z is a reasonable candidate for plaintext e. M could correspond to several common letters."
+        "Other common letters remain possible. Each proposed mapping must fit every occurrence."
       ]
     ],
     "sub": "",
-    "take": "This proposes Z → e; it does not establish that mapping with certainty.",
+    "take": "Counts suggest hypotheses; they do not identify letters with certainty.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Step 2: try Z → e",
-    "blocks": [
-      [
-        "code",
-        "PARTIAL PLAINTEXT • · = UNDETERMINED",
-        "······e···········e·····e····e············\n········e····e················e·····e····e\n·e·················e····e···e···e····e·e··\n·e··················e····e············e···",
-        19
-      ],
-      [
-        "p",
-        "Write an e at every occurrence of Z. Leave every other position undetermined."
-      ],
-      [
-        "p",
-        "Now examine pairs involving Z: if Z means e, then ZW means e? and WZ means ?e."
-      ]
-    ],
-    "sub": "",
-    "take": "Maintain consistency by applying a proposed mapping to the whole message.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 3: use ZW and WZ",
+    "title": "2 / Combine pair clues to extend the key",
     "blocks": [
       [
         "table",
         [
-          "Observed pair",
-          "Count",
-          "If Z → e"
+          "Evidence",
+          "Reasoning under the current hypotheses"
         ],
         [
           [
-            "ZW",
-            4,
-            "e?"
+            "ZW: 4; WZ: 0",
+            "e? occurs repeatedly; ?e does not. W has frequency 0.0476. Test W → d."
           ],
           [
-            "WZ",
-            0,
-            "?e"
+            "RW: 2",
+            "?d suggests nd or ed. If Z → e is retained, bijectivity rules out R → e; try R → n."
           ],
           [
-            "W alone",
-            8,
-            "8/168 ≈ 0.0476"
+            "NZ: 3; ZN: 1",
+            "HE is a common pair. Test N → h and inspect the resulting plaintext."
           ]
         ],
         [
-          240,
-          160,
-          456
+          210,
+          646
         ]
       ],
       [
-        "p",
-        "Common continuations of e include r, s, n, d, a, t. The asymmetry and W’s frequency make d a useful candidate to test."
-      ],
-      [
-        "p",
-        "Adopt W → d provisionally. A zero WZ count does not prove that alternatives are impossible."
+        "code",
+        "PROVISIONAL PARTIAL KEY",
+        "Z → e     W → d     R → n     N → h",
+        19
       ]
     ],
     "sub": "",
-    "take": "We combine imperfect clues rather than treating one statistic as decisive.",
+    "take": "The one-to-one constraint gives logical exclusions; language frequencies rank the remaining guesses.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Step 4: test R → n",
+    "title": "3 / Read fragments and update the key",
     "blocks": [
-      [
-        "p",
-        "RW occurs twice. With W → d, it becomes ?d."
-      ],
-      [
-        "p",
-        "The common pairs nd and ed suggest n or e. If Z → e is retained, injectivity prevents R → e."
-      ],
-      [
-        "code",
-        "PARTIAL KEY",
-        "Z → e     W → d     R → n",
-        19
-      ],
-      [
-        "code",
-        "PARTIAL PLAINTEXT • · = UNDETERMINED",
-        "······end·········e····ned···e············\n········e····e·········n··d···en····e····e\n·e···n······n······ed···e···e··ne·nd·e·e··\n·ed·····n···········e····ed·······d···e··n",
-        19
-      ]
-    ],
-    "sub": "",
-    "take": "The exclusion uses bijectivity; the initial language guess remains provisional.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 5: test N → h",
-    "blocks": [
-      [
-        "table",
-        [
-          "Pair",
-          "Actual count",
-          "Candidate reading"
-        ],
-        [
-          [
-            "NZ",
-            3,
-            "he if N → h"
-          ],
-          [
-            "ZN",
-            1,
-            "eh if N → h"
-          ]
-        ],
-        [
-          200,
-          200,
-          456
-        ]
-      ],
-      [
-        "p",
-        "HE is common in English. Try N → h and inspect the emerging fragments."
-      ],
       [
         "code",
         "PARTIAL PLAINTEXT • · = UNDETERMINED",
         "······end·········e····nedh··e············\nh·······e····e·········nh·d···en····e·h··e\nhe···n······n······ed···e···e··ne·ndhe·e··\n·ed·····nh···h······e····ed·······d··he··n",
         19
+      ],
+      [
+        "p",
+        "The fragment ne·ndhe suggests “…ne and he…”, adding C → a."
+      ],
+      [
+        "p",
+        "RNM becomes nh·, suggesting a vowel after h. CM becomes a·; ai is more plausible than ao. Test M → i."
       ]
     ],
     "sub": "",
-    "take": "Counts are recomputed from the displayed ciphertext, including the one occurrence of ZN.",
+    "take": "Apply these candidates throughout the message; revise any that lead to contradictions.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Step 6: recognize a candidate AND",
+    "title": "4 / Use familiar pairs and word patterns",
     "blocks": [
-      [
-        "code",
-        "BEFORE AND AFTER THE HYPOTHESIS",
-        "RZCRWNZ → ne·ndhe\nRZCRWNZ → neandhe",
-        19
-      ],
-      [
-        "p",
-        "The middle pattern ·nd suggests and. This proposes C → a."
-      ],
-      [
-        "code",
-        "PARTIAL PLAINTEXT • · = UNDETERMINED",
-        "······end·····a···e·a··nedh··e······a·····\nh·······ea···e·a···a···nhad·a·en··a·e·h··e\nhe·a·n······n······ed···e···e··neandhe·e··\n·ed·a···nh···ha···a·e····ed·····a·d··he··n",
-        19
-      ]
-    ],
-    "sub": "",
-    "take": "A plausible word boundary gives “…ne and he…”, but must agree with the rest of the text.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 7: choose a candidate for M",
-    "blocks": [
-      [
-        "p",
-        "M occurs 16 times. We will test the candidate M → i."
-      ],
-      [
-        "p",
-        "RNM becomes nh·, suggesting a word boundary before h followed by a vowel. CM becomes a·; ai is more plausible than ao."
-      ],
       [
         "code",
         "PARTIAL PLAINTEXT • · = UNDETERMINED",
         "·····iend·····a·i·e·a·inedhi·e······a···i·\nh·····i·ea·i·e·a···a·i·nhad·a·en··a·e·hi·e\nhe·a·n·····in·i····ed···e···e·ineandhe·e··\n·ed·a··inhi··hai··a·e·i··ed·····a·d··he··n",
         19
+      ],
+      [
+        "table",
+        [
+          "Clue",
+          "Candidate reading",
+          "Mapping to test"
+        ],
+        [
+          [
+            "JN → ·h",
+            "th",
+            "J → t"
+          ],
+          [
+            "XYYSMRT → ····in·",
+            "looking",
+            "Y → o"
+          ],
+          [
+            "MD occurs four times: i·",
+            "is",
+            "D → s"
+          ]
+        ],
+        [
+          290,
+          260,
+          306
+        ]
       ]
     ],
     "sub": "",
-    "take": "These language arguments rank hypotheses; they do not constitute a proof.",
+    "take": "The partly decoded HNCMF then reads ·hai·; chair proposes H → c and F → r.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Step 8: recover a likely t",
-    "blocks": [
-      [
-        "p",
-        "JN occurs twice. Since N → h, the pair becomes ·h."
-      ],
-      [
-        "p",
-        "TH is a common English pair. Try J → t and apply it everywhere."
-      ],
-      [
-        "code",
-        "PARTIAL PLAINTEXT • · = UNDETERMINED",
-        "·····iend·····a·i·e·a·inedhi·e··t···a···it\nh·····i·ea·i·e·a···ati·nhadta·en··a·e·hi·e\nhe·a·nt····in·i····ed···e···e·ineandhe·ett\n·ed·a··inhi··hai··a·eti·ted··t··a·d·the··n",
-        19
-      ]
-    ],
-    "sub": "",
-    "take": "Emerging fragments include “…had ta·en…” and “…and he ·ett·ed…”.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 9: complete some word patterns",
-    "blocks": [
-      [
-        "p",
-        "The fragment ·oo·in· suggests looking: Y → o is a useful test. Four occurrences of MD become i·; D → s gives is."
-      ],
-      [
-        "code",
-        "PARTIAL PLAINTEXT • · = UNDETERMINED",
-        "o····iend··o··a·ise·a·inedhise··t···ass·it\nhs····iseasi·e·a·o·ationhadta·en··a·e·hi·e\nhe·asnt·oo·in·i·o··edso·e·o·e·ineandhesett\n·ed·a··inhis·hai··a·eti·ted··to·a·dsthes·n",
-        19
-      ],
-      [
-        "p",
-        "HNCMF now reads ·hai·. The candidate chair gives H → c and F → r."
-      ]
-    ],
-    "sub": "",
-    "take": "Check every new letter assignment against earlier guesses and the one-to-one constraint.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 10: extend the partial solution",
+    "title": "5 / Summarize the remaining recovery",
     "blocks": [
       [
         "code",
@@ -1104,92 +909,16 @@
         19
       ],
       [
-        "table",
-        [
-          "Visible fragment",
-          "Plausible completion",
-          "New mappings"
-        ],
-        [
-          [
-            "o·r ·riend",
-            "our friend",
-            "I → u; Q → f"
-          ],
-          [
-            "·ro· ·aris",
-            "from paris",
-            "V → m; E → p"
-          ],
-          [
-            "·oo·in·",
-            "looking",
-            "X → l; S → k; T → g"
-          ]
-        ],
-        [
-          240,
-          290,
-          326
-        ]
-      ]
-    ],
-    "sub": "",
-    "take": "Each completion is tested across the entire ciphertext before it is retained.",
-    "section": "FREQUENCY ANALYSIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Step 11: complete the remaining letters",
-    "blocks": [
-      [
         "p",
-        "Apply the previous extensions first. The remaining unknowns occur inside strongly recognizable words."
+        "Recognizable fragments now suggest “our friend”, “from Paris”, and “looking”. These extend the key consistently."
       ],
       [
-        "table",
-        [
-          "Current fragment",
-          "Candidate word",
-          "New mapping"
-        ],
-        [
-          [
-            "e·amined",
-            "examined",
-            "P → x"
-          ],
-          [
-            "empt·",
-            "empty",
-            "B → y"
-          ],
-          [
-            "·ith / ·hile / ·ine",
-            "with / while / wine",
-            "U → w"
-          ],
-          [
-            "e·aporation",
-            "evaporation",
-            "K → v"
-          ],
-          [
-            "·ack",
-            "back",
-            "G → b"
-          ]
-        ],
-        [
-          280,
-          320,
-          256
-        ]
+        "p",
+        "The remaining words—examined, empty, with, evaporation, back—supply the last observed letters. Apply each addition across the whole message."
       ]
     ],
     "sub": "",
-    "take": "These complete all 23 letter mappings observed in the message; check them at every occurrence.",
+    "take": "The repeated trial-and-check procedure is the same; we now move to the complete plaintext.",
     "section": "FREQUENCY ANALYSIS",
     "source": "",
     "kind": "normal"
@@ -1492,7 +1221,7 @@
           [
             "1",
             "Find plausible periods",
-            "Repeated segments; index of coincidence"
+            "Repeated segments; a letter-match check called the index of coincidence"
           ],
           [
             "2",
@@ -1518,81 +1247,54 @@
     "kind": "normal"
   },
   {
-    "title": "Kasiski: why repeated segments can help",
+    "title": "Kasiski: see the repeated alignment",
     "blocks": [
       [
-        "code",
-        "KNOWN ALIGNMENT EXAMPLE",
-        "Plaintext   THESUNANDTHEMANINTHEMOON\nKey stream  KINGKINGKINGKINGKINGKING\nCiphertext  DPRYEVNTNBUKWIAOXBUKWWBT",
-        19
+        "alignment"
       ],
       [
         "p",
-        "THE begins at positions 9 and 17. Their distance 8 is divisible by the period 4, so both occurrences encrypt to BUK."
-      ],
-      [
-        "p",
-        "THE at position 0 has a different key alignment and encrypts differently."
+        "The highlighted THE groups begin 8 positions apart. The four-letter key KING has completed two cycles, so both groups encrypt to BUK."
       ]
     ],
     "sub": "",
-    "take": "Positions are zero-based. Same plaintext plus same key alignment implies the same ciphertext.",
+    "take": "Repeated ciphertext segments can suggest a key period; accidental repetitions are also possible.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Kasiski: extract evidence from a ciphertext",
+    "title": "Kasiski: turn repetition into a candidate length",
     "blocks": [
       [
         "p",
-        "Now use one longer ciphertext for the remaining attack: 1,045 normalized letters, with the key hidden."
+        "Now consider a longer intercepted message. FVR repeats at the positions below."
       ],
-      [
-        "code",
-        "ITS FIRST 126 LETTERS",
-        "ELQVVDXAFLZJESPCIFKETXUBTTWMZFZETWFESDMBQT\nQCCWIRWAOMZUCLXFSEYWMGRYHQFZLCDSCWEOSRGIDM\nYPXFSEHMFVNYSFVRCWKAOZPMBQSSBSGSEFHUPQQGFL",
-        19
-      ],
-      [
-        "p",
-        "The complete ciphertext is printed in Appendix A1–A2. All positions and statistics below refer to that same text."
-      ]
-    ],
-    "sub": "",
-    "take": "The repeated trigram FVR begins at positions 97, 147, 552, and 897.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Kasiski: measure the actual distances",
-    "blocks": [
       [
         "table",
         [
-          "Occurrence",
-          "Starting index",
+          "Repeated group",
+          "Position",
           "Distance from first"
         ],
         [
           [
-            "1",
+            "FVR",
             "97",
             "—"
           ],
           [
-            "2",
+            "FVR",
             "147",
             "50"
           ],
           [
-            "3",
+            "FVR",
             "552",
             "455"
           ],
           [
-            "4",
+            "FVR",
             "897",
             "800"
           ]
@@ -1606,603 +1308,267 @@
       [
         "math",
         "\\gcd(50,455,800)=5"
-      ],
-      [
-        "p",
-        "The factors 1 and 5 are candidates. Chance repeats can mislead; check these candidates by a second method."
       ]
     ],
     "sub": "",
-    "take": "These distances are measured from the displayed dataset, not a separate hypothetical example.",
+    "take": "Try key lengths 1 and 5; compare their letter-match rates next.",
+    "section": "VIGENÈRE",
+    "source": "Zero-based positions. Dataset: 1,045 letters; full ciphertext in Appendix A1–A2.",
+    "kind": "normal"
+  },
+  {
+    "title": "Index of coincidence (IC): a match check",
+    "blocks": [
+      [
+        "p",
+        "The index of coincidence, or IC, is the probability that two randomly chosen distinct positions contain the same letter."
+      ],
+      [
+        "ic_pairs"
+      ]
+    ],
+    "sub": "",
+    "take": "This tiny example explains the counting idea; its value is not a typical English reference value.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Index of coincidence: the experiment",
+    "title": "What does the match rate tell us?",
     "blocks": [
       [
         "p",
-        "Let X be a string of N letters. Select an ordered pair of distinct positions uniformly at random."
+        "In English, some letters occur much more often than others. This raises the chance that two sampled letters match."
+      ],
+      [
+        "ic_reference"
       ],
       [
         "p",
-        "IC is the probability that the two selected letters are equal."
-      ],
-      [
-        "math",
-        "N\\ge2,\\qquad f_a=\\#\\{i:X_i=a\\},\\qquad\\sum_{a\\in\\mathbb Z_{26}}f_a=N."
+        "A fixed shift renames the letters without changing their counts, so it preserves the match rate."
       ]
     ],
     "sub": "",
-    "take": "This is sampling positions without replacement from the observed string.",
+    "take": "These are reference values for longer texts. Short samples and different languages can vary considerably.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Deriving the finite-sample IC formula",
+    "title": "A compact formula after the intuition",
     "blocks": [
       [
         "p",
-        "There are N(N − 1) ordered pairs of distinct positions."
+        "For a text of N letters, let fₐ be the number of occurrences of letter a."
+      ],
+      [
+        "math",
+        "\\operatorname{IC}=\\frac{\\sum_{a=0}^{25}f_a(f_a-1)}{N(N-1)}"
       ],
       [
         "p",
-        "For a letter a, exactly fₐ(fₐ − 1) pairs have a in both positions. These events are disjoint across letters."
+        "The numerator counts equal-letter pairs; the denominator counts all ordered pairs of distinct positions."
       ],
       [
-        "math",
-        "\\operatorname{IC}(X)=\\frac{\\sum_{a=0}^{25}f_a(f_a-1)}{N(N-1)}"
-      ],
-      [
-        "math",
-        "=\\sum_{a=0}^{25}\\frac{f_a}{N}\\frac{f_a-1}{N-1}."
+        "p",
+        "A program can perform this count for us. The derivation and a larger worked calculation are in the appendix."
       ]
     ],
     "sub": "",
-    "take": "",
+    "take": "Use IC as evidence about letter distributions, rather than a general security test.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "A small IC calculation, fully worked",
+    "title": "Try five: group the same key positions",
     "blocks": [
       [
-        "code",
-        "STRING",
-        "AABAAB",
-        19
+        "columns"
       ],
+      [
+        "p",
+        "If the key repeats every five letters, reading down one colour collects letters encrypted with one fixed shift."
+      ]
+    ],
+    "sub": "",
+    "take": "The colour labels mark key positions, not recovered key letters. The five columns each contain 209 letters.",
+    "section": "VIGENÈRE",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "Check the candidate length with IC",
+    "blocks": [
       [
         "table",
         [
-          "Letter",
-          "Count fₐ",
-          "fₐ(fₐ − 1)"
+          "Candidate length",
+          "Observed match rate"
         ],
         [
           [
-            "A",
-            "4",
-            "12"
+            "1: keep all letters together",
+            "0.0429"
           ],
           [
-            "B",
-            "2",
-            "2"
-          ],
-          [
-            "All others",
-            "0",
-            "0"
+            "5: five separate columns",
+            "See the individual values below."
           ]
         ],
         [
-          260,
-          260,
-          336
+          440,
+          416
         ]
       ],
       [
-        "math",
-        "\\operatorname{IC}(\\text{AABAAB})=\\frac{12+2}{6\\cdot5}=\\frac7{15}\\approx0.4667."
+        "table",
+        [
+          "Column",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        [
+          [
+            "IC",
+            "0.0646",
+            "0.0679",
+            "0.0638",
+            "0.0679",
+            "0.0699"
+          ]
+        ],
+        [
+          230,
+          125,
+          125,
+          125,
+          125,
+          126
+        ]
+      ],
+      [
+        "p",
+        "All five columns have English-like match rates. Together with the repeats, this supports key length 5."
       ]
     ],
     "sub": "",
-    "take": "Count matching pairs; do not divide by N² when positions must be distinct.",
+    "take": "A multiple such as 10 can also look plausible; a high IC does not uniquely determine the shortest period.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "From sample counts to language probabilities",
+    "title": "Recover one shift by comparing frequencies",
     "blocks": [
       [
         "p",
-        "If independent letters have probabilities q₀, …, q₂₅, then the probability of equality is:"
+        "In column 1, P occurs 27 times. If it represents E, the shift is 15 − 4 = 11, giving key letter L."
       ],
       [
-        "math",
-        "\\Pr[X_i=X_j]=\\sum_{a=0}^{25}q_a^2\\qquad(i\\ne j)."
-      ],
-      [
-        "p",
-        "Writing q̂ₐ = fₐ/N gives an exact relation for the observed sample:"
-      ],
-      [
-        "math",
-        "\\operatorname{IC}(X)=\\frac{N\\sum_a\\widehat q_a^{\\,2}-1}{N-1}\\;\\approx\\;\\sum_a\\widehat q_a^{\\,2}."
+        "frequency_compare"
       ]
     ],
     "sub": "",
-    "take": "The approximation improves with N. Real language also has dependencies between positions.",
+    "take": "Try all 26 shifts and compare the whole frequency pattern. The detailed scoring method is in the appendix.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "Reference values and a useful invariant",
-    "blocks": [
-      [
-        "math",
-        "\\text{Uniform independent letters:}\\qquad\\sum_{a=0}^{25}(1/26)^2=1/26\\approx0.0385."
-      ],
-      [
-        "p",
-        "English prose often has IC around 0.065, depending on the corpus and length."
-      ],
-      [
-        "math",
-        "\\operatorname{IC}(\\sigma(X))=\\operatorname{IC}(X)\\quad\\text{for any alphabet permutation }\\sigma."
-      ],
-      [
-        "p",
-        "Reason: relabeling the alphabet merely rearranges the same counts in the sum."
-      ]
-    ],
-    "sub": "",
-    "take": "A Caesar shift preserves IC exactly; the value is not a general measure of security.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Turn a candidate period into columns",
-    "blocks": [
-      [
-        "math",
-        "X^{(\\beta)}=(c_\\beta,c_{\\beta+m},c_{\\beta+2m},\\ldots),\\qquad0\\le\\beta<m."
-      ],
-      [
-        "math",
-        "c_{\\beta+jm}=(p_{\\beta+jm}+k_\\beta)\\bmod26\\quad\\text{if }m\\text{ is the period.}"
-      ],
-      [
-        "p",
-        "Every symbol in a column has the same key shift, so each column should have language-like IC."
-      ],
-      [
-        "p",
-        "Wrong periods usually mix shifts; multiples of the true period can also separate them."
-      ]
-    ],
-    "sub": "",
-    "take": "",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Make the columns explicit",
-    "blocks": [
-      [
-        "code",
-        "FOR CANDIDATE PERIOD 5",
-        "β = 0: c₀, c₅, c₁₀, c₁₅, …\nβ = 1: c₁, c₆, c₁₁, c₁₆, …\nβ = 2: c₂, c₇, c₁₂, c₁₇, …\nβ = 3: c₃, c₈, c₁₃, c₁₈, …\nβ = 4: c₄, c₉, c₁₄, c₁₉, …",
-        19
-      ],
-      [
-        "p",
-        "For our 1,045-letter dataset, each of these five columns contains 209 letters."
-      ]
-    ],
-    "sub": "",
-    "take": "Exercise: explain why a guessed period of 10 can also give language-like columns.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Compute IC for each candidate’s columns",
+    "title": "Finish the key and check the message",
     "blocks": [
       [
         "table",
         [
-          "Candidate m",
-          "Individual column IC values"
+          "Column",
+          "Recovered shift",
+          "Key letter"
         ],
         [
           [
             "1",
-            "0.0429"
+            "11",
+            "L"
           ],
           [
             "2",
-            "0.0416, 0.0441"
+            "4",
+            "E"
           ],
           [
             "3",
-            "0.0424, 0.0430, 0.0428"
+            "12",
+            "M"
           ],
           [
             "4",
-            "0.0426, 0.0452, 0.0402, 0.0449"
+            "14",
+            "O"
           ],
           [
             "5",
-            "0.0646, 0.0679, 0.0638, 0.0679, 0.0699"
-          ]
-        ],
-        [
-          180,
-          676
-        ]
-      ],
-      [
-        "p",
-        "All five values at m = 5 are near the English reference range. This supports the Kasiski candidate 5."
-      ]
-    ],
-    "sub": "",
-    "take": "Inspect individual columns; an average can conceal an inconsistent split.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "One actual column: show the counts",
-    "blocks": [
-      [
-        "code",
-        "FIRST 42 SYMBOLS OF COLUMN 0",
-        "EDZCTTZEQWOLYYLWGPHYCZSSPLWLOPSDLRGYCRNYPT",
-        19
-      ],
-      [
-        "table",
-        [
-          "Symbol",
-          "P",
-          "Y",
-          "E",
-          "D",
-          "W",
-          "Total"
-        ],
-        [
-          [
-            "Count",
-            "27",
-            "20",
-            "18",
-            "18",
-            "9",
-            "209"
-          ]
-        ],
-        [
-          230,
-          104,
-          104,
-          104,
-          104,
-          104,
-          106
-        ]
-      ],
-      [
-        "math",
-        "\\sum_a f_a(f_a-1)=2808,\\quad\\operatorname{IC}(X^{(0)})=0.0646."
-      ],
-      [
-        "p",
-        "The complete 26-symbol count table is in Appendix A3. The numerator uses every symbol, not just those shown here."
-      ]
-    ],
-    "sub": "",
-    "take": "",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Recover the first shift: a candidate",
-    "blocks": [
-      [
-        "p",
-        "P is the most frequent symbol in column 0, with 27 occurrences. If P is shifted E:"
-      ],
-      [
-        "math",
-        "k_0=(15-4)\\bmod26=11\\quad(L)."
-      ],
-      [
-        "code",
-        "TRY SUBTRACTING 11",
-        "TSORIIOTFLDANNALVEWNROHHEALADEHSAGVNRGCNEI",
-        19
-      ],
-      [
-        "p",
-        "A column is every fifth plaintext letter, so it will not read like a continuous sentence. Use its distribution to test the shift."
-      ]
-    ],
-    "sub": "",
-    "take": "The most frequent-letter guess is a starting point; we next compare all 26 shifts.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Score a candidate using all letter counts",
-    "blocks": [
-      [
-        "p",
-        "Let Oₐ(k) count plaintext letter a after subtracting candidate shift k from the column."
-      ],
-      [
-        "math",
-        "E_a=Nq_a,\\qquad\\chi^2(k)=\\sum_{a=0}^{25}\\frac{(O_a(k)-E_a)^2}{E_a}."
-      ],
-      [
-        "p",
-        "The qₐ values form an illustrative English frequency model, normalized to sum to 1."
-      ],
-      [
-        "p",
-        "A smaller score means a closer fit to that model. This is a ranking heuristic, not proof that a key is correct."
-      ]
-    ],
-    "sub": "",
-    "take": "The full model probabilities are included in Appendix A4.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Work out several score contributions",
-    "blocks": [
-      [
-        "table",
-        [
-          "Plaintext a",
-          "Observed Oₐ(11)",
-          "Expected Nqₐ",
-          "Contribution"
-        ],
-        [
-          [
-            "E",
-            "27",
-            "26.547",
-            "0.008"
-          ],
-          [
-            "N",
-            "20",
-            "14.106",
-            "2.463"
-          ],
-          [
-            "A",
-            "18",
-            "17.069",
-            "0.051"
-          ],
-          [
-            "Z",
-            "0",
-            "0.155",
-            "0.155"
-          ]
-        ],
-        [
-          170,
-          220,
-          230,
-          236
-        ]
-      ],
-      [
-        "math",
-        "\\chi^2(11)=\\sum_{a=0}^{25}\\text{contribution}_a=22.297."
-      ],
-      [
-        "p",
-        "Sum all 26 terms. The four rows above are selected contributions, not the complete sum."
-      ]
-    ],
-    "sub": "",
-    "take": "",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Compare the candidate shifts",
-    "blocks": [
-      [
-        "table",
-        [
-          "Shift k",
-          "Key letter",
-          "Full χ² score"
-        ],
-        [
-          [
-            "11",
-            "L",
-            "22.297"
-          ],
-          [
-            "24",
-            "Y",
-            "526.998"
-          ],
-          [
-            "22",
-            "W",
-            "699.130"
-          ],
-          [
-            "17",
-            "R",
-            "839.822"
+            "13",
+            "N"
           ]
         ],
         [
           240,
-          260,
-          356
+          300,
+          316
         ]
       ],
-      [
-        "p",
-        "Shift 11 gives the smallest score among all 26 candidates for this column."
-      ],
-      [
-        "p",
-        "Repeat the same calculation independently for the other four columns."
-      ]
-    ],
-    "sub": "",
-    "take": "This avoids enumerating the entire product of 26⁵ possible five-letter keys.",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Recover all five key letters",
-    "blocks": [
-      [
-        "table",
-        [
-          "Column β",
-          "Best shift",
-          "Key letter",
-          "Full χ² score"
-        ],
-        [
-          [
-            "0",
-            "11",
-            "L",
-            "22.297"
-          ],
-          [
-            "1",
-            "4",
-            "E",
-            "29.388"
-          ],
-          [
-            "2",
-            "12",
-            "M",
-            "28.459"
-          ],
-          [
-            "3",
-            "14",
-            "O",
-            "23.656"
-          ],
-          [
-            "4",
-            "13",
-            "N",
-            "23.953"
-          ]
-        ],
-        [
-          190,
-          210,
-          190,
-          266
-        ]
-      ],
-      [
-        "p",
-        "The resulting key hypothesis is LEMON. We must now test it on the interleaved complete message."
-      ]
-    ],
-    "sub": "",
-    "take": "",
-    "section": "VIGENÈRE",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Validate by decrypting the full message",
-    "blocks": [
       [
         "code",
-        "FIRST 42 LETTERS",
-        "Ciphertext  ELQVVDXAFLZJESPCIFKETXUBTTWMZFZETWFESDMBQT\nPlaintext   THEHISTORYOFSECRETWRITINGISALSOAHISTORYOFP",
+        "REJOIN AND DECRYPT WITH LEMON",
+        "THEHISTORYOFSECRETWRITINGISALSOAHISTORY…",
         19
-      ],
-      [
-        "p",
-        "Restoring word boundaries gives “The history of secret writing is also a history…”"
-      ],
-      [
-        "p",
-        "The complete recovered prose is printed in Appendix A5–A6. It uses one key consistently across the entire message."
       ]
     ],
     "sub": "",
-    "take": "Re-encryption checks consistency; coherent full-message decryption supplies additional evidence.",
+    "take": "The coherent full plaintext supports the combined key hypothesis. Individual columns need not read as words.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
   },
   {
-    "title": "What did each stage establish?",
+    "title": "The attack as a sequence of simple checks",
     "blocks": [
       [
         "table",
         [
-          "Evidence",
-          "Conclusion supported"
+          "Question",
+          "What we did"
         ],
         [
           [
-            "Repeated FVR; gcd of distances is 5",
-            "Candidate periods include 1 and 5."
+            "Where might the key repeat?",
+            "Measure distances between repeated ciphertext groups."
           ],
           [
-            "Individual IC values near English at m = 5",
-            "Period 5 is statistically plausible."
+            "Does five look plausible?",
+            "Group aligned positions and check their IC values."
           ],
           [
-            "Column-wise frequency scores",
-            "A specific key hypothesis: LEMON."
+            "Which shifts fit the columns?",
+            "Compare each trial-decrypted distribution with English."
           ],
           [
-            "Coherent complete decryption",
-            "The combined hypothesis explains this dataset."
+            "Does the whole message make sense?",
+            "Rejoin the columns and decrypt with LEMON."
           ]
         ],
         [
-          380,
-          476
+          370,
+          486
         ]
       ]
     ],
     "sub": "",
-    "take": "Short texts, unusual language, and accidental repeats can make every statistical stage less decisive.",
+    "take": "Repeats → candidate length → match-rate check → shifts → readable message.",
     "section": "VIGENÈRE",
     "source": "",
     "kind": "normal"
@@ -2212,7 +1578,7 @@
     "blocks": [
       [
         "p",
-        "The attack used arithmetic, probability, and language evidence together."
+        "We used repetitions, letter matches, and frequency patterns to recover a repeating key."
       ],
       [
         "p",
@@ -3085,58 +2451,6 @@
     "kind": "normal"
   },
   {
-    "title": "Reflection questions",
-    "blocks": [
-      [
-        "p",
-        "1. Why is the inverse map necessary in a substitution cipher?"
-      ],
-      [
-        "p",
-        "2. Which step of the frequency attack was a logical exclusion, and which was a statistical guess?"
-      ],
-      [
-        "p",
-        "3. Derive the denominator of IC and explain why a shift preserves IC."
-      ],
-      [
-        "p",
-        "4. Explain why candidate periods 5 and 10 can both look plausible."
-      ]
-    ],
-    "sub": "Closing discussion • 3 minutes",
-    "take": "Use definitions, calculations, and examples to support your answers.",
-    "section": "SYNTHESIS",
-    "source": "",
-    "kind": "normal"
-  },
-  {
-    "title": "Reading and sources",
-    "blocks": [
-      [
-        "p",
-        "<b>Core reading:</b> Stinson &amp; Paterson, <i>Cryptography: Theory and Practice</i>, 4th edition, Chapter 1. Consult the classical-cipher sections in your edition."
-      ],
-      [
-        "p",
-        "<b>Lecture reference:</b> Wu Hongjun, supplied <i>Lecture02_Classical_Ciphers.pdf</i>. The 168-letter substitution example and standard Playfair example are retained."
-      ],
-      [
-        "p",
-        "<b>History:</b> Kahn, <i>The Codebreakers</i> (revised edition, 1996); Kerckhoffs (1883); Kasiski (1863)."
-      ],
-      [
-        "p",
-        "<b>Appendix:</b> complete Vigenère ciphertext, column counts, language model, and recovered prose. The model is illustrative and corpus dependent."
-      ]
-    ],
-    "sub": "",
-    "take": "End of the scheduled lecture. The following data pages support the worked calculations.",
-    "section": "REFERENCES",
-    "source": "",
-    "kind": "normal"
-  },
-  {
     "title": "A1 / Complete Vigenère ciphertext",
     "blocks": [
       [
@@ -3177,7 +2491,7 @@
     "kind": "normal"
   },
   {
-    "title": "A3 / All counts for Vigenère column 0",
+    "title": "A3 / All counts for the first Vigenère column",
     "blocks": [
       [
         "table",
@@ -3406,6 +2720,307 @@
       [
         "p",
         "When a short key is repeated across a long message, the same positions in the key return again and again. Splitting the message into columns can reveal a simple pattern inside each column. Enough text gives the analyst a better chance of distinguishing a useful pattern from a coincidence. The lesson is that a large number of possible keys is only one part of security. We must also ask what information remains visible and what an observer can learn from it. Good engineering starts by stating the assumptions, checking examples, and looking for ways that a system can fail. A secure design must survive careful public study rather than depend on keeping the method unknown."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A7 / Deriving the finite-sample IC formula",
+    "blocks": [
+      [
+        "p",
+        "There are N(N − 1) ordered pairs of distinct positions."
+      ],
+      [
+        "p",
+        "For a letter a, exactly fₐ(fₐ − 1) pairs have a in both positions. These events are disjoint across letters."
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(X)=\\frac{\\sum_{a=0}^{25}f_a(f_a-1)}{N(N-1)}"
+      ],
+      [
+        "math",
+        "=\\sum_{a=0}^{25}\\frac{f_a}{N}\\frac{f_a-1}{N-1}."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A8 / A small IC calculation, fully worked",
+    "blocks": [
+      [
+        "code",
+        "STRING",
+        "AABAAB",
+        19
+      ],
+      [
+        "table",
+        [
+          "Letter",
+          "Count fₐ",
+          "fₐ(fₐ − 1)"
+        ],
+        [
+          [
+            "A",
+            "4",
+            "12"
+          ],
+          [
+            "B",
+            "2",
+            "2"
+          ],
+          [
+            "All others",
+            "0",
+            "0"
+          ]
+        ],
+        [
+          260,
+          260,
+          336
+        ]
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(\\text{AABAAB})=\\frac{12+2}{6\\cdot5}=\\frac7{15}\\approx0.4667."
+      ]
+    ],
+    "sub": "",
+    "take": "Count matching pairs; do not divide by N² when positions must be distinct.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A9 / From sample counts to language probabilities",
+    "blocks": [
+      [
+        "p",
+        "If independent letters have probabilities q₀, …, q₂₅, then the probability of equality is:"
+      ],
+      [
+        "math",
+        "\\Pr[X_i=X_j]=\\sum_{a=0}^{25}q_a^2\\qquad(i\\ne j)."
+      ],
+      [
+        "p",
+        "Writing q̂ₐ = fₐ/N gives an exact relation for the observed sample:"
+      ],
+      [
+        "math",
+        "\\operatorname{IC}(X)=\\frac{N\\sum_a\\widehat q_a^{\\,2}-1}{N-1}\\;\\approx\\;\\sum_a\\widehat q_a^{\\,2}."
+      ]
+    ],
+    "sub": "",
+    "take": "The approximation improves with N. Real language also has dependencies between positions.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A10 / Score a candidate using all letter counts",
+    "blocks": [
+      [
+        "p",
+        "Let Oₐ(k) count plaintext letter a after subtracting candidate shift k from the column."
+      ],
+      [
+        "math",
+        "E_a=Nq_a,\\qquad\\chi^2(k)=\\sum_{a=0}^{25}\\frac{(O_a(k)-E_a)^2}{E_a}."
+      ],
+      [
+        "p",
+        "The qₐ values form an illustrative English frequency model, normalized to sum to 1."
+      ],
+      [
+        "p",
+        "A smaller score means a closer fit to that model. This is a ranking heuristic, not proof that a key is correct."
+      ]
+    ],
+    "sub": "",
+    "take": "The full model probabilities are included in Appendix A4.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A11 / Work out several score contributions",
+    "blocks": [
+      [
+        "table",
+        [
+          "Plaintext a",
+          "Observed Oₐ(11)",
+          "Expected Nqₐ",
+          "Contribution"
+        ],
+        [
+          [
+            "E",
+            "27",
+            "26.547",
+            "0.008"
+          ],
+          [
+            "N",
+            "20",
+            "14.106",
+            "2.463"
+          ],
+          [
+            "A",
+            "18",
+            "17.069",
+            "0.051"
+          ],
+          [
+            "Z",
+            "0",
+            "0.155",
+            "0.155"
+          ]
+        ],
+        [
+          170,
+          220,
+          230,
+          236
+        ]
+      ],
+      [
+        "math",
+        "\\chi^2(11)=\\sum_{a=0}^{25}\\text{contribution}_a=22.297."
+      ],
+      [
+        "p",
+        "Sum all 26 terms. The four rows above are selected contributions, not the complete sum."
+      ]
+    ],
+    "sub": "",
+    "take": "",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A12 / Compare the candidate shifts",
+    "blocks": [
+      [
+        "table",
+        [
+          "Shift k",
+          "Key letter",
+          "Full χ² score"
+        ],
+        [
+          [
+            "11",
+            "L",
+            "22.297"
+          ],
+          [
+            "24",
+            "Y",
+            "526.998"
+          ],
+          [
+            "22",
+            "W",
+            "699.130"
+          ],
+          [
+            "17",
+            "R",
+            "839.822"
+          ]
+        ],
+        [
+          240,
+          260,
+          356
+        ]
+      ],
+      [
+        "p",
+        "Shift 11 gives the smallest score among all 26 candidates for this column."
+      ],
+      [
+        "p",
+        "Repeat the same calculation independently for the other four columns."
+      ]
+    ],
+    "sub": "",
+    "take": "This avoids enumerating the entire product of 26⁵ possible five-letter keys.",
+    "section": "APPENDIX",
+    "source": "",
+    "kind": "normal"
+  },
+  {
+    "title": "A13 / Recover all five key letters",
+    "blocks": [
+      [
+        "table",
+        [
+          "Key index β (0–4)",
+          "Best shift",
+          "Key letter",
+          "Full χ² score"
+        ],
+        [
+          [
+            "0",
+            "11",
+            "L",
+            "22.297"
+          ],
+          [
+            "1",
+            "4",
+            "E",
+            "29.388"
+          ],
+          [
+            "2",
+            "12",
+            "M",
+            "28.459"
+          ],
+          [
+            "3",
+            "14",
+            "O",
+            "23.656"
+          ],
+          [
+            "4",
+            "13",
+            "N",
+            "23.953"
+          ]
+        ],
+        [
+          190,
+          210,
+          190,
+          266
+        ]
+      ],
+      [
+        "p",
+        "The resulting key hypothesis is LEMON. We must now test it on the interleaved complete message."
       ]
     ],
     "sub": "",

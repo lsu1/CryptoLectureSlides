@@ -2,6 +2,7 @@ from pathlib import Path
 from collections import Counter, defaultdict
 from math import factorial, log2
 import string, json, re
+from math import sin,cos,pi
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -78,6 +79,75 @@ def drawblocks(c,blocks,x,y,w,slide):
     c.setFillColor(TEAL if ch in highlight else LIGHT);c.setStrokeColor(PAPER);c.rect(xx,yy,cell,cell,fill=1,stroke=1)
     c.setFillColor(WHITE if ch in highlight else INK);c.setFont('Mono',22);c.drawCentredString(xx+cell/2,yy+16,ch)
    y=gy-18
+  elif typ=='alignment':
+   text=norm('the sun and the man in the moon'); key='KING'*6; crypt=vig(text,'KING')
+   left=142; cell=(w-left)/24; sx=x+left; selected=set(range(9,12))|set(range(17,20))
+   c.setFont('Sans',9);c.setFillColor(MUTED)
+   for j in range(24):c.drawCentredString(sx+(j+.5)*cell,y-15,str(j))
+   for r,(label,row) in enumerate([('PLAINTEXT',text),('KEY STREAM',key),('CIPHERTEXT',crypt)]):
+    yy=y-52-r*43
+    c.setFillColor(TEAL);c.setFont('Bold',10);c.drawString(x,yy+2,label)
+    for j,ch in enumerate(row):
+     xx=sx+j*cell
+     c.setFillColor((TEAL if r==1 else ORANGE) if j in selected else LIGHT)
+     c.roundRect(xx+1,yy-8,cell-2,31,3,fill=1,stroke=0)
+     c.setFillColor(WHITE if j in selected else INK);c.setFont('Mono',17);c.drawCentredString(xx+cell/2,yy+1,ch)
+   yy=y-185;aa=sx+9.5*cell;bb=sx+17.5*cell
+   c.setStrokeColor(ORANGE);c.setLineWidth(1.8);c.line(aa,yy,bb,yy)
+   for end,direction in [(aa,1),(bb,-1)]:
+    c.line(end,yy,end+direction*6,yy+4);c.line(end,yy,end+direction*6,yy-4)
+   c.setFillColor(INK);c.setFont('Sans',13);c.drawCentredString((aa+bb)/2,yy-25,'8 positions = two 4-letter key cycles')
+   y-=232
+  elif typ=='ic_pairs':
+   cw=58;gap=35;sx=x+w/2-(3*cw+2*gap)/2
+   for i,ch in enumerate('AAB'):
+    xx=sx+i*(cw+gap);c.setFillColor(MUTED);c.setFont('Sans',10);c.drawCentredString(xx+cw/2,y-7,'position '+str(i))
+    c.setFillColor(LIGHT);c.roundRect(xx,y-76,cw,56,6,fill=1,stroke=0)
+    c.setFillColor(INK);c.setFont('Mono',29);c.drawCentredString(xx+cw/2,y-59,ch)
+   width=(w-32)/3
+   for j,(a,b) in enumerate([(0,1),(0,2),(1,2)]):
+    xx=x+j*(width+16);match='AAB'[a]=='AAB'[b]
+    c.setFillColor(LIGHT);c.roundRect(xx,y-178,width,77,6,fill=1,stroke=0)
+    c.setFillColor(MUTED);c.setFont('Sans',11);c.drawCentredString(xx+width/2,y-123,f'Pair of positions ({a}, {b})')
+    c.setFillColor(TEAL if match else INK);c.setFont('Bold',18);c.drawCentredString(xx+width/2,y-155,'A–A: match' if match else 'A–B: different')
+   c.setFillColor(TEAL);c.setFont('Bold',19);c.drawCentredString(x+w/2,y-211,'1 matching pair out of 3 → IC = 1/3')
+   y-=232
+  elif typ=='ic_reference':
+   c.setFont('Bold',10);c.setFillColor(TEAL);c.drawString(x,y-10,'REFERENCE MATCH RATES FOR LONGER TEXTS')
+   for j,(label,rate,display) in enumerate([('Uniform independent letters',1/26,'≈ 0.0385'),('Typical English prose',.065,'≈ 0.065')]):
+    yy=y-57-j*58;c.setFillColor(INK);c.setFont('Sans',15);c.drawString(x,yy,label)
+    c.setFillColor(LIGHT);c.roundRect(x+340,yy-6,330,24,3,fill=1,stroke=0)
+    c.setFillColor(TEAL if j else MUTED);c.roundRect(x+340,yy-6,330*rate/.1,24,3,fill=1,stroke=0)
+    c.setFillColor(INK);c.setFont('Sans',14);c.drawString(x+690,yy,display)
+   y-=151
+  elif typ=='columns':
+   lw=152;cell=(w-lw)/5;palette=['#D8ECEB','#F4DFD5','#DFE5F3','#ECE3F1','#E8ECCC']
+   for j in range(5):
+    c.setFillColor(INK);c.setFont('Bold',12);c.drawCentredString(x+lw+(j+.5)*cell,y-16,'Key slot '+str(j+1))
+   for r in range(5):
+    yy=y-66-r*39;c.setFont('Sans',11);c.setFillColor(MUTED);c.drawString(x,yy+2,f'Positions {r*5}–{r*5+4}')
+    for j in range(5):
+     xx=x+lw+j*cell+5;c.setFillColor(colors.HexColor(palette[j]));c.roundRect(xx,yy-9,cell-10,33,4,fill=1,stroke=0)
+     c.setFillColor(INK);c.setFont('Mono',21);c.drawCentredString(xx+(cell-10)/2,yy,VC[r*5+j])
+   y-=248
+  elif typ=='frequency_compare':
+   gap=32;cw=(w-gap)/2;ph=130
+   for j,k in enumerate([0,11]):
+    xx=x+j*(cw+gap);px=xx+24;pw=cw-30;base=y-165
+    c.setFont('Bold',13);c.setFillColor(INK);c.drawString(xx,y-18,'Subtract '+str(k)+(' (candidate L)' if k else ' (no shift)'))
+    for tick in [0,.05,.10,.15]:
+     yy=base+ph*tick/.15;c.setStrokeColor(LIGHT);c.setLineWidth(.5);c.line(px,yy,px+pw,yy)
+     c.setFillColor(MUTED);c.setFont('Sans',8);c.drawRightString(px-3,yy-2,f'{100*tick:.0f}%')
+    counts=Counter(shift(COLUMNS[0],-k));step=pw/26
+    for i,ch in enumerate(A):
+     bx=px+i*step;c.setFillColor(colors.HexColor('#BAC5CA'));c.rect(bx+1,base,step*.38,ph*Q[i]/.15,fill=1,stroke=0)
+     c.setFillColor(TEAL);c.rect(bx+step*.44,base,step*.38,ph*(counts[ch]/209)/.15,fill=1,stroke=0)
+     c.setFillColor(INK);c.setFont('Mono',8);c.drawCentredString(bx+step/2,base-13,ch)
+   c.setFillColor(colors.HexColor('#BAC5CA'));c.rect(x,y-210,12,10,fill=1,stroke=0)
+   c.setFillColor(INK);c.setFont('Sans',11);c.drawString(x+19,y-210,'English model')
+   c.setFillColor(TEAL);c.rect(x+160,y-210,12,10,fill=1,stroke=0)
+   c.setFillColor(INK);c.drawString(x+179,y-210,'Trial-decrypted column 1 • compare all 26 letters')
+   y-=228
   elif typ=='pipeline':
    ww=(w-96)/5
    labels=[('PLAINTEXT','message p'),('ENCRYPTION','Eₖ'),('CIPHERTEXT','c = Eₖ(p)'),('DECRYPTION','Dₖ'),('PLAINTEXT','message p')]
@@ -103,6 +173,25 @@ out=ROOT/'Lecture01_Classical_Ciphers.pdf'
 c=canvas.Canvas(str(out),pagesize=(W,H),initialFontName='Sans')
 c.setTitle('Lecture 01 — Classical Ciphers');c.setAuthor('Cryptography lecture series');c.setSubject('Three-hour introductory lecture for master’s students')
 for i,s in enumerate(slides,1):
+ if s['kind']=='cover':
+  c.setFillColor(NAVY);c.rect(0,0,W,H,fill=1,stroke=0)
+  c.setFillColor(WHITE);c.setFont('Sans',14);c.drawString(52,463,s['sub'])
+  c.setFillColor(ORANGE);c.rect(52,436,56,4,fill=1,stroke=0)
+  c.setFillColor(WHITE);c.setFont('Bold',66);c.drawString(52,326,'Classical');c.drawString(52,246,'ciphers')
+  c.setFont('Sans',22);c.drawString(55,180,'An introduction to cryptography')
+  cx,cy=730,276
+  for radius,col in [(143,colors.HexColor('#365260')),(109,colors.HexColor('#365260'))]:
+   c.setStrokeColor(col);c.setLineWidth(.6);c.circle(cx,cy,radius,fill=0,stroke=1)
+  for letter_index,ch in enumerate(A):
+   angle=pi/2-letter_index*2*pi/26
+   for radius,char in [(143,ch),(109,A[(letter_index+2)%26])]:
+    xx=cx+radius*cos(angle);yy=cy+radius*sin(angle)
+    if letter_index==0:
+     c.setFillColor(ORANGE if radius==143 else TEAL);c.circle(xx,yy,13,fill=1,stroke=0)
+    c.setFillColor(WHITE if letter_index==0 else colors.HexColor('#B8CED6'));c.setFont('Mono',12);c.drawCentredString(xx,yy-4,char)
+  c.setFillColor(WHITE);c.setFont('Sans',24);c.drawCentredString(cx,cy-8,'A → C')
+  c.setFont('Sans',8);c.setFillColor(colors.HexColor('#BDD0D7'));c.drawRightString(908,22,f'{i:02d} / {len(slides):02d}')
+  c.showPage();continue
  dark=s['kind'] in ('cover','divider')
  c.setFillColor(NAVY if dark else PAPER);c.rect(0,0,W,H,fill=1,stroke=0)
  c.setFillColor(ORANGE);c.rect(52,492,34,4,fill=1,stroke=0)

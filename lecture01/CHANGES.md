@@ -1,16 +1,16 @@
-# Revision after comparison with the reference
+# Consolidated changes from the recorded review
 
-The first draft emphasized short conceptual summaries and workshop prompts. This revision restores the reference's explanatory depth and mathematical structure for a mathematics master's audience, retaining the consistent design and a few short exercises.
+All requested changes were held until the user asked for the complete revision. The page numbers below refer to the previous 99-page PDF where stated; the new deck is renumbered throughout.
 
-- **Gentler introduction (1–12):** communication problem and vocabulary precede attacker models. Introduces message/key spaces, encryption/decryption maps, and correctness explicitly.
-- **Shift and substitution (13–23):** formal definitions, invertibility, modular arithmetic, intermediate calculations, bijections, and key counting.
-- **Frequency analysis (24–39):** restores the original 168-letter example. Eleven stages show counts, candidate mappings, partial plaintexts, word-pattern reasoning, and the final 23 observed mappings. Distinguishes logical constraints from statistical guesses. Notes that six full keys can extend the recovered partial key.
-- **Verified reference correction:** ZN occurs once in the retained ciphertext, although the reference says zero. Counts in the revised walkthrough are computed from the complete ciphertext.
-- **Vigenère (41–66):** formal spaces and indexing; six worked numeric additions; actual Kasiski positions and distances from one dataset; finite-sample IC derivation; probability-model interpretation; individual column IC values; real column counts; selected chi-square contributions; competing complete scores; all five shifts; and final full-message validation.
-- **Playfair (68–82):** staged square construction, a left-to-right preparation table, separate geometric rules with highlighted grids, worked pair classifications, full encryption, explicit inverse rules, and a complete exercise solution. Preserves preparation and I/J ambiguity caveats.
-- **Transposition (83–89):** formal encryption and decryption maps, declared table direction, forward letter-by-letter calculation, construction of the inverse, and a correctness argument.
-- **Tone:** patient mathematical development with historical design motivation before critique. Removes the repeated workshop-style warnings and the fictional API-credential scenario.
-- **Scope:** retains exactly the same five ciphers. No additional cipher algorithms or unverified recent-news claims.
-- **Standalone support:** six appendix pages contain the full Vigenère ciphertext, column counts, English model, and recovered prose. Instructor guide and editable sources match the revision.
+- **Former page 1:** redesigned the cover using only the title, series name, and introductory subtitle. Removed the descriptive sentence, audience/lecture panel, and duration/revision strip identified by the red box.
+- **Former page 12:** removed “Plan for the three hours.” Pacing remains in the instructor guide and README.
+- **Former page 18:** the worked shift search now displays keys 1, 2, and 3, stopping when `HELLOWORLD` is recovered. Removed the key-4 trial.
+- **Former page 21:** explicitly defines σ as the chosen secret alphabet permutation in S₂₆ and σ⁻¹ as its inverse for decryption.
+- **Following former page 26:** condensed the eleven frequency-analysis stages into five representative stages. Kept the original 168-letter ciphertext, meaningful pair clues, partial plaintext updates, the complete recovered message, and the distinction between logical constraints and probabilistic guesses. Similar remaining trials are summarized.
+- **Former pages 48–66:** replaced the mathematically dense sequence with ten example-led slides: highlighted repeated alignment; actual repetition distances; the meaning of index of coincidence (IC); a visual `AAB` match example; longer-text reference values; one essential IC formula; coloured aligned columns; individual column match rates; visual frequency comparisons; and key/message verification.
+- **Optional mathematics:** moved the finite-sample IC derivation, larger worked count, sample/probability relationship, chi-squared formula, score contributions, candidate-score comparison, and full five-column score table into appendix pages A7–A13. Existing complete data remain in A1–A6.
+- **Former pages 92 and 93:** removed “Reflection questions” and “Reading and sources.” Bibliographic references remain in the instructor guide and source documentation.
+- **Scope and continuity:** retained the same five ciphers, the gentle cryptography introduction, appropriate formal definitions, worked Playfair/permutation examples, and selected exercises. No additional cipher algorithm was introduced.
+- **Consistency:** updated the instructor guide, page references, source bundle, generated content/data, and validation checks to match the new structure.
 
-The PDF contains 93 scheduled teaching pages plus six appendix pages. Pacing remains 180 minutes including two ten-minute breaks. Validation includes 53 checks and renders all 106 pages across both PDFs; manual visual review complements these checks.
+The new PDF contains **75 teaching pages plus 13 optional appendix pages**, for 88 pages total. The instructor's plan remains 180 minutes including two ten-minute breaks. Numerical and rendering verification is reported in `validation.json`; manual review complements those checks.

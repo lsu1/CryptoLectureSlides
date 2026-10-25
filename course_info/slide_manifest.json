@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cover",
+    "title": "Cryptography",
+    "kicker": "MH6003",
+    "subtitle": "Course information"
+  },
+  {
+    "id": "instructors",
+    "title": "Your instructors",
+    "kicker": "CONTACT"
+  },
+  {
+    "id": "weeks_first",
+    "title": "Weekly topics / weeks 1–6",
+    "kicker": "COURSE SCHEDULE"
+  },
+  {
+    "id": "weeks_second",
+    "title": "Weekly topics / weeks 7–13",
+    "kicker": "COURSE SCHEDULE"
+  },
+  {
+    "id": "grading",
+    "title": "How the course is graded",
+    "kicker": "ASSESSMENT"
+  },
+  {
+    "id": "exams",
+    "title": "Exam arrangements",
+    "kicker": "MID-TERM AND FINAL"
+  },
+  {
+    "id": "project",
+    "title": "Group project / plan ahead",
+    "kicker": "TEAMWORK"
+  }
+]

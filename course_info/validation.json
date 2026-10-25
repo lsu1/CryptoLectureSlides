@@ -1,0 +1,56 @@
+{
+  "course": "MH6003",
+  "status": "Draft for instructor review",
+  "checks_passed": 22,
+  "checks": [
+    "One complete 13-week sequence",
+    "Assessment weights total 100%",
+    "Exam formats and durations are specified",
+    "Project duration matches its inclusive week range",
+    "Project preparation precedes the project period",
+    "MH6003_Course_Information.pdf page count",
+    "MH6003_Course_Information.pdf not encrypted",
+    "MH6003_Course_Information.pdf renders with valid text geometry",
+    "MH6003_Course_Information.pdf all fonts embedded",
+    "MH6003_Review_Notes.pdf page count",
+    "MH6003_Review_Notes.pdf not encrypted",
+    "MH6003_Review_Notes.pdf renders with valid text geometry",
+    "MH6003_Review_Notes.pdf all fonts embedded",
+    "Course identity appears in the PDF",
+    "Both instructor contacts appear in the PDF",
+    "Instructor email links target the correct addresses",
+    "No unrelated email addresses are published",
+    "All assessment components and percentages appear",
+    "All weekly topics appear in their schedule pages",
+    "Latest week-13 clarification appears",
+    "Group size and project milestones appear",
+    "Draft status is visible on every main slide"
+  ],
+  "pdfs": {
+    "MH6003_Course_Information.pdf": {
+      "pages": 7,
+      "bytes": 52569,
+      "sha256": "8be09072ec002837af50262b57c26f4f5e9c8660af0521418ff3052e82cdc1a8",
+      "all_pages_rendered": true,
+      "all_fonts_embedded": true,
+      "fonts": [
+        "AAAAAA+DejaVuSans-Bold",
+        "AAAAAA+DejaVuSans"
+      ],
+      "issues": []
+    },
+    "MH6003_Review_Notes.pdf": {
+      "pages": 2,
+      "bytes": 47397,
+      "sha256": "16b766b154084b1b093116318675fa91d01ac5bb066961fcd354228e621ac2b8",
+      "all_pages_rendered": true,
+      "all_fonts_embedded": true,
+      "fonts": [
+        "AAAAAA+DejaVuSans",
+        "AAAAAA+DejaVuSans-Bold"
+      ],
+      "issues": []
+    }
+  },
+  "visual_review": "All seven slides and both review-note pages rendered and inspected; contact, schedule, grading, and project pages reviewed at full size."
+}

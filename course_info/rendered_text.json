@@ -1,0 +1,450 @@
+[
+  {
+    "page": 1,
+    "text": "MH6003"
+  },
+  {
+    "page": 1,
+    "text": "Cryptography"
+  },
+  {
+    "page": 1,
+    "text": "Course information"
+  },
+  {
+    "page": 1,
+    "text": "1"
+  },
+  {
+    "page": 1,
+    "text": "WEEK 1"
+  },
+  {
+    "page": 1,
+    "text": "Start"
+  },
+  {
+    "page": 1,
+    "text": "7"
+  },
+  {
+    "page": 1,
+    "text": "WEEK 7"
+  },
+  {
+    "page": 1,
+    "text": "Mid-term"
+  },
+  {
+    "page": 1,
+    "text": "13"
+  },
+  {
+    "page": 1,
+    "text": "WEEK 13"
+  },
+  {
+    "page": 1,
+    "text": "Final exam"
+  },
+  {
+    "page": 1,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 1,
+    "text": "01 / 07"
+  },
+  {
+    "page": 2,
+    "text": "CONTACT"
+  },
+  {
+    "page": 2,
+    "text": "Your instructors"
+  },
+  {
+    "page": 2,
+    "text": "INSTRUCTOR"
+  },
+  {
+    "page": 2,
+    "text": "Prof. Wang Huaxiong"
+  },
+  {
+    "page": 2,
+    "text": "HXWang@ntu.edu.sg"
+  },
+  {
+    "page": 2,
+    "text": "INSTRUCTOR"
+  },
+  {
+    "page": 2,
+    "text": "Dr. Su Le"
+  },
+  {
+    "page": 2,
+    "text": "LSU1@e.ntu.edu.sg"
+  },
+  {
+    "page": 2,
+    "text": "3 academic units"
+  },
+  {
+    "page": 2,
+    "text": "Evening session: 6:30–10:00 pm"
+  },
+  {
+    "page": 2,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 2,
+    "text": "02 / 07"
+  },
+  {
+    "page": 3,
+    "text": "COURSE SCHEDULE"
+  },
+  {
+    "page": 3,
+    "text": "Weekly topics / weeks 1–6"
+  },
+  {
+    "page": 3,
+    "text": "Week"
+  },
+  {
+    "page": 3,
+    "text": "Topics / milestones"
+  },
+  {
+    "page": 3,
+    "text": "1"
+  },
+  {
+    "page": 3,
+    "text": "Basic concepts of cryptography and its applications"
+  },
+  {
+    "page": 3,
+    "text": "2"
+  },
+  {
+    "page": 3,
+    "text": "Symmetric-key cryptography: block ciphers and stream ciphers"
+  },
+  {
+    "page": 3,
+    "text": "3"
+  },
+  {
+    "page": 3,
+    "text": "Symmetric-key cryptography: block ciphers and stream ciphers"
+  },
+  {
+    "page": 3,
+    "text": "4"
+  },
+  {
+    "page": 3,
+    "text": "Cryptographic hash functions and message authentication codes"
+  },
+  {
+    "page": 3,
+    "text": "5"
+  },
+  {
+    "page": 3,
+    "text": "Cryptographic hash functions and message authentication codes"
+  },
+  {
+    "page": 3,
+    "text": "6"
+  },
+  {
+    "page": 3,
+    "text": "Public-key cryptography: encryption and signatures"
+  },
+  {
+    "page": 3,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 3,
+    "text": "03 / 07"
+  },
+  {
+    "page": 4,
+    "text": "COURSE SCHEDULE"
+  },
+  {
+    "page": 4,
+    "text": "Weekly topics / weeks 7–13"
+  },
+  {
+    "page": 4,
+    "text": "Week"
+  },
+  {
+    "page": 4,
+    "text": "Topics / milestones"
+  },
+  {
+    "page": 4,
+    "text": "7"
+  },
+  {
+    "page": 4,
+    "text": "Public-key cryptography: encryption and signatures; mid-term test"
+  },
+  {
+    "page": 4,
+    "text": "8"
+  },
+  {
+    "page": 4,
+    "text": "Public-key cryptography: encryption and signatures"
+  },
+  {
+    "page": 4,
+    "text": "9"
+  },
+  {
+    "page": 4,
+    "text": "Pseudorandom number generation"
+  },
+  {
+    "page": 4,
+    "text": "10"
+  },
+  {
+    "page": 4,
+    "text": "Identification schemes and entity authentication"
+  },
+  {
+    "page": 4,
+    "text": "11"
+  },
+  {
+    "page": 4,
+    "text": "Key distribution and key agreement schemes"
+  },
+  {
+    "page": 4,
+    "text": "12"
+  },
+  {
+    "page": 4,
+    "text": "Key distribution/agreement and public-key infrastructure (PKI)"
+  },
+  {
+    "page": 4,
+    "text": "13"
+  },
+  {
+    "page": 4,
+    "text": "Revision (about 1 hour), followed by the final exam (2 hours)"
+  },
+  {
+    "page": 4,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 4,
+    "text": "04 / 07"
+  },
+  {
+    "page": 5,
+    "text": "ASSESSMENT"
+  },
+  {
+    "page": 5,
+    "text": "How the course is graded"
+  },
+  {
+    "page": 5,
+    "text": "20%"
+  },
+  {
+    "page": 5,
+    "text": "Mid-term test"
+  },
+  {
+    "page": 5,
+    "text": "Individual"
+  },
+  {
+    "page": 5,
+    "text": "30%"
+  },
+  {
+    "page": 5,
+    "text": "Group project"
+  },
+  {
+    "page": 5,
+    "text": "Team"
+  },
+  {
+    "page": 5,
+    "text": "50%"
+  },
+  {
+    "page": 5,
+    "text": "Final examination"
+  },
+  {
+    "page": 5,
+    "text": "Individual"
+  },
+  {
+    "page": 5,
+    "text": "Total: 100% of the course grade"
+  },
+  {
+    "page": 5,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 5,
+    "text": "05 / 07"
+  },
+  {
+    "page": 6,
+    "text": "MID-TERM AND FINAL"
+  },
+  {
+    "page": 6,
+    "text": "Exam arrangements"
+  },
+  {
+    "page": 6,
+    "text": "Mid-term test"
+  },
+  {
+    "page": 6,
+    "text": "WEEK 7"
+  },
+  {
+    "page": 6,
+    "text": "1 hour"
+  },
+  {
+    "page": 6,
+    "text": "CLOSED BOOK"
+  },
+  {
+    "page": 6,
+    "text": "Individual assessment"
+  },
+  {
+    "page": 6,
+    "text": "Final examination"
+  },
+  {
+    "page": 6,
+    "text": "WEEK 13"
+  },
+  {
+    "page": 6,
+    "text": "2 hours"
+  },
+  {
+    "page": 6,
+    "text": "CLOSED BOOK"
+  },
+  {
+    "page": 6,
+    "text": "Individual assessment"
+  },
+  {
+    "page": 6,
+    "text": "Week 13: approximately one hour of revision, followed by the two-hour final exam."
+  },
+  {
+    "page": 6,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 6,
+    "text": "06 / 07"
+  },
+  {
+    "page": 7,
+    "text": "TEAMWORK"
+  },
+  {
+    "page": 7,
+    "text": "Group project / plan ahead"
+  },
+  {
+    "page": 7,
+    "text": "Teams of 3–4 students. The project contributes 30% of the course grade."
+  },
+  {
+    "page": 7,
+    "text": "By week 7"
+  },
+  {
+    "page": 7,
+    "text": "Form your group"
+  },
+  {
+    "page": 7,
+    "text": "Choose your topic"
+  },
+  {
+    "page": 7,
+    "text": "Weeks 8–11"
+  },
+  {
+    "page": 7,
+    "text": "Four-week"
+  },
+  {
+    "page": 7,
+    "text": "project period"
+  },
+  {
+    "page": 7,
+    "text": "8"
+  },
+  {
+    "page": 7,
+    "text": "9"
+  },
+  {
+    "page": 7,
+    "text": "10"
+  },
+  {
+    "page": 7,
+    "text": "11"
+  },
+  {
+    "page": 7,
+    "text": "End of week 11"
+  },
+  {
+    "page": 7,
+    "text": "Submit"
+  },
+  {
+    "page": 7,
+    "text": "the project"
+  },
+  {
+    "page": 7,
+    "text": "State each member’s individual contribution."
+  },
+  {
+    "page": 7,
+    "text": "MH6003 / COURSE INFORMATION / DRAFT FOR REVIEW"
+  },
+  {
+    "page": 7,
+    "text": "07 / 07"
+  }
+]

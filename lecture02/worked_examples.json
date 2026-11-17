@@ -1,0 +1,1307 @@
+{
+  "des_plaintext": "0123456789ABCDEF",
+  "des_key": "133457799BBCDFF1",
+  "des_ciphertext": "85E813540F0AB405",
+  "des_trace": {
+    "input": 81985529216486895,
+    "key": 1383827165325090801,
+    "decrypt": false,
+    "post_ip": 14699974583363760298,
+    "l0": 3422604543,
+    "r0": 4037734570,
+    "rounds": [
+      {
+        "round": 1,
+        "key": 29699430183026,
+        "l_in": 3422604543,
+        "r_in": 4037734570,
+        "expanded": 134232046966101,
+        "xored": 106754541511975,
+        "sbox_output": 1552070039,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 24,
+            "row": 0,
+            "column": 12,
+            "output": 5
+          },
+          {
+            "box": 2,
+            "input": 17,
+            "row": 1,
+            "column": 8,
+            "output": 12
+          },
+          {
+            "box": 3,
+            "input": 30,
+            "row": 0,
+            "column": 15,
+            "output": 8
+          },
+          {
+            "box": 4,
+            "input": 58,
+            "row": 2,
+            "column": 13,
+            "output": 2
+          },
+          {
+            "box": 5,
+            "input": 33,
+            "row": 3,
+            "column": 0,
+            "output": 11
+          },
+          {
+            "box": 6,
+            "input": 38,
+            "row": 2,
+            "column": 3,
+            "output": 5
+          },
+          {
+            "box": 7,
+            "input": 20,
+            "row": 0,
+            "column": 10,
+            "output": 9
+          },
+          {
+            "box": 8,
+            "input": 39,
+            "row": 3,
+            "column": 3,
+            "output": 7
+          }
+        ],
+        "f": 592095675,
+        "l": 4037734570,
+        "r": 4014630212
+      },
+      {
+        "round": 2,
+        "key": 133791886330341,
+        "l_in": 4037734570,
+        "r_in": 4014630212,
+        "expanded": 129649295272457,
+        "xored": 13488578323436,
+        "sbox_output": 4174396078,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 3,
+            "row": 1,
+            "column": 1,
+            "output": 15
+          },
+          {
+            "box": 2,
+            "input": 4,
+            "row": 0,
+            "column": 2,
+            "output": 8
+          },
+          {
+            "box": 3,
+            "input": 18,
+            "row": 0,
+            "column": 9,
+            "output": 13
+          },
+          {
+            "box": 4,
+            "input": 13,
+            "row": 1,
+            "column": 6,
+            "output": 0
+          },
+          {
+            "box": 5,
+            "input": 58,
+            "row": 2,
+            "column": 13,
+            "output": 3
+          },
+          {
+            "box": 6,
+            "input": 54,
+            "row": 2,
+            "column": 11,
+            "output": 10
+          },
+          {
+            "box": 7,
+            "input": 15,
+            "row": 1,
+            "column": 7,
+            "output": 10
+          },
+          {
+            "box": 8,
+            "input": 44,
+            "row": 2,
+            "column": 6,
+            "output": 14
+          }
+        ],
+        "f": 1017874339,
+        "l": 4014630212,
+        "r": 3422648073
+      },
+      {
+        "round": 3,
+        "key": 94543139753881,
+        "l_in": 4014630212,
+        "r_in": 3422648073,
+        "expanded": 252337964378195,
+        "xored": 194048920397770,
+        "sbox_output": 655417711,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 44,
+            "row": 2,
+            "column": 6,
+            "output": 2
+          },
+          {
+            "box": 2,
+            "input": 7,
+            "row": 1,
+            "column": 3,
+            "output": 7
+          },
+          {
+            "box": 3,
+            "input": 50,
+            "row": 2,
+            "column": 9,
+            "output": 1
+          },
+          {
+            "box": 4,
+            "input": 8,
+            "row": 0,
+            "column": 4,
+            "output": 0
+          },
+          {
+            "box": 5,
+            "input": 62,
+            "row": 2,
+            "column": 15,
+            "output": 14
+          },
+          {
+            "box": 6,
+            "input": 2,
+            "row": 0,
+            "column": 1,
+            "output": 1
+          },
+          {
+            "box": 7,
+            "input": 31,
+            "row": 1,
+            "column": 15,
+            "output": 6
+          },
+          {
+            "box": 8,
+            "input": 10,
+            "row": 0,
+            "column": 5,
+            "output": 15
+          }
+        ],
+        "f": 1293315760,
+        "l": 3422648073,
+        "r": 2723941364
+      },
+      {
+        "round": 4,
+        "key": 126090959598877,
+        "l_in": 3422648073,
+        "r_in": 2723941364,
+        "expanded": 88248559173545,
+        "xored": 38410678848180,
+        "sbox_output": 569220922,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 8,
+            "row": 0,
+            "column": 4,
+            "output": 2
+          },
+          {
+            "box": 2,
+            "input": 46,
+            "row": 2,
+            "column": 7,
+            "output": 1
+          },
+          {
+            "box": 3,
+            "input": 60,
+            "row": 2,
+            "column": 14,
+            "output": 14
+          },
+          {
+            "box": 4,
+            "input": 46,
+            "row": 2,
+            "column": 7,
+            "output": 13
+          },
+          {
+            "box": 5,
+            "input": 55,
+            "row": 3,
+            "column": 11,
+            "output": 9
+          },
+          {
+            "box": 6,
+            "input": 36,
+            "row": 2,
+            "column": 2,
+            "output": 15
+          },
+          {
+            "box": 7,
+            "input": 42,
+            "row": 2,
+            "column": 5,
+            "output": 3
+          },
+          {
+            "box": 8,
+            "input": 52,
+            "row": 2,
+            "column": 10,
+            "output": 10
+          }
+        ],
+        "f": 3139663692,
+        "l": 2723941364,
+        "r": 1998716997
+      },
+      {
+        "round": 5,
+        "key": 137353186988968,
+        "l_in": 2723941364,
+        "r_in": 1998716997,
+        "expanded": 205509957255690,
+        "xored": 217724842889634,
+        "sbox_output": 1355297259,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 49,
+            "row": 3,
+            "column": 8,
+            "output": 5
+          },
+          {
+            "box": 2,
+            "input": 32,
+            "row": 2,
+            "column": 0,
+            "output": 0
+          },
+          {
+            "box": 3,
+            "input": 20,
+            "row": 0,
+            "column": 10,
+            "output": 12
+          },
+          {
+            "box": 4,
+            "input": 3,
+            "row": 1,
+            "column": 1,
+            "output": 8
+          },
+          {
+            "box": 5,
+            "input": 58,
+            "row": 2,
+            "column": 13,
+            "output": 3
+          },
+          {
+            "box": 6,
+            "input": 53,
+            "row": 3,
+            "column": 10,
+            "output": 1
+          },
+          {
+            "box": 7,
+            "input": 6,
+            "row": 0,
+            "column": 3,
+            "output": 14
+          },
+          {
+            "box": 8,
+            "input": 34,
+            "row": 2,
+            "column": 1,
+            "output": 11
+          }
+        ],
+        "f": 672378307,
+        "l": 1998716997,
+        "r": 2320475703
+      },
+      {
+        "round": 6,
+        "key": 109561366215471,
+        "l_in": 1998716997,
+        "r_in": 2320475703,
+        "expanded": 216888866029999,
+        "xored": 183512703482496,
+        "sbox_output": 1106463805,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 41,
+            "row": 3,
+            "column": 4,
+            "output": 4
+          },
+          {
+            "box": 2,
+            "input": 46,
+            "row": 2,
+            "column": 7,
+            "output": 1
+          },
+          {
+            "box": 3,
+            "input": 29,
+            "row": 1,
+            "column": 14,
+            "output": 15
+          },
+          {
+            "box": 4,
+            "input": 33,
+            "row": 3,
+            "column": 0,
+            "output": 3
+          },
+          {
+            "box": 5,
+            "input": 32,
+            "row": 2,
+            "column": 0,
+            "output": 4
+          },
+          {
+            "box": 6,
+            "input": 11,
+            "row": 1,
+            "column": 5,
+            "output": 12
+          },
+          {
+            "box": 7,
+            "input": 42,
+            "row": 2,
+            "column": 5,
+            "output": 3
+          },
+          {
+            "box": 8,
+            "input": 0,
+            "row": 0,
+            "column": 0,
+            "output": 13
+          }
+        ],
+        "f": 2655374636,
+        "l": 2320475703,
+        "r": 3915894121
+      },
+      {
+        "round": 7,
+        "key": 260054766196924,
+        "l_in": 2320475703,
+        "r_in": 3915894121,
+        "expanded": 269565299108691,
+        "xored": 28242498270191,
+        "sbox_output": 276119725,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 6,
+            "row": 0,
+            "column": 3,
+            "output": 1
+          },
+          {
+            "box": 2,
+            "input": 26,
+            "row": 0,
+            "column": 13,
+            "output": 0
+          },
+          {
+            "box": 3,
+            "input": 62,
+            "row": 2,
+            "column": 15,
+            "output": 7
+          },
+          {
+            "box": 4,
+            "input": 56,
+            "row": 2,
+            "column": 12,
+            "output": 5
+          },
+          {
+            "box": 5,
+            "input": 4,
+            "row": 0,
+            "column": 2,
+            "output": 4
+          },
+          {
+            "box": 6,
+            "input": 59,
+            "row": 3,
+            "column": 13,
+            "output": 0
+          },
+          {
+            "box": 7,
+            "input": 15,
+            "row": 1,
+            "column": 7,
+            "output": 10
+          },
+          {
+            "box": 8,
+            "input": 47,
+            "row": 3,
+            "column": 7,
+            "output": 13
+          }
+        ],
+        "f": 2349145127,
+        "l": 3915894121,
+        "r": 105560592
+      },
+      {
+        "round": 8,
+        "key": 272173063289851,
+        "l_in": 3915894121,
+        "r_in": 105560592,
+        "expanded": 834655961248,
+        "xored": 271890482363227,
+        "sbox_output": 1813544110,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 61,
+            "row": 3,
+            "column": 14,
+            "output": 6
+          },
+          {
+            "box": 2,
+            "input": 52,
+            "row": 2,
+            "column": 10,
+            "output": 12
+          },
+          {
+            "box": 3,
+            "input": 33,
+            "row": 3,
+            "column": 0,
+            "output": 1
+          },
+          {
+            "box": 4,
+            "input": 47,
+            "row": 3,
+            "column": 7,
+            "output": 8
+          },
+          {
+            "box": 5,
+            "input": 39,
+            "row": 3,
+            "column": 3,
+            "output": 7
+          },
+          {
+            "box": 6,
+            "input": 39,
+            "row": 3,
+            "column": 3,
+            "output": 12
+          },
+          {
+            "box": 7,
+            "input": 45,
+            "row": 3,
+            "column": 6,
+            "output": 10
+          },
+          {
+            "box": 8,
+            "input": 27,
+            "row": 1,
+            "column": 13,
+            "output": 14
+          }
+        ],
+        "f": 1007585017,
+        "l": 105560592,
+        "r": 3580447632
+      },
+      {
+        "round": 9,
+        "key": 247235160696705,
+        "l_in": 105560592,
+        "r_in": 3580447632,
+        "expanded": 117284058528929,
+        "xored": 152216749513504,
+        "sbox_output": 286021495,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 34,
+            "row": 2,
+            "column": 1,
+            "output": 1
+          },
+          {
+            "box": 2,
+            "input": 39,
+            "row": 3,
+            "column": 3,
+            "output": 1
+          },
+          {
+            "box": 3,
+            "input": 2,
+            "row": 0,
+            "column": 1,
+            "output": 0
+          },
+          {
+            "box": 4,
+            "input": 57,
+            "row": 3,
+            "column": 12,
+            "output": 12
+          },
+          {
+            "box": 5,
+            "input": 18,
+            "row": 0,
+            "column": 9,
+            "output": 5
+          },
+          {
+            "box": 6,
+            "input": 9,
+            "row": 1,
+            "column": 4,
+            "output": 7
+          },
+          {
+            "box": 7,
+            "input": 44,
+            "row": 2,
+            "column": 6,
+            "output": 7
+          },
+          {
+            "box": 8,
+            "input": 32,
+            "row": 2,
+            "column": 0,
+            "output": 7
+          }
+        ],
+        "f": 573996138,
+        "l": 3580447632,
+        "r": 612157050
+      },
+      {
+        "round": 10,
+        "key": 195658438559311,
+        "l_in": 3580447632,
+        "r_in": 612157050,
+        "expanded": 18159010628596,
+        "xored": 177505610401211,
+        "sbox_output": 3657716341,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 40,
+            "row": 2,
+            "column": 4,
+            "output": 13
+          },
+          {
+            "box": 2,
+            "input": 23,
+            "row": 1,
+            "column": 11,
+            "output": 10
+          },
+          {
+            "box": 3,
+            "input": 2,
+            "row": 0,
+            "column": 1,
+            "output": 0
+          },
+          {
+            "box": 4,
+            "input": 62,
+            "row": 2,
+            "column": 15,
+            "output": 4
+          },
+          {
+            "box": 5,
+            "input": 54,
+            "row": 2,
+            "column": 11,
+            "output": 5
+          },
+          {
+            "box": 6,
+            "input": 40,
+            "row": 2,
+            "column": 4,
+            "output": 2
+          },
+          {
+            "box": 7,
+            "input": 22,
+            "row": 0,
+            "column": 11,
+            "output": 7
+          },
+          {
+            "box": 8,
+            "input": 59,
+            "row": 3,
+            "column": 13,
+            "output": 5
+          }
+        ],
+        "f": 1656527906,
+        "l": 612157050,
+        "r": 3084244914
+      },
+      {
+        "round": 11,
+        "key": 36695460205446,
+        "l_in": 612157050,
+        "r_in": 3084244914,
+        "expanded": 100049852497317,
+        "xored": 135933436636707,
+        "sbox_output": 1929761025,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 30,
+            "row": 0,
+            "column": 15,
+            "output": 7
+          },
+          {
+            "box": 2,
+            "input": 58,
+            "row": 2,
+            "column": 13,
+            "output": 3
+          },
+          {
+            "box": 3,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 0
+          },
+          {
+            "box": 4,
+            "input": 56,
+            "row": 2,
+            "column": 12,
+            "output": 5
+          },
+          {
+            "box": 5,
+            "input": 13,
+            "row": 1,
+            "column": 6,
+            "output": 13
+          },
+          {
+            "box": 6,
+            "input": 2,
+            "row": 0,
+            "column": 1,
+            "output": 1
+          },
+          {
+            "box": 7,
+            "input": 56,
+            "row": 2,
+            "column": 12,
+            "output": 0
+          },
+          {
+            "box": 8,
+            "input": 35,
+            "row": 3,
+            "column": 1,
+            "output": 1
+          }
+        ],
+        "f": 3775199746,
+        "l": 3084244914,
+        "r": 3312991352
+      },
+      {
+        "round": 12,
+        "key": 129132311898089,
+        "l_in": 3084244914,
+        "r_in": 3312991352,
+        "expanded": 106291584271345,
+        "xored": 24026140107800,
+        "sbox_output": 2072716853,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 7
+          },
+          {
+            "box": 2,
+            "input": 29,
+            "row": 1,
+            "column": 14,
+            "output": 11
+          },
+          {
+            "box": 3,
+            "input": 40,
+            "row": 2,
+            "column": 4,
+            "output": 8
+          },
+          {
+            "box": 4,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 11
+          },
+          {
+            "box": 5,
+            "input": 34,
+            "row": 2,
+            "column": 1,
+            "output": 2
+          },
+          {
+            "box": 6,
+            "input": 62,
+            "row": 2,
+            "column": 15,
+            "output": 6
+          },
+          {
+            "box": 7,
+            "input": 16,
+            "row": 0,
+            "column": 8,
+            "output": 3
+          },
+          {
+            "box": 8,
+            "input": 24,
+            "row": 0,
+            "column": 12,
+            "output": 5
+          }
+        ],
+        "f": 3261648874,
+        "l": 3312991352,
+        "r": 1975326808
+      },
+      {
+        "round": 13,
+        "key": 166875887221313,
+        "l_in": 3312991352,
+        "r_in": 1975326808,
+        "expanded": 64587626906352,
+        "xored": 190731636816049,
+        "sbox_output": 2597423951,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 43,
+            "row": 3,
+            "column": 5,
+            "output": 9
+          },
+          {
+            "box": 2,
+            "input": 23,
+            "row": 1,
+            "column": 11,
+            "output": 10
+          },
+          {
+            "box": 3,
+            "input": 32,
+            "row": 2,
+            "column": 0,
+            "output": 13
+          },
+          {
+            "box": 4,
+            "input": 43,
+            "row": 3,
+            "column": 5,
+            "output": 1
+          },
+          {
+            "box": 5,
+            "input": 29,
+            "row": 1,
+            "column": 14,
+            "output": 8
+          },
+          {
+            "box": 6,
+            "input": 27,
+            "row": 1,
+            "column": 13,
+            "output": 11
+          },
+          {
+            "box": 7,
+            "input": 34,
+            "row": 2,
+            "column": 1,
+            "output": 4
+          },
+          {
+            "box": 8,
+            "input": 49,
+            "row": 3,
+            "column": 8,
+            "output": 15
+          }
+        ],
+        "f": 3720030498,
+        "l": 1975326808,
+        "r": 415438170
+      },
+      {
+        "round": 14,
+        "key": 104744453596986,
+        "l_in": 1975326808,
+        "r_in": 415438170,
+        "expanded": 16587273448180,
+        "xored": 88328979893710,
+        "sbox_output": 1685691121,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 20,
+            "row": 0,
+            "column": 10,
+            "output": 6
+          },
+          {
+            "box": 2,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 4
+          },
+          {
+            "box": 3,
+            "input": 22,
+            "row": 0,
+            "column": 11,
+            "output": 7
+          },
+          {
+            "box": 4,
+            "input": 49,
+            "row": 3,
+            "column": 8,
+            "output": 9
+          },
+          {
+            "box": 5,
+            "input": 30,
+            "row": 0,
+            "column": 15,
+            "output": 9
+          },
+          {
+            "box": 6,
+            "input": 4,
+            "row": 0,
+            "column": 2,
+            "output": 10
+          },
+          {
+            "box": 7,
+            "input": 55,
+            "row": 3,
+            "column": 11,
+            "output": 15
+          },
+          {
+            "box": 8,
+            "input": 14,
+            "row": 0,
+            "column": 7,
+            "output": 1
+          }
+        ],
+        "f": 3073478229,
+        "l": 415438170,
+        "r": 3263993357
+      },
+      {
+        "round": 15,
+        "key": 210631860764426,
+        "l_in": 415438170,
+        "r_in": 3263993357,
+        "expanded": 246652879945819,
+        "xored": 105303277829969,
+        "sbox_output": 3001584956,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 23,
+            "row": 1,
+            "column": 11,
+            "output": 11
+          },
+          {
+            "box": 2,
+            "input": 60,
+            "row": 2,
+            "column": 14,
+            "output": 2
+          },
+          {
+            "box": 3,
+            "input": 23,
+            "row": 1,
+            "column": 11,
+            "output": 14
+          },
+          {
+            "box": 4,
+            "input": 20,
+            "row": 0,
+            "column": 10,
+            "output": 8
+          },
+          {
+            "box": 5,
+            "input": 29,
+            "row": 1,
+            "column": 14,
+            "output": 8
+          },
+          {
+            "box": 6,
+            "input": 63,
+            "row": 3,
+            "column": 15,
+            "output": 13
+          },
+          {
+            "box": 7,
+            "input": 61,
+            "row": 3,
+            "column": 14,
+            "output": 3
+          },
+          {
+            "box": 8,
+            "input": 17,
+            "row": 1,
+            "column": 8,
+            "output": 12
+          }
+        ],
+        "f": 1535190894,
+        "l": 3263993357,
+        "r": 1128411700
+      },
+      {
+        "round": 16,
+        "key": 223465186400245,
+        "l_in": 3263993357,
+        "r_in": 1128411700,
+        "expanded": 35639707451816,
+        "xored": 258761295156829,
+        "sbox_output": 2810389545,
+        "boxes": [
+          {
+            "box": 1,
+            "input": 58,
+            "row": 2,
+            "column": 13,
+            "output": 10
+          },
+          {
+            "box": 2,
+            "input": 53,
+            "row": 3,
+            "column": 10,
+            "output": 7
+          },
+          {
+            "box": 3,
+            "input": 30,
+            "row": 0,
+            "column": 15,
+            "output": 8
+          },
+          {
+            "box": 4,
+            "input": 15,
+            "row": 1,
+            "column": 7,
+            "output": 3
+          },
+          {
+            "box": 5,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 2
+          },
+          {
+            "box": 6,
+            "input": 5,
+            "row": 1,
+            "column": 2,
+            "output": 4
+          },
+          {
+            "box": 7,
+            "input": 25,
+            "row": 1,
+            "column": 12,
+            "output": 2
+          },
+          {
+            "box": 8,
+            "input": 29,
+            "row": 1,
+            "column": 14,
+            "output": 9
+          }
+        ],
+        "f": 3368046488,
+        "l": 1128411700,
+        "r": 172808597
+      }
+    ],
+    "preoutput": 742207273711055412,
+    "output": 9648983453391827973,
+    "pc1": 67779029043144591,
+    "c0": 252496559,
+    "d0": 89548687
+  },
+  "des_key_trace": {
+    "pc1": 67779029043144591,
+    "c0": 252496559,
+    "d0": 89548687,
+    "rounds": [
+      {
+        "round": 1,
+        "shift": 1,
+        "c": 236557663,
+        "d": 179097374,
+        "key": 29699430183026
+      },
+      {
+        "round": 2,
+        "shift": 1,
+        "c": 204679871,
+        "d": 89759293,
+        "key": 133791886330341
+      },
+      {
+        "round": 3,
+        "shift": 2,
+        "c": 13413119,
+        "d": 90601717,
+        "key": 94543139753881
+      },
+      {
+        "round": 4,
+        "shift": 2,
+        "c": 53652476,
+        "d": 93971413,
+        "key": 126090959598877
+      },
+      {
+        "round": 5,
+        "shift": 2,
+        "c": 214609904,
+        "d": 107450197,
+        "key": 137353186988968
+      },
+      {
+        "round": 6,
+        "shift": 2,
+        "c": 53133251,
+        "d": 161365333,
+        "key": 109561366215471
+      },
+      {
+        "round": 7,
+        "shift": 2,
+        "c": 212533004,
+        "d": 108590422,
+        "key": 260054766196924
+      },
+      {
+        "round": 8,
+        "shift": 2,
+        "c": 44825651,
+        "d": 165926233,
+        "key": 272173063289851
+      },
+      {
+        "round": 9,
+        "shift": 1,
+        "c": 89651302,
+        "d": 63417011,
+        "key": 247235160696705
+      },
+      {
+        "round": 10,
+        "shift": 2,
+        "c": 90169753,
+        "d": 253668044,
+        "key": 195658438559311
+      },
+      {
+        "round": 11,
+        "shift": 2,
+        "c": 92243557,
+        "d": 209365811,
+        "key": 36695460205446
+      },
+      {
+        "round": 12,
+        "shift": 2,
+        "c": 100538773,
+        "d": 32156879,
+        "key": 129132311898089
+      },
+      {
+        "round": 13,
+        "shift": 2,
+        "c": 133719637,
+        "d": 128627516,
+        "key": 166875887221313
+      },
+      {
+        "round": 14,
+        "shift": 2,
+        "c": 266443093,
+        "d": 246074609,
+        "key": 104744453596986
+      },
+      {
+        "round": 15,
+        "shift": 2,
+        "c": 260466007,
+        "d": 178992071,
+        "key": 210631860764426
+      },
+      {
+        "round": 16,
+        "shift": 1,
+        "c": 252496559,
+        "d": 89548687,
+        "key": 223465186400245
+      }
+    ]
+  },
+  "toy_plaintext": "1234",
+  "toy_round_keys": [
+    "3A94",
+    "A94D",
+    "94D6",
+    "4D63"
+  ],
+  "toy_ciphertext": "D9F0",
+  "toy_trace": {
+    "input": 4660,
+    "keys": [
+      14996,
+      43341,
+      38102,
+      19811
+    ],
+    "rounds": [
+      {
+        "round": 1,
+        "key": 14996,
+        "mixed": 10400,
+        "substituted": 54126,
+        "permuted": 39804,
+        "state": 39804
+      },
+      {
+        "round": 2,
+        "key": 43341,
+        "mixed": 12849,
+        "substituted": 7444,
+        "permuted": 17678,
+        "state": 17678
+      },
+      {
+        "round": 3,
+        "key": 38102,
+        "mixed": 53720,
+        "substituted": 38035,
+        "permuted": null,
+        "state": 38035
+      }
+    ],
+    "whitening_key": 19811,
+    "output": 55792
+  },
+  "otp_letter_ciphertext": "KRGPPYQ",
+  "otp_bit_ciphertext": "1100110110",
+  "substitution_unicity_estimate": 25.614692777369147
+}

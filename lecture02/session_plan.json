@@ -1,0 +1,57 @@
+[
+  {
+    "kind": "teaching",
+    "start": "6:30 pm",
+    "end": "7:40 pm",
+    "minutes": 70,
+    "label": "One-time pads, probability, perfect secrecy, and information theory",
+    "slides": [
+      1,
+      32
+    ]
+  },
+  {
+    "kind": "break",
+    "start": "7:40 pm",
+    "end": "7:50 pm",
+    "minutes": 10,
+    "label": "Break",
+    "slides": [
+      33,
+      33
+    ]
+  },
+  {
+    "kind": "teaching",
+    "start": "7:50 pm",
+    "end": "8:50 pm",
+    "minutes": 60,
+    "label": "Practical security, block-cipher design, toy SPN, and Feistel networks",
+    "slides": [
+      34,
+      56
+    ]
+  },
+  {
+    "kind": "break",
+    "start": "8:50 pm",
+    "end": "9:00 pm",
+    "minutes": 10,
+    "label": "Break",
+    "slides": [
+      57,
+      57
+    ]
+  },
+  {
+    "kind": "teaching",
+    "start": "9:00 pm",
+    "end": "10:00 pm",
+    "minutes": 60,
+    "label": "DES internals, key schedule, Double DES, and Triple DES",
+    "slides": [
+      58,
+      84
+    ]
+  }
+]

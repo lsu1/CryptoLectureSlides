@@ -1,0 +1,1577 @@
+{
+  "issues": [],
+  "blocks": [
+    {
+      "slide": 2,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 2,
+      "type": "p",
+      "top": 371.88,
+      "bottom": 346.76
+    },
+    {
+      "slide": 2,
+      "type": "p",
+      "top": 333.76,
+      "bottom": 284.52
+    },
+    {
+      "slide": 3,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 3,
+      "type": "p",
+      "top": 272.68,
+      "bottom": 223.44
+    },
+    {
+      "slide": 4,
+      "type": "table",
+      "top": 410,
+      "bottom": 161.36
+    },
+    {
+      "slide": 5,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 5,
+      "type": "table",
+      "top": 371.88,
+      "bottom": 216.48000000000002
+    },
+    {
+      "slide": 5,
+      "type": "math",
+      "top": 203.48000000000002,
+      "bottom": 155.19864700317385
+    },
+    {
+      "slide": 6,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 6,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 323.5986470031738
+    },
+    {
+      "slide": 6,
+      "type": "math",
+      "top": 310.5986470031738,
+      "bottom": 262.31729400634765
+    },
+    {
+      "slide": 6,
+      "type": "p",
+      "top": 249.31729400634765,
+      "bottom": 224.19729400634765
+    },
+    {
+      "slide": 7,
+      "type": "code",
+      "top": 371.56,
+      "bottom": 279.64
+    },
+    {
+      "slide": 7,
+      "type": "p",
+      "top": 266.64,
+      "bottom": 241.51999999999998
+    },
+    {
+      "slide": 7,
+      "type": "p",
+      "top": 228.51999999999998,
+      "bottom": 203.39999999999998
+    },
+    {
+      "slide": 8,
+      "type": "code",
+      "top": 410,
+      "bottom": 292.62
+    },
+    {
+      "slide": 8,
+      "type": "code",
+      "top": 279.62,
+      "bottom": 213.16
+    },
+    {
+      "slide": 8,
+      "type": "p",
+      "top": 200.16,
+      "bottom": 175.04
+    },
+    {
+      "slide": 9,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 9,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 320.3106526184082
+    },
+    {
+      "slide": 9,
+      "type": "math",
+      "top": 307.3106526184082,
+      "bottom": 255.7413052368164
+    },
+    {
+      "slide": 9,
+      "type": "p",
+      "top": 242.7413052368164,
+      "bottom": 193.5013052368164
+    },
+    {
+      "slide": 10,
+      "type": "table",
+      "top": 410,
+      "bottom": 223.52
+    },
+    {
+      "slide": 10,
+      "type": "p",
+      "top": 210.52,
+      "bottom": 161.28
+    },
+    {
+      "slide": 11,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 11,
+      "type": "p",
+      "top": 371.88,
+      "bottom": 322.64
+    },
+    {
+      "slide": 11,
+      "type": "p",
+      "top": 309.64,
+      "bottom": 260.4
+    },
+    {
+      "slide": 12,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 12,
+      "type": "p",
+      "top": 347.76,
+      "bottom": 298.52
+    },
+    {
+      "slide": 12,
+      "type": "p",
+      "top": 285.52,
+      "bottom": 236.27999999999997
+    },
+    {
+      "slide": 13,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 13,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 284.8436524963379
+    },
+    {
+      "slide": 13,
+      "type": "table",
+      "top": 271.8436524963379,
+      "bottom": 178.60365249633787
+    },
+    {
+      "slide": 14,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 14,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 299.7626988983154
+    },
+    {
+      "slide": 14,
+      "type": "p",
+      "top": 286.7626988983154,
+      "bottom": 261.6426988983154
+    },
+    {
+      "slide": 14,
+      "type": "math",
+      "top": 248.64269889831542,
+      "bottom": 200.64539779663085
+    },
+    {
+      "slide": 15,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 15,
+      "type": "diagram",
+      "top": 347.76,
+      "bottom": 124.75999999999999
+    },
+    {
+      "slide": 16,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 16,
+      "type": "p",
+      "top": 272.68,
+      "bottom": 247.56
+    },
+    {
+      "slide": 16,
+      "type": "math",
+      "top": 234.56,
+      "bottom": 156.70068412780762
+    },
+    {
+      "slide": 17,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 17,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 293.736632232666
+    },
+    {
+      "slide": 17,
+      "type": "p",
+      "top": 280.736632232666,
+      "bottom": 255.616632232666
+    },
+    {
+      "slide": 17,
+      "type": "math",
+      "top": 242.616632232666,
+      "bottom": 164.75731636047362
+    },
+    {
+      "slide": 18,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 18,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 299.4786470031738
+    },
+    {
+      "slide": 18,
+      "type": "p",
+      "top": 286.4786470031738,
+      "bottom": 237.2386470031738
+    },
+    {
+      "slide": 19,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 19,
+      "type": "diagram",
+      "top": 347.76,
+      "bottom": 128.76
+    },
+    {
+      "slide": 20,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 20,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 295.85159564971923
+    },
+    {
+      "slide": 20,
+      "type": "p",
+      "top": 282.85159564971923,
+      "bottom": 233.61159564971922
+    },
+    {
+      "slide": 21,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 21,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 299.4786470031738
+    },
+    {
+      "slide": 21,
+      "type": "math",
+      "top": 286.4786470031738,
+      "bottom": 234.37140537261962
+    },
+    {
+      "slide": 21,
+      "type": "p",
+      "top": 221.37140537261962,
+      "bottom": 172.1314053726196
+    },
+    {
+      "slide": 22,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 22,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 283.83565689086913
+    },
+    {
+      "slide": 22,
+      "type": "math",
+      "top": 270.83565689086913,
+      "bottom": 203.08539463043212
+    },
+    {
+      "slide": 22,
+      "type": "p",
+      "top": 190.08539463043212,
+      "bottom": 140.8453946304321
+    },
+    {
+      "slide": 23,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 23,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 293.736632232666
+    },
+    {
+      "slide": 23,
+      "type": "math",
+      "top": 280.736632232666,
+      "bottom": 195.0028370666504
+    },
+    {
+      "slide": 23,
+      "type": "p",
+      "top": 182.0028370666504,
+      "bottom": 132.76283706665038
+    },
+    {
+      "slide": 24,
+      "type": "table",
+      "top": 410,
+      "bottom": 254.60000000000002
+    },
+    {
+      "slide": 24,
+      "type": "p",
+      "top": 241.60000000000002,
+      "bottom": 192.36
+    },
+    {
+      "slide": 25,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 25,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 284.8436524963379
+    },
+    {
+      "slide": 25,
+      "type": "p",
+      "top": 271.8436524963379,
+      "bottom": 222.60365249633787
+    },
+    {
+      "slide": 26,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 26,
+      "type": "diagram",
+      "top": 347.76,
+      "bottom": 126.75999999999999
+    },
+    {
+      "slide": 27,
+      "type": "table",
+      "top": 410,
+      "bottom": 237.52
+    },
+    {
+      "slide": 27,
+      "type": "p",
+      "top": 224.52,
+      "bottom": 175.28
+    },
+    {
+      "slide": 28,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 28,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 269.98021293640136
+    },
+    {
+      "slide": 28,
+      "type": "p",
+      "top": 256.98021293640136,
+      "bottom": 207.74021293640135
+    },
+    {
+      "slide": 29,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 29,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 294.44864822387694
+    },
+    {
+      "slide": 29,
+      "type": "math",
+      "top": 281.44864822387694,
+      "bottom": 201.76171852111815
+    },
+    {
+      "slide": 29,
+      "type": "p",
+      "top": 188.76171852111815,
+      "bottom": 139.52171852111815
+    },
+    {
+      "slide": 30,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 30,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 269.98021293640136
+    },
+    {
+      "slide": 30,
+      "type": "p",
+      "top": 256.98021293640136,
+      "bottom": 207.74021293640135
+    },
+    {
+      "slide": 31,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 31,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 320.0290135192871
+    },
+    {
+      "slide": 31,
+      "type": "math",
+      "top": 307.0290135192871,
+      "bottom": 224.13971031188964
+    },
+    {
+      "slide": 31,
+      "type": "p",
+      "top": 211.13971031188964,
+      "bottom": 161.89971031188963
+    },
+    {
+      "slide": 32,
+      "type": "p",
+      "top": 410,
+      "bottom": 336.64
+    },
+    {
+      "slide": 32,
+      "type": "math",
+      "top": 323.64,
+      "bottom": 275.3586470031738
+    },
+    {
+      "slide": 32,
+      "type": "p",
+      "top": 262.3586470031738,
+      "bottom": 213.1186470031738
+    },
+    {
+      "slide": 34,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 34,
+      "type": "p",
+      "top": 272.68,
+      "bottom": 223.44
+    },
+    {
+      "slide": 35,
+      "type": "math",
+      "top": 410,
+      "bottom": 329.2062692642212
+    },
+    {
+      "slide": 35,
+      "type": "p",
+      "top": 316.2062692642212,
+      "bottom": 266.9662692642212
+    },
+    {
+      "slide": 35,
+      "type": "table",
+      "top": 253.96626926422118,
+      "bottom": 129.6462692642212
+    },
+    {
+      "slide": 36,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 36,
+      "type": "p",
+      "top": 347.76,
+      "bottom": 298.52
+    },
+    {
+      "slide": 36,
+      "type": "p",
+      "top": 285.52,
+      "bottom": 236.27999999999997
+    },
+    {
+      "slide": 37,
+      "type": "table",
+      "top": 410,
+      "bottom": 316.76
+    },
+    {
+      "slide": 37,
+      "type": "p",
+      "top": 303.76,
+      "bottom": 254.51999999999998
+    },
+    {
+      "slide": 38,
+      "type": "code",
+      "top": 410,
+      "bottom": 343.53999999999996
+    },
+    {
+      "slide": 38,
+      "type": "p",
+      "top": 330.53999999999996,
+      "bottom": 281.29999999999995
+    },
+    {
+      "slide": 38,
+      "type": "p",
+      "top": 268.29999999999995,
+      "bottom": 219.05999999999995
+    },
+    {
+      "slide": 39,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 39,
+      "type": "p",
+      "top": 347.76,
+      "bottom": 298.52
+    },
+    {
+      "slide": 39,
+      "type": "p",
+      "top": 285.52,
+      "bottom": 236.27999999999997
+    },
+    {
+      "slide": 40,
+      "type": "math",
+      "top": 410,
+      "bottom": 348.76666259765625
+    },
+    {
+      "slide": 40,
+      "type": "diagram",
+      "top": 335.76666259765625,
+      "bottom": 220.76666259765625
+    },
+    {
+      "slide": 40,
+      "type": "p",
+      "top": 207.76666259765625,
+      "bottom": 158.52666259765624
+    },
+    {
+      "slide": 41,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 41,
+      "type": "p",
+      "top": 272.68,
+      "bottom": 223.44
+    },
+    {
+      "slide": 42,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 254
+    },
+    {
+      "slide": 42,
+      "type": "p",
+      "top": 241,
+      "bottom": 191.76
+    },
+    {
+      "slide": 42,
+      "type": "math",
+      "top": 178.76,
+      "bottom": 127.1906526184082
+    },
+    {
+      "slide": 43,
+      "type": "table",
+      "top": 410,
+      "bottom": 282.6
+    },
+    {
+      "slide": 43,
+      "type": "p",
+      "top": 269.6,
+      "bottom": 220.36
+    },
+    {
+      "slide": 44,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 45,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 191
+    },
+    {
+      "slide": 45,
+      "type": "p",
+      "top": 178,
+      "bottom": 128.76
+    },
+    {
+      "slide": 46,
+      "type": "code",
+      "top": 410,
+      "bottom": 328.8
+    },
+    {
+      "slide": 46,
+      "type": "code",
+      "top": 315.8,
+      "bottom": 254.70000000000002
+    },
+    {
+      "slide": 46,
+      "type": "p",
+      "top": 241.70000000000002,
+      "bottom": 192.46
+    },
+    {
+      "slide": 47,
+      "type": "code",
+      "top": 410,
+      "bottom": 318.08
+    },
+    {
+      "slide": 47,
+      "type": "table",
+      "top": 305.08,
+      "bottom": 180.76
+    },
+    {
+      "slide": 48,
+      "type": "table",
+      "top": 410,
+      "bottom": 254.60000000000002
+    },
+    {
+      "slide": 48,
+      "type": "p",
+      "top": 241.60000000000002,
+      "bottom": 192.36
+    },
+    {
+      "slide": 49,
+      "type": "table",
+      "top": 410,
+      "bottom": 223.52
+    },
+    {
+      "slide": 49,
+      "type": "p",
+      "top": 210.52,
+      "bottom": 161.28
+    },
+    {
+      "slide": 50,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 50,
+      "type": "p",
+      "top": 347.76,
+      "bottom": 298.52
+    },
+    {
+      "slide": 50,
+      "type": "p",
+      "top": 285.52,
+      "bottom": 236.27999999999997
+    },
+    {
+      "slide": 51,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 142
+    },
+    {
+      "slide": 52,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.4306526184082
+    },
+    {
+      "slide": 52,
+      "type": "p",
+      "top": 345.4306526184082,
+      "bottom": 296.1906526184082
+    },
+    {
+      "slide": 52,
+      "type": "p",
+      "top": 283.1906526184082,
+      "bottom": 233.95065261840818
+    },
+    {
+      "slide": 53,
+      "type": "table",
+      "top": 410,
+      "bottom": 192.44
+    },
+    {
+      "slide": 54,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.4306526184082
+    },
+    {
+      "slide": 54,
+      "type": "math",
+      "top": 345.4306526184082,
+      "bottom": 294.22485733032227
+    },
+    {
+      "slide": 54,
+      "type": "code",
+      "top": 281.22485733032227,
+      "bottom": 194.66485733032226
+    },
+    {
+      "slide": 55,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 55,
+      "type": "math",
+      "top": 371.88,
+      "bottom": 320.3116596984863
+    },
+    {
+      "slide": 55,
+      "type": "math",
+      "top": 307.3116596984863,
+      "bottom": 257.4867295074463
+    },
+    {
+      "slide": 55,
+      "type": "p",
+      "top": 244.48672950744628,
+      "bottom": 195.24672950744628
+    },
+    {
+      "slide": 56,
+      "type": "table",
+      "top": 410,
+      "bottom": 306.56
+    },
+    {
+      "slide": 56,
+      "type": "table",
+      "top": 410,
+      "bottom": 306.56
+    },
+    {
+      "slide": 56,
+      "type": "two",
+      "top": 410,
+      "bottom": 306.56
+    },
+    {
+      "slide": 56,
+      "type": "code",
+      "top": 293.56,
+      "bottom": 204.32
+    },
+    {
+      "slide": 58,
+      "type": "table",
+      "top": 410,
+      "bottom": 254.60000000000002
+    },
+    {
+      "slide": 58,
+      "type": "p",
+      "top": 241.60000000000002,
+      "bottom": 192.36
+    },
+    {
+      "slide": 59,
+      "type": "table",
+      "top": 410,
+      "bottom": 223.52
+    },
+    {
+      "slide": 60,
+      "type": "p",
+      "top": 410,
+      "bottom": 384.88
+    },
+    {
+      "slide": 60,
+      "type": "code",
+      "top": 371.88,
+      "bottom": 277.28
+    },
+    {
+      "slide": 60,
+      "type": "math",
+      "top": 264.28,
+      "bottom": 215.9986470031738
+    },
+    {
+      "slide": 60,
+      "type": "p",
+      "top": 202.9986470031738,
+      "bottom": 153.7586470031738
+    },
+    {
+      "slide": 61,
+      "type": "code",
+      "top": 410,
+      "bottom": 284.58
+    },
+    {
+      "slide": 61,
+      "type": "p",
+      "top": 271.58,
+      "bottom": 222.33999999999997
+    },
+    {
+      "slide": 61,
+      "type": "p",
+      "top": 209.33999999999997,
+      "bottom": 184.21999999999997
+    },
+    {
+      "slide": 62,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 225
+    },
+    {
+      "slide": 62,
+      "type": "p",
+      "top": 212,
+      "bottom": 162.76
+    },
+    {
+      "slide": 63,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.4316596984863
+    },
+    {
+      "slide": 63,
+      "type": "math",
+      "top": 345.4316596984863,
+      "bottom": 288.3833637237549
+    },
+    {
+      "slide": 63,
+      "type": "p",
+      "top": 275.3833637237549,
+      "bottom": 226.14336372375487
+    },
+    {
+      "slide": 63,
+      "type": "code",
+      "top": 213.14336372375487,
+      "bottom": 145.34336372375486
+    },
+    {
+      "slide": 64,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.4306526184082
+    },
+    {
+      "slide": 64,
+      "type": "table",
+      "top": 345.4306526184082,
+      "bottom": 221.1106526184082
+    },
+    {
+      "slide": 64,
+      "type": "p",
+      "top": 208.1106526184082,
+      "bottom": 158.8706526184082
+    },
+    {
+      "slide": 65,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 201
+    },
+    {
+      "slide": 65,
+      "type": "math",
+      "top": 188,
+      "bottom": 139.47347927093506
+    },
+    {
+      "slide": 66,
+      "type": "table",
+      "top": 410,
+      "bottom": 285.68
+    },
+    {
+      "slide": 66,
+      "type": "p",
+      "top": 272.68,
+      "bottom": 223.44
+    },
+    {
+      "slide": 66,
+      "type": "math",
+      "top": 210.44,
+      "bottom": 162.15864700317383
+    },
+    {
+      "slide": 67,
+      "type": "code",
+      "top": 410,
+      "bottom": 284.58
+    },
+    {
+      "slide": 67,
+      "type": "p",
+      "top": 271.58,
+      "bottom": 222.33999999999997
+    },
+    {
+      "slide": 67,
+      "type": "p",
+      "top": 209.33999999999997,
+      "bottom": 184.21999999999997
+    },
+    {
+      "slide": 68,
+      "type": "math",
+      "top": 410,
+      "bottom": 359.8920249938965
+    },
+    {
+      "slide": 68,
+      "type": "table",
+      "top": 346.8920249938965,
+      "bottom": 253.65202499389648
+    },
+    {
+      "slide": 68,
+      "type": "p",
+      "top": 240.65202499389648,
+      "bottom": 191.41202499389647
+    },
+    {
+      "slide": 69,
+      "type": "code",
+      "top": 410,
+      "bottom": 338.18
+    },
+    {
+      "slide": 69,
+      "type": "p",
+      "top": 325.18,
+      "bottom": 300.06
+    },
+    {
+      "slide": 69,
+      "type": "table",
+      "top": 287.06,
+      "bottom": 224.9
+    },
+    {
+      "slide": 69,
+      "type": "math",
+      "top": 211.9,
+      "bottom": 160.6147045135498
+    },
+    {
+      "slide": 70,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 70,
+      "type": "code",
+      "top": 347.76,
+      "bottom": 281.29999999999995
+    },
+    {
+      "slide": 70,
+      "type": "code",
+      "top": 268.29999999999995,
+      "bottom": 171.01999999999995
+    },
+    {
+      "slide": 71,
+      "type": "table",
+      "top": 410,
+      "bottom": 254.60000000000002
+    },
+    {
+      "slide": 71,
+      "type": "p",
+      "top": 241.60000000000002,
+      "bottom": 192.36
+    },
+    {
+      "slide": 72,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 209
+    },
+    {
+      "slide": 72,
+      "type": "p",
+      "top": 196,
+      "bottom": 146.76
+    },
+    {
+      "slide": 73,
+      "type": "code",
+      "top": 410,
+      "bottom": 261.8
+    },
+    {
+      "slide": 73,
+      "type": "p",
+      "top": 248.8,
+      "bottom": 223.68
+    },
+    {
+      "slide": 73,
+      "type": "p",
+      "top": 210.68,
+      "bottom": 185.56
+    },
+    {
+      "slide": 74,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.7147045135498
+    },
+    {
+      "slide": 74,
+      "type": "math",
+      "top": 345.7147045135498,
+      "bottom": 294.14636421203613
+    },
+    {
+      "slide": 74,
+      "type": "table",
+      "top": 281.14636421203613,
+      "bottom": 187.90636421203612
+    },
+    {
+      "slide": 74,
+      "type": "p",
+      "top": 174.90636421203612,
+      "bottom": 149.78636421203612
+    },
+    {
+      "slide": 75,
+      "type": "code",
+      "top": 410,
+      "bottom": 312.72
+    },
+    {
+      "slide": 75,
+      "type": "code",
+      "top": 299.72,
+      "bottom": 229.24
+    },
+    {
+      "slide": 75,
+      "type": "p",
+      "top": 216.24,
+      "bottom": 191.12
+    },
+    {
+      "slide": 76,
+      "type": "code",
+      "top": 410,
+      "bottom": 284.58
+    },
+    {
+      "slide": 76,
+      "type": "code",
+      "top": 271.58,
+      "bottom": 202.44
+    },
+    {
+      "slide": 76,
+      "type": "p",
+      "top": 189.44,
+      "bottom": 164.32
+    },
+    {
+      "slide": 77,
+      "type": "table",
+      "top": 410,
+      "bottom": 130.28000000000003
+    },
+    {
+      "slide": 78,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.4306526184082
+    },
+    {
+      "slide": 78,
+      "type": "code",
+      "top": 345.4306526184082,
+      "bottom": 232.0706526184082
+    },
+    {
+      "slide": 78,
+      "type": "code",
+      "top": 219.0706526184082,
+      "bottom": 129.83065261840818
+    },
+    {
+      "slide": 79,
+      "type": "code",
+      "top": 410,
+      "bottom": 315.4
+    },
+    {
+      "slide": 79,
+      "type": "p",
+      "top": 302.4,
+      "bottom": 253.15999999999997
+    },
+    {
+      "slide": 79,
+      "type": "code",
+      "top": 240.15999999999997,
+      "bottom": 172.35999999999996
+    },
+    {
+      "slide": 80,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.1472454071045
+    },
+    {
+      "slide": 80,
+      "type": "p",
+      "top": 345.1472454071045,
+      "bottom": 295.9072454071045
+    },
+    {
+      "slide": 80,
+      "type": "p",
+      "top": 282.9072454071045,
+      "bottom": 233.66724540710447
+    },
+    {
+      "slide": 80,
+      "type": "p",
+      "top": 220.66724540710447,
+      "bottom": 195.54724540710447
+    },
+    {
+      "slide": 81,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.61673736572266
+    },
+    {
+      "slide": 81,
+      "type": "p",
+      "top": 345.61673736572266,
+      "bottom": 296.37673736572265
+    },
+    {
+      "slide": 81,
+      "type": "math",
+      "top": 283.37673736572265,
+      "bottom": 226.40894866943358
+    },
+    {
+      "slide": 81,
+      "type": "p",
+      "top": 213.40894866943358,
+      "bottom": 188.28894866943358
+    },
+    {
+      "slide": 82,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 227
+    },
+    {
+      "slide": 82,
+      "type": "math",
+      "top": 214,
+      "bottom": 162.3715696334839
+    },
+    {
+      "slide": 82,
+      "type": "p",
+      "top": 149.3715696334839,
+      "bottom": 124.25156963348388
+    },
+    {
+      "slide": 83,
+      "type": "math",
+      "top": 410,
+      "bottom": 358.3715696334839
+    },
+    {
+      "slide": 83,
+      "type": "table",
+      "top": 345.3715696334839,
+      "bottom": 252.13156963348388
+    },
+    {
+      "slide": 83,
+      "type": "p",
+      "top": 239.13156963348388,
+      "bottom": 189.89156963348387
+    },
+    {
+      "slide": 83,
+      "type": "p",
+      "top": 176.89156963348387,
+      "bottom": 127.65156963348386
+    },
+    {
+      "slide": 84,
+      "type": "table",
+      "top": 410,
+      "bottom": 234.44
+    },
+    {
+      "slide": 84,
+      "type": "p",
+      "top": 221.44,
+      "bottom": 172.2
+    },
+    {
+      "slide": 85,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 85,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 283.83565689086913
+    },
+    {
+      "slide": 85,
+      "type": "p",
+      "top": 270.83565689086913,
+      "bottom": 221.59565689086912
+    },
+    {
+      "slide": 85,
+      "type": "math",
+      "top": 208.59565689086912,
+      "bottom": 160.31430389404295
+    },
+    {
+      "slide": 86,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 86,
+      "type": "math",
+      "top": 347.76,
+      "bottom": 299.4786470031738
+    },
+    {
+      "slide": 86,
+      "type": "math",
+      "top": 286.4786470031738,
+      "bottom": 238.19729400634765
+    },
+    {
+      "slide": 86,
+      "type": "p",
+      "top": 225.19729400634765,
+      "bottom": 175.95729400634764
+    },
+    {
+      "slide": 87,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 87,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 87,
+      "type": "two",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 87,
+      "type": "p",
+      "top": 168,
+      "bottom": 118.75999999999999
+    },
+    {
+      "slide": 88,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 88,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 88,
+      "type": "two",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 88,
+      "type": "p",
+      "top": 168,
+      "bottom": 142.88
+    },
+    {
+      "slide": 89,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 89,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 89,
+      "type": "two",
+      "top": 410,
+      "bottom": 181
+    },
+    {
+      "slide": 89,
+      "type": "p",
+      "top": 168,
+      "bottom": 118.75999999999999
+    },
+    {
+      "slide": 90,
+      "type": "table",
+      "top": 410,
+      "bottom": 177.26
+    },
+    {
+      "slide": 90,
+      "type": "table",
+      "top": 410,
+      "bottom": 177.26
+    },
+    {
+      "slide": 90,
+      "type": "two",
+      "top": 410,
+      "bottom": 177.26
+    },
+    {
+      "slide": 91,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 276
+    },
+    {
+      "slide": 91,
+      "type": "diagram",
+      "top": 263,
+      "bottom": 129
+    },
+    {
+      "slide": 92,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 276
+    },
+    {
+      "slide": 92,
+      "type": "diagram",
+      "top": 263,
+      "bottom": 129
+    },
+    {
+      "slide": 93,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 276
+    },
+    {
+      "slide": 93,
+      "type": "diagram",
+      "top": 263,
+      "bottom": 129
+    },
+    {
+      "slide": 94,
+      "type": "diagram",
+      "top": 410,
+      "bottom": 276
+    },
+    {
+      "slide": 94,
+      "type": "diagram",
+      "top": 263,
+      "bottom": 129
+    },
+    {
+      "slide": 95,
+      "type": "table",
+      "top": 410,
+      "bottom": 177.26
+    },
+    {
+      "slide": 95,
+      "type": "table",
+      "top": 410,
+      "bottom": 177.26
+    },
+    {
+      "slide": 95,
+      "type": "two",
+      "top": 410,
+      "bottom": 177.26
+    }
+  ]
+}

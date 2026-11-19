@@ -404,15 +404,42 @@ def des_printed_checks(dc):
             raise AssertionError(f'Expected one DES slide titled {title!r}')
         return matches
 
-    ip_positions = [58, 50, 42, 34, 26, 18, 10, 2]
+    ip_slide = des_slide('How to read the initial permutation')
+    # FIPS IP has eight rows: each starts at the number below and steps
+    # backwards through the eight input bytes. This independent construction
+    # checks every entry rather than comparing the diagram only to cx.IP.
+    canonical_ip = [start - 8*column
+                    for start in [58, 60, 62, 64, 57, 59, 61, 63]
+                    for column in range(8)]
+    ip_diagrams = [block[2] for item in ip_slide for block in walk_blocks(item['blocks'])
+                   if block[:2] == ('diagram', 'bit_table')]
+    checked('Worked IP slide displays the complete canonical 8 by 8 table with its first row highlighted',
+            len(ip_diagrams) == 1 and ip_diagrams[0]['table'] == canonical_ip == cx.IP
+            and ip_diagrams[0]['cols'] == 8 and len(ip_diagrams[0]['table']) == 64
+            and ip_diagrams[0].get('rows', 8) == 8
+            and ip_diagrams[0]['output_ranges'] is True
+            and ip_diagrams[0]['highlight_row'] == 0)
+    input_bit_string = f'{cx.DES_PLAINTEXT:064b}'
+    expected_byte_copies = []
+    for output, position in enumerate(canonical_ip[:2], 1):
+        byte_number = (position-1) // 8
+        byte_bits = input_bit_string[8*byte_number:8*byte_number+8]
+        byte_label = f'{int(byte_bits, 2):02X} = {byte_bits[:4]} {byte_bits[4:]}'
+        expected_byte_copies.append([str(output), str(position), byte_label,
+                                     input_bit_string[position-1]])
+    checked('Worked IP examples locate input bits 58 and 50 in the correct plaintext bytes',
+            one_table(ip_slide, ['Output', 'Input', 'Byte in binary', 'Copy']) == expected_byte_copies
+            and expected_byte_copies == [['1', '58', 'EF = 1110 1111', '1'],
+                                          ['2', '50', 'CD = 1100 1101', '1']])
+    ip_positions = canonical_ip[:8]
     ip_bits = select_bits(cx.DES_PLAINTEXT, ip_positions, 64)
-    checked('Worked IP first byte independently copies bits 58,50,42,34,26,18,10,2',
-            ip_bits == '11001100' and ip_bits[0] == '1'
-            and normalized_rows(one_table(des_slide('How to read the initial permutation'),
-                ['Output position'] + [str(i) for i in range(1, 9)])) ==
-            [['Read input bit'] + list(map(str, ip_positions)),
-             ['Bit copied'] + list(ip_bits)]
-            and f'{cx.DES_TRACE["post_ip"]:064b}'[:8] == ip_bits)
+    full_ip_bits = select_bits(cx.DES_PLAINTEXT, canonical_ip, 64)
+    ip_code_last_line = ' '.join(code_text(ip_slide).strip().splitlines()[-1].split())
+    checked('Worked IP copied first-byte bits and full independent permutation match the known vector',
+            ip_bits == '11001100' and ' '.join(ip_bits) in ip_code_last_line
+            and int(full_ip_bits, 2) == cx.DES_TRACE['post_ip'] == 0xCC00CCFFF0AAF0AA
+            and [f'{int(full_ip_bits[start:start+8], 2):02X}' for start in range(0, 64, 8)]
+            == ['CC', '00', 'CC', 'FF', 'F0', 'AA', 'F0', 'AA'])
     e_positions = [32, 1, 2, 3, 4, 5]
     e_bits = select_bits(cx.DES_TRACE['r0'], e_positions, 32)
     expanded_bits = f'{first["expanded"]:048b}'

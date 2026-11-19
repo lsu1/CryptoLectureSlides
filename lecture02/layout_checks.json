@@ -971,19 +971,37 @@
       "slide": 63,
       "type": "p",
       "top": 410,
-      "bottom": 360.76
+      "bottom": 384.88
+    },
+    {
+      "slide": 63,
+      "type": "diagram",
+      "top": 371.88,
+      "bottom": 106.88
     },
     {
       "slide": 63,
       "type": "code",
-      "top": 347.76,
-      "bottom": 261.2
+      "top": 371.88,
+      "bottom": 304.08
     },
     {
       "slide": 63,
       "type": "table",
-      "top": 248.2,
-      "bottom": 165.94
+      "top": 291.08,
+      "bottom": 213.5
+    },
+    {
+      "slide": 63,
+      "type": "code",
+      "top": 200.5,
+      "bottom": 111.25999999999999
+    },
+    {
+      "slide": 63,
+      "type": "two",
+      "top": 371.88,
+      "bottom": 106.88
     },
     {
       "slide": 64,

@@ -2138,69 +2138,139 @@
     "blocks": [
       [
         "p",
-        "Number the 64 plaintext bits from the left, starting at 1. The first entry of the initial permutation (IP) is 58, so output bit 1 copies input bit 58."
+        "Read each row from left to right. Each entry names a plaintext bit to copy, counting from 1."
       ],
       [
-        "code",
-        "LOCATE BIT 58 IN THE LAST BYTE OF 0123456789ABCDEF",
-        "Positions   57 58 59 60 61 62 63 64\nEF in bits   1  1  1  0  1  1  1  1",
-        17
-      ],
-      [
-        "table",
-        [
-          "Output position",
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8"
-        ],
+        "two",
         [
           [
-            "Read input bit",
-            "58",
-            "50",
-            "42",
-            "34",
-            "26",
-            "18",
-            "10",
-            "2"
-          ],
-          [
-            "Bit copied",
-            "1",
-            "1",
-            "0",
-            "0",
-            "1",
-            "1",
-            "0",
-            "0"
+            "diagram",
+            "bit_table",
+            {
+              "table": [
+                58,
+                50,
+                42,
+                34,
+                26,
+                18,
+                10,
+                2,
+                60,
+                52,
+                44,
+                36,
+                28,
+                20,
+                12,
+                4,
+                62,
+                54,
+                46,
+                38,
+                30,
+                22,
+                14,
+                6,
+                64,
+                56,
+                48,
+                40,
+                32,
+                24,
+                16,
+                8,
+                57,
+                49,
+                41,
+                33,
+                25,
+                17,
+                9,
+                1,
+                59,
+                51,
+                43,
+                35,
+                27,
+                19,
+                11,
+                3,
+                61,
+                53,
+                45,
+                37,
+                29,
+                21,
+                13,
+                5,
+                63,
+                55,
+                47,
+                39,
+                31,
+                23,
+                15,
+                7
+              ],
+              "cols": 8,
+              "label": "Complete IP table",
+              "output_ranges": true,
+              "highlight_row": 0,
+              "height": 266
+            }
           ]
         ],
         [
-          190,
-          83.25,
-          83.25,
-          83.25,
-          83.25,
-          83.25,
-          83.25,
-          83.25,
-          83.25
+          [
+            "code",
+            "PLAINTEXT BYTES IN HEX",
+            "01 23 45 67 89 AB CD EF",
+            20
+          ],
+          [
+            "table",
+            [
+              "Output",
+              "Input",
+              "Byte in binary",
+              "Copy"
+            ],
+            [
+              [
+                "1",
+                "58",
+                "EF = 1110 1111",
+                "1"
+              ],
+              [
+                "2",
+                "50",
+                "CD = 1100 1101",
+                "1"
+              ]
+            ],
+            [
+              72,
+              68,
+              206,
+              68
+            ]
+          ],
+          [
+            "code",
+            "FIRST ROW  •  TAKE THE SECOND BIT OF EACH BYTE",
+            "Byte   EF CD AB 89 67 45 23 01\nBit     1  1  0  0  1  1  0  0",
+            18
+          ]
         ]
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Read the copied bits from left to right. The first output byte is 11001100, or CC in hex.",
+    "take": "The highlighted row gives 1100 1100 = CC in hex. Reading all eight rows gives CC00CCFFF0AAF0AA.",
     "kind": "normal",
-    "notes": "Input position 58 is the second bit of the last byte, EF. For a second independent check, locate input bit 50 as the second bit of CD. Repeat with the remaining table entries to get the first byte of the left half. Appendix A3 contains the whole IP table.",
+    "notes": "Point to 58 in the highlighted row. The last byte EF occupies positions 57–64, so position 58 is its second bit. Move one cell right to 50. The preceding byte CD occupies positions 49–56, so position 50 is its second bit. Follow the remaining six cells from rightmost plaintext byte toward the left to get 11001100. Point to the next row for output bits 9–16. The entire result is split into L0 and R0 on the next slide.",
     "minutes": 3.0,
     "source": ""
   },

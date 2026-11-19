@@ -245,12 +245,24 @@ def draw(c,name,options,x,y,w):
      text(c,xx+cw/2,yy+ch/2+3,str(val),10,center=True,mono=True)
    h=hh
   else:
-   cols=options.get('cols',8);nr=(len(values)+cols-1)//cols;hh=desired or nr*29+34;labelh=25 if label else 0;ch=(hh-labelh-10)/nr;cw=w/cols
-   if label:text(c,0,14,label,12,True,TEAL)
+   cols=options.get('cols',8);nr=(len(values)+cols-1)//cols;hh=desired or nr*29+34
+   labeled_ranges=options.get('output_ranges',False)
+   gutter=84 if labeled_ranges else 0
+   labelh=25 if label else 0
+   if label:text(c,0,14,label,15 if labeled_ranges else 12,True,TEAL)
+   if labeled_ranges:
+    text(c,gutter/2,labelh+12,'Output bits',12,True,NAVY,True)
+    text(c,(w+gutter)/2,labelh+12,'Input positions to copy',12,True,NAVY,True)
+    labelh+=21
+   ch=(hh-labelh-10)/nr;cw=(w-gutter)/cols
    for j,val in enumerate(values):
-    r,col=divmod(j,cols);xx=col*cw;yy=labelh+r*ch
-    c.setFillColor(LIGHT);c.rect(xx+1,-yy-ch+1,cw-2,ch-2,stroke=0,fill=1)
-    text(c,xx+cw/2,yy+ch/2+4,str(val),12,center=True)
+    r,col=divmod(j,cols);xx=gutter+col*cw;yy=labelh+r*ch
+    highlighted=r==options.get('highlight_row')
+    if labeled_ranges and col==0:
+     text(c,gutter/2,yy+ch/2+4,f'{j+1}–{min(j+cols,len(values))}',13,True,TEAL if highlighted else INK,True)
+    c.setFillColor(TEAL if highlighted else LIGHT);c.rect(xx+1,-yy-ch+1,cw-2,ch-2,stroke=0,fill=1)
+    text(c,xx+cw/2,yy+ch/2+(5 if labeled_ranges else 4),str(val),17 if labeled_ranges else 12,
+         highlighted,WHITE if highlighted else INK,True)
    h=hh
  else:raise ValueError(f'Unknown diagram {name}')
  c.restoreState();return h

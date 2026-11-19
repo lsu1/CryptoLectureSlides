@@ -1,6 +1,6 @@
 {
   "edition": "Lecture 02: one-time pads and block ciphers",
-  "checks_passed": 78,
+  "checks_passed": 80,
   "checks": [
     "Letter OTP known answer and decryption",
     "Every printed letter-OTP addition matches the original example",
@@ -46,7 +46,9 @@
     "Printed complete toy trace matches all computed intermediate states",
     "Printed toy avalanche trace uses one input-bit change and actual state differences",
     "Printed forward and reverse Feistel example follows the stated non-invertible F",
-    "Worked IP first byte independently copies bits 58,50,42,34,26,18,10,2",
+    "Worked IP slide displays the complete canonical 8 by 8 table with its first row highlighted",
+    "Worked IP examples locate input bits 58 and 50 in the correct plaintext bytes",
+    "Worked IP copied first-byte bits and full independent permutation match the known vector",
     "Worked expansion group independently copies R0 and retains its leading zero",
     "Worked first six expanded and subkey bits XOR to the actual S1 input",
     "Worked PC2 first six selections reproduce the round-key bits used at S1",
@@ -107,8 +109,8 @@
   "pdfs": {
     "Lecture02_OTP_and_Block_Ciphers.pdf": {
       "pages": 99,
-      "bytes": 365804,
-      "sha256": "e7b13778684638e63c0c824c7d05b38f112564e62ff106efa88435baae18c3f3",
+      "bytes": 367153,
+      "sha256": "182ff61e0706337d1241842162d392887b567721e7bd57e68ed1015acac79203",
       "rendered_pages": 99,
       "all_fonts_embedded": true,
       "fonts": {
@@ -129,8 +131,8 @@
     },
     "Lecture02_Instructor_Guide.pdf": {
       "pages": 11,
-      "bytes": 101560,
-      "sha256": "ce9cc2db20533ab6692f773c71ae447a51fa58109141fd8964e30a04294b181d",
+      "bytes": 101654,
+      "sha256": "a7f8b061bc3d01a487f4da400b9875588e3427584ca87312b0e1928e959f18d1",
       "rendered_pages": 11,
       "all_fonts_embedded": true,
       "fonts": {

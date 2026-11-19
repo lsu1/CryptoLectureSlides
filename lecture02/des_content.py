@@ -158,12 +158,21 @@ DES_SLIDES = [
     ], take='Our first goal is to calculate the two halves leaving round 1. One hex digit represents four bits.',
        notes='Recall the two-round Feistel exercise on slide 57. DES repeats that same outer rule sixteen times. Trace the data across the diagram and pause at round 1. The example key includes the eight parity bits introduced on the preceding slide.', minutes=2),
     ds('How to read the initial permutation', [
-        P('Number the 64 plaintext bits from the left, starting at 1. The first entry of the initial permutation (IP) is 58, so output bit 1 copies input bit 58.'),
-        C('LOCATE BIT 58 IN THE LAST BYTE OF 0123456789ABCDEF',
-          'Positions   57 58 59 60 61 62 63 64\nEF in bits   1  1  1  0  1  1  1  1', 17),
-        bit_copy_table(DES_PLAINTEXT, 64, IP[:8]),
-    ], take='Read the copied bits from left to right. The first output byte is 11001100, or CC in hex.',
-       notes='Input position 58 is the second bit of the last byte, EF. For a second independent check, locate input bit 50 as the second bit of CD. Repeat with the remaining table entries to get the first byte of the left half. Appendix A3 contains the whole IP table.', minutes=3),
+        P('Read each row from left to right. Each entry names a plaintext bit to copy, counting from 1.'),
+        Two([
+            D('bit_table', table=IP, cols=8, label='Complete IP table',
+              output_ranges=True, highlight_row=0, height=266),
+        ], [
+            C('PLAINTEXT BYTES IN HEX', DES_PLAINTEXT.to_bytes(8, 'big').hex(' ').upper(), 20),
+            T(['Output', 'Input', 'Byte in binary', 'Copy'], [
+                ['1', '58', 'EF = 1110 1111', '1'],
+                ['2', '50', 'CD = 1100 1101', '1'],
+            ], [72, 68, 206, 68]),
+            C('FIRST ROW  •  TAKE THE SECOND BIT OF EACH BYTE',
+              'Byte   EF CD AB 89 67 45 23 01\nBit     1  1  0  0  1  1  0  0', 18),
+        ]),
+    ], take='The highlighted row gives 1100 1100 = CC in hex. Reading all eight rows gives CC00CCFFF0AAF0AA.',
+       notes='Point to 58 in the highlighted row. The last byte EF occupies positions 57–64, so position 58 is its second bit. Move one cell right to 50. The preceding byte CD occupies positions 49–56, so position 50 is its second bit. Follow the remaining six cells from rightmost plaintext byte toward the left to get 11001100. Point to the next row for output bits 9–16. The entire result is split into L0 and R0 on the next slide.', minutes=3),
     ds('What enters the first Feistel round?', [
         C('APPLY IP, THEN SPLIT INTO TWO 32-BIT HALVES',
           f'IP output   {DES_TRACE["post_ip"]:016X}\nLeft  L₀    {DES_TRACE["l0"]:08X}\nRight R₀    {DES_TRACE["r0"]:08X}', 20),

@@ -1889,34 +1889,6 @@
     "source": ""
   },
   {
-    "title": "Reverse the keys: make the final swap explicit",
-    "blocks": [
-      [
-        "p",
-        "Our network convention is: run r Feistel rounds, then swap the two output halves."
-      ],
-      [
-        "math",
-        "C=R_r\\,\\|\\,L_r.\\qquad\\text{Decrypt with }K_r,K_{r-1},\\ldots,K_1\\text{ and the same final swap.}"
-      ],
-      [
-        "math",
-        "(\\widetilde L_1,\\widetilde R_1)=(L_r,L_{r-1})=(R_{r-1},L_{r-1})."
-      ],
-      [
-        "p",
-        "The reverse run successively recovers the preceding pairs in exchanged order. After all r rounds, its final swap restores L₀ ∥ R₀."
-      ]
-    ],
-    "section": "FEISTEL NETWORKS",
-    "sub": "",
-    "take": "“Same network, reversed keys” depends on the stated input/output swap convention.",
-    "kind": "normal",
-    "notes": "Start the reverse network with (Rr,Lr). Its first output is (Lr, Rr XOR F(Lr,Kr)), equal to (Rr−1,Lr−1). Repeat the argument. This is why DES can use the same round machinery for both directions.",
-    "minutes": 3.0,
-    "source": ""
-  },
-  {
     "title": "Two rounds: follow encryption and decryption",
     "blocks": [
       [
@@ -1997,8 +1969,8 @@
     "sub": "",
     "take": "The same two-round construction reverses the transformation when the key order is reversed.",
     "kind": "normal",
-    "notes": "Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). The numeric example is deliberately only eight bits long.",
-    "minutes": 3.0,
+    "notes": "Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). Give students three minutes to calculate the reverse steps using K₂ and then K₁ before discussing the result.",
+    "minutes": 6.0,
     "source": ""
   },
   {

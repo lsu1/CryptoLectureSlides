@@ -29,7 +29,7 @@
     "label": "Practical security, block-cipher design, toy SPN, and Feistel networks",
     "slides": [
       34,
-      58
+      57
     ]
   },
   {
@@ -39,8 +39,8 @@
     "minutes": 10,
     "label": "Break",
     "slides": [
-      59,
-      59
+      58,
+      58
     ]
   },
   {
@@ -50,8 +50,8 @@
     "minutes": 60,
     "label": "DES internals, key schedule, Double DES, and Triple DES",
     "slides": [
-      60,
-      86
+      59,
+      85
     ]
   }
 ]

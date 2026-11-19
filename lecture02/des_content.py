@@ -61,13 +61,6 @@ FEISTEL_SLIDES = [
         C('CHECK THE TOY ROUND', 'R₀ = L₁ = 1100\nL₀ = 1110 XOR (1100 AND 0110) = 1010', 17),
     ], take='The same F is evaluated again; XOR cancels the repeated value.',
        notes='The first inverse identity comes directly from the unchanged branch. Substitute that identity into the second, then cancel X XOR X. This proves invertibility for every F with the required input/output widths.', minutes=3),
-    fs('Reverse the keys: make the final swap explicit', [
-        P('Our network convention is: run r Feistel rounds, then swap the two output halves.'),
-        M(r'C=R_r\,\|\,L_r.\qquad\text{Decrypt with }K_r,K_{r-1},\ldots,K_1\text{ and the same final swap.}'),
-        M(r'(\widetilde L_1,\widetilde R_1)=(L_r,L_{r-1})=(R_{r-1},L_{r-1}).'),
-        P('The reverse run successively recovers the preceding pairs in exchanged order. After all r rounds, its final swap restores L₀ ∥ R₀.'),
-    ], take='“Same network, reversed keys” depends on the stated input/output swap convention.',
-       notes='Start the reverse network with (Rr,Lr). Its first output is (Lr, Rr XOR F(Lr,Kr)), equal to (Rr−1,Lr−1). Repeat the argument. This is why DES can use the same round machinery for both directions.', minutes=3),
     fs('Two rounds: follow encryption and decryption', [
         Two([
             T(['Forward step', 'L', 'R'], [
@@ -80,7 +73,7 @@ FEISTEL_SLIDES = [
         ]),
         C('FINISH EACH DIRECTION BY SWAPPING HALVES', 'Encryption output: 1000 || 1110\nDecryption output: 1010 || 1100', 18),
     ], take='The same two-round construction reverses the transformation when the key order is reversed.',
-       notes='Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). The numeric example is deliberately only eight bits long.', minutes=3),
+       notes='Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). Give students three minutes to calculate the reverse steps using K₂ and then K₁ before discussing the result.', minutes=6),
 ]
 
 _first = DES_TRACE['rounds'][0]
@@ -320,7 +313,7 @@ DES_APPENDIX.append(slide('DES reference / all sixteen round states', [
    notes='Initial halves are L0=CC00CCFF and R0=F0AAF0AA. The full trace is generated from the same known-answer example; preserve leading zeros in the eight-digit half-block displays.', minutes=0))
 
 # Content-level invariants are useful before the full PDF and layout checks run.
-assert len(FEISTEL_SLIDES)==6 and len(DES_SLIDES)==26 and len(DES_APPENDIX)==9
+assert len(FEISTEL_SLIDES)==5 and len(DES_SLIDES)==26 and len(DES_APPENDIX)==9
 assert DES_CIPHERTEXT==0x85E813540F0AB405
 assert DES_TRACE['post_ip']==0xCC00CCFFF0AAF0AA
 assert _first['expanded']==0x7A15557A1555 and _first['xored']==0x6117BA866527

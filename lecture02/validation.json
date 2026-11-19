@@ -76,7 +76,7 @@
     "Lecture02_Instructor_Guide.pdf embeds every referenced font",
     "Lecture02_Instructor_Guide.pdf text uses glyphs covered by its DejaVu fonts"
   ],
-  "teaching_pages": 86,
+  "teaching_pages": 85,
   "appendix_pages": 11,
   "session_minutes": 210,
   "teaching_minutes": 190,
@@ -101,22 +101,22 @@
   },
   "pdfs": {
     "Lecture02_OTP_and_Block_Ciphers.pdf": {
-      "pages": 97,
-      "bytes": 357787,
-      "sha256": "cd360baf9233adc2f90f68bf65022ec3bceef4756b66743a81fb4b64652c46e0",
-      "rendered_pages": 97,
+      "pages": 96,
+      "bytes": 354380,
+      "sha256": "151c5fcaa00ae64d268503c91fcf4caa0a925c430ca41b2bdd8dc897c4eed139",
+      "rendered_pages": 96,
       "all_fonts_embedded": true,
       "fonts": {
-        "102:AAAAAA+DejaVuSans": true,
-        "106:AAAAAA+DejaVuSans-Bold": true,
-        "110:AAAAAA+DejaVuSansMono": true,
-        "237:TSLQHM+LMMathItalic12-Regular": true,
-        "243:HFSZWC+LMMathSymbols10-Regular": true,
-        "249:UERJWY+LMRoman17-Regular": true,
-        "268:PNBBJF+LMMathExtension10-Regular": true,
-        "320:RAZVEJ+MSBM10": true,
-        "348:RZWMKQ+LMSans17-Regular": true,
-        "371:CWZWNC+LMRoman12-Regular": true
+        "101:AAAAAA+DejaVuSans": true,
+        "105:AAAAAA+DejaVuSans-Bold": true,
+        "109:AAAAAA+DejaVuSansMono": true,
+        "235:TSLQHM+LMMathItalic12-Regular": true,
+        "241:HFSZWC+LMMathSymbols10-Regular": true,
+        "247:SFGEFQ+LMRoman17-Regular": true,
+        "266:UUYMEV+LMMathExtension10-Regular": true,
+        "318:RAZVEJ+MSBM10": true,
+        "342:RZWMKQ+LMSans17-Regular": true,
+        "365:CWZWNC+LMRoman12-Regular": true
       },
       "text_bounds_tolerance_pt": 0.75,
       "problems": [],
@@ -124,8 +124,8 @@
     },
     "Lecture02_Instructor_Guide.pdf": {
       "pages": 12,
-      "bytes": 101130,
-      "sha256": "fcf9b0b91d4f40554dffc8d4d5dd9649611adc7225c571f1bdd2915f8ddf0d0b",
+      "bytes": 100961,
+      "sha256": "2ff83da59684f15e297169b5dd96dbd27cb9dcb8a9a4275b6960b2557647d8cf",
       "rendered_pages": 12,
       "all_fonts_embedded": true,
       "fonts": {

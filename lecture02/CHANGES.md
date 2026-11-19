@@ -9,6 +9,7 @@ The three old decks are consolidated into **Lecture 02: One-time Pads and Block 
 - Original worked examples are completed, including all letters of `NANYANG + XRTRPLK`, the ten-bit XOR answer and reversal, dice conditioning, and coin entropy.
 - The OTP proof is expanded into explicit likelihood, marginal-probability, and Bayes steps. A nonuniform plaintext prior demonstrates that perfect secrecy preserves prior beliefs rather than making every message equally likely.
 - The reference toy SPN receives explicit S-box values, a bit permutation, round keys, and a numerical trace. These are identified as new teaching choices because the old diagram did not specify them.
+- The 16-bit SPN walkthrough now shows the first key XOR in binary, all four S-box lookups, and how to copy bits from the numbered input positions. Students can recover the first hex digit (9) by hand before following the rest of the permutation and later rounds.
 - Feistel inversion is shown algebraically and through a small calculation. One DES plaintext/key/ciphertext vector connects the initial permutation, first round, S-boxes, key schedule, final swap, and output.
 - Conditional-entropy depth and complete DES lookup tables are optional appendix material. The main deck includes the complete OTP proof and essential DES calculations.
 

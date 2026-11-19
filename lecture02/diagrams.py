@@ -82,6 +82,61 @@ def draw(c,name,options,x,y,w):
   text(c,0,198,'16-bit plaintext',13,True);text(c,w,198,'16-bit ciphertext',13,True,center=False) if False else None
   text(c,w-70,198,'16-bit ciphertext',13,True,center=True)
   h=220
+ elif name=='toy_sbox_lookup':
+  value=int(options.get('value',0x28A0));sbox=list(options['sbox'])
+  if not 0<=value<1<<16 or len(sbox)!=16 or any(not isinstance(v,int) or not 0<=v<16 for v in sbox):
+   raise ValueError('A toy lookup needs a 16-bit input and sixteen 4-bit S-box outputs')
+  digits=[(value>>shift)&15 for shift in (12,8,4,0)];selected=set(digits)
+  gutter=116;cw=(w-gutter)/16
+  text(c,0,36,'Input digit',12,True,TEAL)
+  text(c,0,73,'S-box output',12,True,TEAL)
+  for digit in range(16):
+   xx=gutter+digit*cw
+   for row,val in enumerate((digit,sbox[digit])):
+    yy=13+row*37;chosen=digit in selected
+    c.setFillColor((TEAL if row==0 else CORAL) if chosen else LIGHT)
+    c.roundRect(xx+1,-yy-33,cw-2,33,3,fill=1,stroke=0)
+    text(c,xx+cw/2,yy+23,f'{val:X}',16,True,WHITE if chosen else INK,True,True)
+  text(c,0,110,'Read the four lookups in the order of the input digits',13,True,TEAL)
+  gap=20;cardw=(w-3*gap)/4
+  for i,digit in enumerate(digits):
+   xx=i*(cardw+gap)
+   c.setFillColor(LIGHT);c.roundRect(xx,-126-64,cardw,64,6,fill=1,stroke=0)
+   text(c,xx+cardw/2,146,f'Input digit {i+1}',11,color=MUTED,center=True)
+   text(c,xx+cardw/2,177,f'{digit:X} → {sbox[digit]:X}',23,True,INK,True,True)
+  h=202
+ elif name=='toy_bit_positions':
+  value=int(options.get('value',0xD36E));positions=list(options.get('positions',[1,5,9,13]))
+  if not 0<=value<1<<16 or len(positions)!=4 or any(not isinstance(v,int) or not 1<=v<=16 for v in positions):
+   raise ValueError('A toy bit-copy diagram needs a 16-bit input and four positions numbered 1–16')
+  bits=[(value>>(15-i))&1 for i in range(16)];selected=set(positions)
+  gutter=132;gap=12;cw=(w-gutter-3*gap)/16;groupw=4*cw
+  def input_center(position):
+   i=position-1
+   return gutter+(i//4)*(groupw+gap)+(i%4+.5)*cw
+  text(c,0,31,'Hex digit',13,True,TEAL)
+  text(c,0,73,'Input position',12,True,TEAL)
+  text(c,0,111,'Input bit',13,True,TEAL)
+  for group,digit in enumerate(f'{value:04X}'):
+   xx=gutter+group*(groupw+gap)
+   c.setFillColor(NAVY);c.roundRect(xx+1,-8-33,groupw-2,33,4,fill=1,stroke=0)
+   text(c,xx+groupw/2,32,digit,21,True,WHITE,True,True)
+  for i,bit in enumerate(bits):
+   position=i+1;xx=input_center(position)-cw/2;chosen=position in selected
+   c.setFillColor(TEAL if chosen else LIGHT);c.roundRect(xx+1,-52-28,cw-2,28,3,fill=1,stroke=0)
+   text(c,xx+cw/2,72,str(position),12,True if chosen else False,WHITE if chosen else INK,True,True)
+   c.setFillColor(CORAL if chosen else LIGHT);c.roundRect(xx+1,-87-35,cw-2,35,3,fill=1,stroke=0)
+   text(c,xx+cw/2,112,str(bit),21,True,WHITE if chosen else INK,True,True)
+  text(c,0,195,'Output bit',13,True,TEAL)
+  copied=[]
+  for j,position in enumerate(positions):
+   cx=gutter+j*(groupw+gap)+groupw/2;bit=bits[position-1];copied.append(str(bit))
+   arrow(c,input_center(position),125,cx,146,CORAL,1.6)
+   text(c,cx,164,f'position {j+1}',11,True,TEAL,True)
+   c.setFillColor(LIGHT);c.roundRect(cx-29,-174-34,58,34,4,fill=1,stroke=0)
+   text(c,cx,199,str(bit),22,True,INK,True,True)
+  text(c,w/2,231,'Output bits 1–4 = '+''.join(copied),15,True,TEAL,True)
+  h=235
  elif name=='feistel_round':
   lx=w*.22;rx=w*.78;fx=w*.51
   box(c,lx-88,0,176,38,'Lᵢ₋₁');box(c,rx-88,0,176,38,'Rᵢ₋₁')

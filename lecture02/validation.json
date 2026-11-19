@@ -1,6 +1,6 @@
 {
   "edition": "Lecture 02: one-time pads and block ciphers",
-  "checks_passed": 71,
+  "checks_passed": 73,
   "checks": [
     "Letter OTP known answer and decryption",
     "Every printed letter-OTP addition matches the original example",
@@ -39,8 +39,10 @@
     "Toy SPN S-box and bit routing are bijections with correct inverses",
     "Toy SPN known trace has three substitution rounds and final whitening",
     "Toy SPN round-trips representative blocks and an alternate round-key list",
-    "Printed toy S-box and bit-permutation specification matches the computed model",
-    "Printed toy first-round table matches key XOR, S-boxes, and routing",
+    "Worked toy XOR table displays the correct hexadecimal and every input/output bit",
+    "Worked toy S-box lookup uses the first key-XOR result and the specified bijection",
+    "Worked bit-position diagram selects the first output nibble from the S-box result",
+    "All four printed permutation groups copy the specified bits and form 9B7C",
     "Printed complete toy trace matches all computed intermediate states",
     "Printed toy avalanche trace uses one input-bit change and actual state differences",
     "Printed forward and reverse Feistel example follows the stated non-invertible F",
@@ -74,7 +76,7 @@
     "Lecture02_Instructor_Guide.pdf embeds every referenced font",
     "Lecture02_Instructor_Guide.pdf text uses glyphs covered by its DejaVu fonts"
   ],
-  "teaching_pages": 84,
+  "teaching_pages": 86,
   "appendix_pages": 11,
   "session_minutes": 210,
   "teaching_minutes": 190,
@@ -99,37 +101,37 @@
   },
   "pdfs": {
     "Lecture02_OTP_and_Block_Ciphers.pdf": {
-      "pages": 95,
-      "bytes": 348078,
-      "sha256": "42938b6519e29553c97dffdba17df582e9f18ede6923b0463649bddb69548052",
-      "rendered_pages": 95,
+      "pages": 97,
+      "bytes": 357787,
+      "sha256": "cd360baf9233adc2f90f68bf65022ec3bceef4756b66743a81fb4b64652c46e0",
+      "rendered_pages": 97,
       "all_fonts_embedded": true,
       "fonts": {
-        "100:AAAAAA+DejaVuSans": true,
-        "104:AAAAAA+DejaVuSans-Bold": true,
-        "108:AAAAAA+DejaVuSansMono": true,
-        "233:TSLQHM+LMMathItalic12-Regular": true,
-        "239:HFSZWC+LMMathSymbols10-Regular": true,
-        "245:UERJWY+LMRoman17-Regular": true,
-        "264:PNBBJF+LMMathExtension10-Regular": true,
-        "316:RAZVEJ+MSBM10": true,
-        "344:RZWMKQ+LMSans17-Regular": true,
-        "367:CWZWNC+LMRoman12-Regular": true
+        "102:AAAAAA+DejaVuSans": true,
+        "106:AAAAAA+DejaVuSans-Bold": true,
+        "110:AAAAAA+DejaVuSansMono": true,
+        "237:TSLQHM+LMMathItalic12-Regular": true,
+        "243:HFSZWC+LMMathSymbols10-Regular": true,
+        "249:UERJWY+LMRoman17-Regular": true,
+        "268:PNBBJF+LMMathExtension10-Regular": true,
+        "320:RAZVEJ+MSBM10": true,
+        "348:RZWMKQ+LMSans17-Regular": true,
+        "371:CWZWNC+LMRoman12-Regular": true
       },
       "text_bounds_tolerance_pt": 0.75,
       "problems": [],
       "missing_glyphs": []
     },
     "Lecture02_Instructor_Guide.pdf": {
-      "pages": 11,
-      "bytes": 99710,
-      "sha256": "7d8ebd86537ca8619d8819d9fdd34ddea8b07094238b34e8555e703a5eb29101",
-      "rendered_pages": 11,
+      "pages": 12,
+      "bytes": 101130,
+      "sha256": "fcf9b0b91d4f40554dffc8d4d5dd9649611adc7225c571f1bdd2915f8ddf0d0b",
+      "rendered_pages": 12,
       "all_fonts_embedded": true,
       "fonts": {
-        "20:AAAAAA+DejaVuSans": true,
-        "24:AAAAAA+DejaVuSans-Bold": true,
-        "28:AAAAAA+DejaVuSans-Oblique": true
+        "21:AAAAAA+DejaVuSans": true,
+        "25:AAAAAA+DejaVuSans-Bold": true,
+        "29:AAAAAA+DejaVuSans-Oblique": true
       },
       "text_bounds_tolerance_pt": 0.75,
       "problems": [],

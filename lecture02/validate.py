@@ -272,18 +272,39 @@ def numerical_checks():
             all(cx.toy_decrypt(cx.toy_encrypt(block, keys), keys) == block
                 for keys in [cx.TOY_KEYS, [0, 0, 0, 0], [0xFFFF, 0x0123, 0x8000, 0x4567]]
                 for block in [0, 1, 0x1234, 0x8000, 0xFFFF]))
-    toy_codes = [block[2] for item in bc.BLOCK_SLIDES for block in walk_blocks(item['blocks'])
-                 if block[0] == 'code']
-    lookup_text = next(text for text in toy_codes if '\nOutput ' in text)
-    permutation_text = next(text for text in toy_codes if text.startswith('P = '))
-    checked('Printed toy S-box and bit-permutation specification matches the computed model',
-            [int(value, 16) for value in lookup_text.split('\nOutput ')[1].split()] == cx.TOY_SBOX
-            and [int(value) for value in re.findall(r'\d+', permutation_text)] == cx.TOY_PERM)
     toy_first = cx.TOY_TRACE['rounds'][0]
-    checked('Printed toy first-round table matches key XOR, S-boxes, and routing',
-            [row[1] for row in one_table(bc.BLOCK_SLIDES,
-                                        ['Operation', 'Result (hex)', 'How to obtain it'])] ==
-            [f'{toy_first[field]:04X}' for field in ['mixed', 'substituted', 'state']])
+    toy_blocks = [block for item in bc.BLOCK_SLIDES for block in walk_blocks(item['blocks'])]
+    xor_values = [cx.TOY_PLAINTEXT, cx.TOY_KEYS[0], cx.TOY_PLAINTEXT ^ cx.TOY_KEYS[0]]
+    checked('Worked toy XOR table displays the correct hexadecimal and every input/output bit',
+            [row[1:] for row in one_table(bc.BLOCK_SLIDES, ['', 'Hex', 'Bits in groups of four'])]
+            == [[f'{value:04X}', ' '.join(f'{value:016b}'[start:start+4] for start in range(0, 16, 4))]
+                for value in xor_values]
+            and xor_values[-1] == toy_first['mixed'])
+    toy_lookups = [block[2] for block in toy_blocks if block[:2] == ('diagram', 'toy_sbox_lookup')]
+    checked('Worked toy S-box lookup uses the first key-XOR result and the specified bijection',
+            len(toy_lookups) == 1 and toy_lookups[0]['value'] == toy_first['mixed'] == 0x28A0
+            and toy_lookups[0]['sbox'] == cx.TOY_SBOX
+            and sum(toy_lookups[0]['sbox'][(toy_lookups[0]['value'] >> shift) & 15] << shift
+                    for shift in [12, 8, 4, 0]) == toy_first['substituted'] == 0xD36E)
+    bit_picks = [block[2] for block in toy_blocks if block[:2] == ('diagram', 'toy_bit_positions')]
+    first_positions = cx.TOY_PERM[:4]
+    checked('Worked bit-position diagram selects the first output nibble from the S-box result',
+            len(bit_picks) == 1 and bit_picks[0]['value'] == toy_first['substituted']
+            and bit_picks[0]['positions'] == first_positions == [1, 5, 9, 13]
+            and cx.permute(bit_picks[0]['value'], bit_picks[0]['positions'], 16) == 9)
+    input_bits = f'{toy_first["substituted"]:016b}'
+    expected_groups = []
+    for start in range(0, 16, 4):
+        positions = cx.TOY_PERM[start:start+4]
+        copied = ''.join(input_bits[position-1] for position in positions)
+        expected_groups.append([f'{start+1}–{start+4}', ', '.join(map(str, positions)),
+                                copied, f'{int(copied, 2):X}'])
+    checked('All four printed permutation groups copy the specified bits and form 9B7C',
+            one_table(bc.BLOCK_SLIDES, ['Output bits', 'Copy input positions', 'Bits copied', 'Hex digit'])
+            == expected_groups
+            and expected_groups[0][2:] == ['1001', '9']
+            and int(''.join(row[3] for row in expected_groups), 16)
+            == cx.permute(toy_first['substituted'], cx.TOY_PERM, 16) == toy_first['state'] == 0x9B7C)
     expected_toy = [[f'Round {i+1}', f'{cx.TOY_KEYS[i]:04X}', f'{row["mixed"]:04X}',
                      f'{row["substituted"]:04X}', f'{row["state"]:04X}' if i < 2 else 'P omitted']
                     for i, row in enumerate(cx.TOY_TRACE['rounds'])]

@@ -2,6 +2,25 @@
 from deck_schema import *
 from crypto_examples import TOY_SBOX, TOY_PERM, TOY_KEYS, TOY_PLAINTEXT, TOY_CIPHERTEXT, TOY_TRACE, TOY_FLIP_MASK, toy_encrypt
 
+
+
+def bit_groups(value):
+    return ' '.join(f'{int(digit, 16):04b}' for digit in f'{value:04X}')
+
+
+def routing_rows(value, permutation):
+    bits = f'{value:016b}'
+    rows = []
+    for offset in range(0, 16, 4):
+        positions = permutation[offset:offset + 4]
+        copied = ''.join(bits[pos - 1] for pos in positions)
+        rows.append([f'{offset + 1}–{offset + 4}',
+                     ', '.join(map(str, positions)), copied, f'{int(copied, 2):X}'])
+    return rows
+
+
+first_round = TOY_TRACE['rounds'][0]
+
 def S(title,blocks=None,**kw):return slide(title,blocks,section='BLOCK CIPHERS',**kw)
 BLOCK_SLIDES=[
  S('From perfect secrecy to practical security',[
@@ -70,36 +89,52 @@ BLOCK_SLIDES=[
    ['Invertible layers give an invertible cipher.','The full round is invertible even if its inner F is not.'],
    ['Our next toy example illustrates the structure.','DES uses 16 Feistel rounds.']],[428,428])],
   notes='This is the first definition of SPN. AES uses a substitution-permutation design but is not the toy network shown here.',minutes=2),
- S('A 16-bit toy SPN: see the data path',[
-  D('toy_spn'),
-  P('Three rounds; four 4-bit S-box positions per round. The first two rounds include a bit permutation; a final key XOR follows round 3.')],
-  take='A teaching construction with explicit example choices, not a cipher recommended for use.',
-  notes='Matches the reference’s 16-bit/three-round structure. Its S-box, permutation, and numerical keys were unspecified; the next slides make illustrative choices explicit.',minutes=3),
- S('Specify the toy substitution and wiring',[
-  C('S-BOX: HEX INPUT DIGIT → HEX OUTPUT DIGIT','Input   0 1 2 3 4 5 6 7 8 9 A B C D E F\nOutput  '+' '.join(f'{x:X}' for x in TOY_SBOX),15),
-  C('PERMUTATION: OUTPUT POSITION j TAKES INPUT POSITION P[j]','P = 1,5,9,13, 2,6,10,14, 3,7,11,15, 4,8,12,16',15),
-  P('Positions start at 1 at the leftmost bit. The same bijective S-box is used at all four positions; it is separate from DES’s S-boxes.')],
-  take='One hexadecimal digit represents four bits: A = 1010, F = 1111.',notes='The 16 S-box outputs are distinct, so each nibble can be inverted. The displayed bit permutation is a 4×4 transpose.',minutes=3),
- S('Toy example: work through the first round',[
-  C('PLAINTEXT AND ILLUSTRATIVE ROUND KEYS',f'Plaintext  {TOY_PLAINTEXT:04X}\nKeys       '+', '.join(f'{k:04X}' for k in TOY_KEYS),19),
-  T(['Operation','Result (hex)','How to obtain it'],[
-   ['Key XOR',f'{TOY_TRACE["rounds"][0]["mixed"]:04X}','XOR the plaintext with key K₀.'],
-   ['Substitution',f'{TOY_TRACE["rounds"][0]["substituted"]:04X}','Look up each of the four hexadecimal digits.'],
-   ['Permutation',f'{TOY_TRACE["rounds"][0]["state"]:04X}','Reorder the 16 bits using P.']],[190,180,486])],
-  notes='Pause for a nibble lookup and one output-bit lookup. These round keys are explicit illustrative inputs, not a claim about a secure master-key schedule.',minutes=4),
- S('Finish the three-round toy example',[
+ S('Follow one 16-bit block through three rounds',[
+  P('Our plaintext is 1234 in hexadecimal. Each digit stands for four bits, so the four digits together form one 16-bit block.'),
+  D('toy_spn')],
+  take='For this example the four keys, in order, are K₀ = 3A94, K₁ = A94D, K₂ = 94D6, and K₃ = 4D63.',
+  notes='Trace the arrows once. Each intermediate value replaces the preceding block. The S-box and four key values are teaching choices. Keep the first key and the plaintext on the board.',minutes=1),
+ S('Round 1 · XOR the plaintext with the first key',[
+  P('Write the plaintext and K₀ as four groups of four bits. Compare matching bits. XOR gives 1 when the two bits differ and 0 when they match.'),
+  T(['','Hex','Bits in groups of four'],[
+   [label, f'{value:04X}', bit_groups(value)] for label,value in
+   [('Plaintext',TOY_PLAINTEXT),('Round key K₀',TOY_KEYS[0]),('After XOR',first_round['mixed'])]
+  ],[195,135,526]),
+  P('In the second group, 2 XOR A gives 0010 XOR 1010 = 1000. That is hex 8.')],
+  take='Read the four result groups from left to right to get 28A0.',
+  notes='Align the first pair 0001 and 0011, then ask students to read their XOR, 0010. For the second pair, A is ten in decimal and 1010 in binary. Each XOR acts on corresponding bits independently.',minutes=2.5),
+ S('Round 1 · Substitute each digit of 28A0',[
+  P('Use the same substitution table for each of the four digits. Find the input digit in the top row and copy the entry directly below it.'),
+  D('toy_sbox_lookup',value=first_round['mixed'],sbox=TOY_SBOX)],
+  take='Join the four outputs in the order of the input digits. The new block is D36E.',
+  notes='Begin with the digit 2. Find its column and read D below it. Ask the class to repeat that lookup for 8, A, and 0. Reading those four answers in message order gives D36E.',minutes=2),
+ S('Round 1 · Where does the first output digit come from?',[
+  P('Expand D36E into bits and number them from 1 to 16, starting on the left. The permutation tells us to copy input positions 1, 5, 9, and 13 into the first four output slots.'),
+  D('toy_bit_positions',value=first_round['substituted'],positions=TOY_PERM[:4])],
+  take='The copied bits are 1001. In binary place values that is 1 × 8 + 0 × 4 + 0 × 2 + 1 × 1 = 9.',
+  notes='Point separately at position 5 and at the 0 underneath it. Ask which of the two is copied. Students should answer 0. Then point to positions 9 and 13 and have them read their bits before forming 1001.',minutes=3),
+ S('Round 1 · Copy the remaining bits in order',[
+  C('INPUT BITS GROUPED BY HEX DIGIT','D = 1101      3 = 0011      6 = 0110      E = 1110',18),
+  T(['Output bits','Copy input positions','Bits copied','Hex digit'],
+     routing_rows(first_round['substituted'],TOY_PERM),[155,315,195,191]),
+  P('Each row takes one bit from each input group. For the second row, take the second bit of D, then of 3, then of 6, then of E. This gives 1011, or hex B.')],
+  take='Reading the output digits in order gives 9B7C. This is the block that enters round 2.',
+  notes='Before moving past row two, ask a student to find the bits at positions 2, 6, 10, and 14 on the preceding slide. Repeat for the third and fourth rows as needed. Every input position is used once.',minutes=3),
+ S('Finish rounds 2 and 3, then apply the last key',[
   T(['Stage','XOR key','After key XOR','After S-boxes','After P / output'],[
    *[[f'Round {i+1}',f'{TOY_KEYS[i]:04X}',f'{r["mixed"]:04X}',f'{r["substituted"]:04X}',f'{r["state"]:04X}' if i<2 else 'P omitted'] for i,r in enumerate(TOY_TRACE['rounds'])],
    ['Final whitening',f'{TOY_KEYS[3]:04X}','—','—',f'{TOY_CIPHERTEXT:04X}']],[165,140,180,180,191]),
-  P('To decrypt, undo the final key XOR, use the inverse S-box, and reverse the first two permutations and earlier key XORs.')],
-  take='Every reversible layer has a defined inverse; the layer order reverses during decryption.',notes='Whitening here simply means the final key XOR. It is not an additional substitution round.',minutes=3),
- S('Observe a one-bit change through the toy rounds',[
+  P('Round 2 starts with 9B7C XOR A94D = 3231. Round 3 starts with 450E and ends after substitution at 9493.'),
+  C('FINAL KEY XOR   •   WHITENING','9 XOR 4 = D    4 XOR D = 9    9 XOR 6 = F    3 XOR 3 = 0\n9493 XOR 4D63 = D9F0',17)],
+  notes='For round 2 the S-box converts 3, 2, 3, 1 into 1, D, 1, 4. Use the same permutation to obtain 450E. In round 3 the permutation is omitted. To decrypt, first undo whitening with K₃, then undo the substitutions and earlier operations in reverse order.',minutes=2.5),
+ S('Change one input bit and follow the difference',[
+  P('Change 1234 to 123C and keep the keys fixed. Only the last digit changes, from 4 (0100) to C (1100). That flips input bit 13.'),
   T(['Input / stage','Original','One-bit-changed','Differing bits'],[
    ['Plaintext',f'{TOY_PLAINTEXT:04X}',f'{TOY_PLAINTEXT^TOY_FLIP_MASK:04X}','1'],
    *[[f'After round {i+1}',f'{a["state"]:04X}',f'{b["state"]:04X}',str((a['state']^b['state']).bit_count())] for i,(a,b) in enumerate(zip(TOY_TRACE['rounds'],toy_encrypt(TOY_PLAINTEXT^TOY_FLIP_MASK,trace=True)[1]['rounds']))],
-   ['Ciphertext',f'{TOY_CIPHERTEXT:04X}',f'{toy_encrypt(TOY_PLAINTEXT^TOY_FLIP_MASK):04X}',str((TOY_CIPHERTEXT^toy_encrypt(TOY_PLAINTEXT^TOY_FLIP_MASK)).bit_count())]],[200,200,200,256]),
-  P('This trace illustrates spreading influence. One example is not evidence that the toy construction is secure.')],
-  notes='A secure design aims for strong avalanche behavior across many inputs and keys. Do not claim every change flips exactly half the output bits.',minutes=3),
+   ['Ciphertext',f'{TOY_CIPHERTEXT:04X}',f'{toy_encrypt(TOY_PLAINTEXT^TOY_FLIP_MASK):04X}',str((TOY_CIPHERTEXT^toy_encrypt(TOY_PLAINTEXT^TOY_FLIP_MASK)).bit_count())]],[200,200,225,231])],
+  take='In this example one input bit changes eight ciphertext bits. This illustrates diffusion across rounds.',
+  notes='The permutation sends the changed bits to different S-boxes in the next round. The number of differences can then grow under substitution. The final XOR with the same key preserves the eight-bit difference.',minutes=2),
  S('What should a key schedule accomplish?',[
   P('Derive all round keys reproducibly from a single secret key, so the receiver can generate the same sequence.'),
   P('Aim to spread key-bit influence and avoid exploitable patterns, weak-key classes, and simple relations between round keys.'),

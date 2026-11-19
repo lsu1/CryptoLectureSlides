@@ -1413,104 +1413,211 @@
     "source": ""
   },
   {
-    "title": "A 16-bit toy SPN: see the data path",
+    "title": "Follow one 16-bit block through three rounds",
     "blocks": [
+      [
+        "p",
+        "Our plaintext is 1234 in hexadecimal. Each digit stands for four bits, so the four digits together form one 16-bit block."
+      ],
       [
         "diagram",
         "toy_spn",
         {}
-      ],
-      [
-        "p",
-        "Three rounds; four 4-bit S-box positions per round. The first two rounds include a bit permutation; a final key XOR follows round 3."
       ]
     ],
     "section": "BLOCK CIPHERS",
     "sub": "",
-    "take": "A teaching construction with explicit example choices, not a cipher recommended for use.",
+    "take": "For this example the four keys, in order, are K₀ = 3A94, K₁ = A94D, K₂ = 94D6, and K₃ = 4D63.",
     "kind": "normal",
-    "notes": "Matches the reference’s 16-bit/three-round structure. Its S-box, permutation, and numerical keys were unspecified; the next slides make illustrative choices explicit.",
-    "minutes": 3.0,
+    "notes": "Trace the arrows once. Each intermediate value replaces the preceding block. The S-box and four key values are teaching choices. Keep the first key and the plaintext on the board.",
+    "minutes": 1.0,
     "source": ""
   },
   {
-    "title": "Specify the toy substitution and wiring",
+    "title": "Round 1 · XOR the plaintext with the first key",
     "blocks": [
-      [
-        "code",
-        "S-BOX: HEX INPUT DIGIT → HEX OUTPUT DIGIT",
-        "Input   0 1 2 3 4 5 6 7 8 9 A B C D E F\nOutput  E 4 D 1 2 F B 8 3 A 6 C 5 9 0 7",
-        15
-      ],
-      [
-        "code",
-        "PERMUTATION: OUTPUT POSITION j TAKES INPUT POSITION P[j]",
-        "P = 1,5,9,13, 2,6,10,14, 3,7,11,15, 4,8,12,16",
-        15
-      ],
       [
         "p",
-        "Positions start at 1 at the leftmost bit. The same bijective S-box is used at all four positions; it is separate from DES’s S-boxes."
-      ]
-    ],
-    "section": "BLOCK CIPHERS",
-    "sub": "",
-    "take": "One hexadecimal digit represents four bits: A = 1010, F = 1111.",
-    "kind": "normal",
-    "notes": "The 16 S-box outputs are distinct, so each nibble can be inverted. The displayed bit permutation is a 4×4 transpose.",
-    "minutes": 3.0,
-    "source": ""
-  },
-  {
-    "title": "Toy example: work through the first round",
-    "blocks": [
-      [
-        "code",
-        "PLAINTEXT AND ILLUSTRATIVE ROUND KEYS",
-        "Plaintext  1234\nKeys       3A94, A94D, 94D6, 4D63",
-        19
+        "Write the plaintext and K₀ as four groups of four bits. Compare matching bits. XOR gives 1 when the two bits differ and 0 when they match."
       ],
       [
         "table",
         [
-          "Operation",
-          "Result (hex)",
-          "How to obtain it"
+          "",
+          "Hex",
+          "Bits in groups of four"
         ],
         [
           [
-            "Key XOR",
+            "Plaintext",
+            "1234",
+            "0001 0010 0011 0100"
+          ],
+          [
+            "Round key K₀",
+            "3A94",
+            "0011 1010 1001 0100"
+          ],
+          [
+            "After XOR",
             "28A0",
-            "XOR the plaintext with key K₀."
-          ],
-          [
-            "Substitution",
-            "D36E",
-            "Look up each of the four hexadecimal digits."
-          ],
-          [
-            "Permutation",
-            "9B7C",
-            "Reorder the 16 bits using P."
+            "0010 1000 1010 0000"
           ]
         ],
         [
-          190,
-          180,
-          486
+          195,
+          135,
+          526
         ]
+      ],
+      [
+        "p",
+        "In the second group, 2 XOR A gives 0010 XOR 1010 = 1000. That is hex 8."
       ]
     ],
     "section": "BLOCK CIPHERS",
     "sub": "",
-    "take": "",
+    "take": "Read the four result groups from left to right to get 28A0.",
     "kind": "normal",
-    "notes": "Pause for a nibble lookup and one output-bit lookup. These round keys are explicit illustrative inputs, not a claim about a secure master-key schedule.",
-    "minutes": 4.0,
+    "notes": "Align the first pair 0001 and 0011, then ask students to read their XOR, 0010. For the second pair, A is ten in decimal and 1010 in binary. Each XOR acts on corresponding bits independently.",
+    "minutes": 2.5,
     "source": ""
   },
   {
-    "title": "Finish the three-round toy example",
+    "title": "Round 1 · Substitute each digit of 28A0",
+    "blocks": [
+      [
+        "p",
+        "Use the same substitution table for each of the four digits. Find the input digit in the top row and copy the entry directly below it."
+      ],
+      [
+        "diagram",
+        "toy_sbox_lookup",
+        {
+          "value": 10400,
+          "sbox": [
+            14,
+            4,
+            13,
+            1,
+            2,
+            15,
+            11,
+            8,
+            3,
+            10,
+            6,
+            12,
+            5,
+            9,
+            0,
+            7
+          ]
+        }
+      ]
+    ],
+    "section": "BLOCK CIPHERS",
+    "sub": "",
+    "take": "Join the four outputs in the order of the input digits. The new block is D36E.",
+    "kind": "normal",
+    "notes": "Begin with the digit 2. Find its column and read D below it. Ask the class to repeat that lookup for 8, A, and 0. Reading those four answers in message order gives D36E.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Round 1 · Where does the first output digit come from?",
+    "blocks": [
+      [
+        "p",
+        "Expand D36E into bits and number them from 1 to 16, starting on the left. The permutation tells us to copy input positions 1, 5, 9, and 13 into the first four output slots."
+      ],
+      [
+        "diagram",
+        "toy_bit_positions",
+        {
+          "value": 54126,
+          "positions": [
+            1,
+            5,
+            9,
+            13
+          ]
+        }
+      ]
+    ],
+    "section": "BLOCK CIPHERS",
+    "sub": "",
+    "take": "The copied bits are 1001. In binary place values that is 1 × 8 + 0 × 4 + 0 × 2 + 1 × 1 = 9.",
+    "kind": "normal",
+    "notes": "Point separately at position 5 and at the 0 underneath it. Ask which of the two is copied. Students should answer 0. Then point to positions 9 and 13 and have them read their bits before forming 1001.",
+    "minutes": 3.0,
+    "source": ""
+  },
+  {
+    "title": "Round 1 · Copy the remaining bits in order",
+    "blocks": [
+      [
+        "code",
+        "INPUT BITS GROUPED BY HEX DIGIT",
+        "D = 1101      3 = 0011      6 = 0110      E = 1110",
+        18
+      ],
+      [
+        "table",
+        [
+          "Output bits",
+          "Copy input positions",
+          "Bits copied",
+          "Hex digit"
+        ],
+        [
+          [
+            "1–4",
+            "1, 5, 9, 13",
+            "1001",
+            "9"
+          ],
+          [
+            "5–8",
+            "2, 6, 10, 14",
+            "1011",
+            "B"
+          ],
+          [
+            "9–12",
+            "3, 7, 11, 15",
+            "0111",
+            "7"
+          ],
+          [
+            "13–16",
+            "4, 8, 12, 16",
+            "1100",
+            "C"
+          ]
+        ],
+        [
+          155,
+          315,
+          195,
+          191
+        ]
+      ],
+      [
+        "p",
+        "Each row takes one bit from each input group. For the second row, take the second bit of D, then of 3, then of 6, then of E. This gives 1011, or hex B."
+      ]
+    ],
+    "section": "BLOCK CIPHERS",
+    "sub": "",
+    "take": "Reading the output digits in order gives 9B7C. This is the block that enters round 2.",
+    "kind": "normal",
+    "notes": "Before moving past row two, ask a student to find the bits at positions 2, 6, 10, and 14 on the preceding slide. Repeat for the third and fourth rows as needed. Every input position is used once.",
+    "minutes": 3.0,
+    "source": ""
+  },
+  {
+    "title": "Finish rounds 2 and 3, then apply the last key",
     "blocks": [
       [
         "table",
@@ -1561,20 +1668,30 @@
       ],
       [
         "p",
-        "To decrypt, undo the final key XOR, use the inverse S-box, and reverse the first two permutations and earlier key XORs."
+        "Round 2 starts with 9B7C XOR A94D = 3231. Round 3 starts with 450E and ends after substitution at 9493."
+      ],
+      [
+        "code",
+        "FINAL KEY XOR   •   WHITENING",
+        "9 XOR 4 = D    4 XOR D = 9    9 XOR 6 = F    3 XOR 3 = 0\n9493 XOR 4D63 = D9F0",
+        17
       ]
     ],
     "section": "BLOCK CIPHERS",
     "sub": "",
-    "take": "Every reversible layer has a defined inverse; the layer order reverses during decryption.",
+    "take": "",
     "kind": "normal",
-    "notes": "Whitening here simply means the final key XOR. It is not an additional substitution round.",
-    "minutes": 3.0,
+    "notes": "For round 2 the S-box converts 3, 2, 3, 1 into 1, D, 1, 4. Use the same permutation to obtain 450E. In round 3 the permutation is omitted. To decrypt, first undo whitening with K₃, then undo the substitutions and earlier operations in reverse order.",
+    "minutes": 2.5,
     "source": ""
   },
   {
-    "title": "Observe a one-bit change through the toy rounds",
+    "title": "Change one input bit and follow the difference",
     "blocks": [
+      [
+        "p",
+        "Change 1234 to 123C and keep the keys fixed. Only the last digit changes, from 4 (0100) to C (1100). That flips input bit 13."
+      ],
       [
         "table",
         [
@@ -1618,21 +1735,17 @@
         [
           200,
           200,
-          200,
-          256
+          225,
+          231
         ]
-      ],
-      [
-        "p",
-        "This trace illustrates spreading influence. One example is not evidence that the toy construction is secure."
       ]
     ],
     "section": "BLOCK CIPHERS",
     "sub": "",
-    "take": "",
+    "take": "In this example one input bit changes eight ciphertext bits. This illustrates diffusion across rounds.",
     "kind": "normal",
-    "notes": "A secure design aims for strong avalanche behavior across many inputs and keys. Do not claim every change flips exactly half the output bits.",
-    "minutes": 3.0,
+    "notes": "The permutation sends the changed bits to different S-boxes in the next round. The number of differences can then grow under substitution. The final XOR with the same key preserves the eight-bit difference.",
+    "minutes": 2.0,
     "source": ""
   },
   {

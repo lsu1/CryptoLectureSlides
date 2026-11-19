@@ -1967,11 +1967,12 @@
     ],
     "section": "FEISTEL NETWORKS",
     "sub": "",
-    "take": "The same two-round construction reverses the transformation when the key order is reversed.",
+    "take": "Decrypt with K₂, then K₁. See appendix A12–A13 for every AND, XOR, and final swap.",
     "kind": "normal",
     "notes": "Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). Give students three minutes to calculate the reverse steps using K₂ and then K₁ before discussing the result.",
     "minutes": 6.0,
-    "source": ""
+    "source": "",
+    "jump_page": 97
   },
   {
     "title": "Break / 10 minutes",
@@ -4443,6 +4444,130 @@
     "take": "The state is (Lᵢ,Rᵢ) after each round. Preoutput is R₁₆ ∥ L₁₆ before FP; ciphertext is 85E813540F0AB405.",
     "kind": "normal",
     "notes": "Initial halves are L0=CC00CCFF and R0=F0AAF0AA. The full trace is generated from the same known-answer example; preserve leading zeros in the eight-digit half-block displays.",
+    "minutes": 0,
+    "source": ""
+  },
+  {
+    "title": "A12 / Feistel by hand / encryption",
+    "blocks": [
+      [
+        "p",
+        "Split the plaintext 10101100 into L = 1010 and R = 1100. Read each round down its column. Work one bit at a time. AND gives 1 when both bits are 1. XOR gives 1 when the bits differ."
+      ],
+      [
+        "table",
+        [
+          "Round calculation",
+          "First round (K₁ = 0110)",
+          "Second round (K₂ = 0101)"
+        ],
+        [
+          [
+            "Input (L, R)",
+            "(1010, 1100)",
+            "(1100, 1110)"
+          ],
+          [
+            "1. Compute F = R AND K",
+            "1100 AND 0110 = 0100",
+            "1110 AND 0101 = 0100"
+          ],
+          [
+            "2. Copy R to the new left",
+            "1100",
+            "1110"
+          ],
+          [
+            "3. New right = L XOR F",
+            "1010 XOR 0100 = 1110",
+            "1100 XOR 0100 = 1000"
+          ],
+          [
+            "Output (new left, new right)",
+            "(1100, 1110)",
+            "(1110, 1000)"
+          ]
+        ],
+        [
+          272,
+          292,
+          292
+        ]
+      ],
+      [
+        "code",
+        "FINAL SWAP  •  WRITE THE RIGHT HALF FIRST, THEN THE LEFT",
+        "Ciphertext = 1000 || 1110 = 10001110",
+        19
+      ]
+    ],
+    "section": "APPENDIX",
+    "sub": "",
+    "take": "",
+    "kind": "normal",
+    "notes": "AND gives 1 when both input bits are 1. XOR gives 1 when the bits differ. The symbol || joins the two four-bit halves. In each round calculate F from the input right half and use the input left half for the XOR.",
+    "minutes": 0,
+    "source": ""
+  },
+  {
+    "title": "A13 / Feistel by hand / decryption",
+    "blocks": [
+      [
+        "p",
+        "Split the ciphertext 10001110 into L = 1000 and R = 1110. Apply the same round rule, using K₂ first and K₁ second."
+      ],
+      [
+        "table",
+        [
+          "Round calculation",
+          "First round (K₂ = 0101)",
+          "Second round (K₁ = 0110)"
+        ],
+        [
+          [
+            "Input (L, R)",
+            "(1000, 1110)",
+            "(1110, 1100)"
+          ],
+          [
+            "1. Compute F = R AND K",
+            "1110 AND 0101 = 0100",
+            "1100 AND 0110 = 0100"
+          ],
+          [
+            "2. Copy R to the new left",
+            "1110",
+            "1100"
+          ],
+          [
+            "3. New right = L XOR F",
+            "1000 XOR 0100 = 1100",
+            "1110 XOR 0100 = 1010"
+          ],
+          [
+            "Output (new left, new right)",
+            "(1110, 1100)",
+            "(1100, 1010)"
+          ]
+        ],
+        [
+          272,
+          292,
+          292
+        ]
+      ],
+      [
+        "code",
+        "FINAL SWAP  •  WRITE THE RIGHT HALF FIRST, THEN THE LEFT",
+        "Recovered plaintext = 1010 || 1100 = 10101100",
+        19
+      ]
+    ],
+    "section": "APPENDIX",
+    "sub": "",
+    "take": "",
+    "kind": "normal",
+    "notes": "Check the pair after the first reverse round against the first encryption round. Their halves appear in opposite order. The final swap gives the original plaintext, 10101100.",
     "minutes": 0,
     "source": ""
   }

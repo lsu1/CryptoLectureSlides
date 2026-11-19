@@ -131,6 +131,8 @@ def build():
    p=Paragraph(escape(s['take']),ParagraphStyle('take',parent=styles[12],textColor=WHITE if dark else INK));_,hh=p.wrap(830,40)
    if hh>29:issues.append((n,'takeaway overflows',hh))
    p.drawOn(c,65,60-hh/2)
+   if 'jump_page' in s:
+    c.linkRect('Open the worked calculation',f"slide-{s['jump_page']}",(52,43,908,78),relative=0,thickness=0)
   c.setFont('Sans',8);c.setFillColor(colors.HexColor('#BDD0D7') if dark else MUTED)
   c.drawString(52,22,s['source'] or ('OPTIONAL MATHEMATICAL / TABLE REFERENCE' if n>MAIN_COUNT else 'CRYPTOGRAPHY / LECTURE 02 / ONE-TIME PADS & BLOCK CIPHERS'))
   c.drawRightString(908,22,f'{n:02d} / {len(slides):02d}');c.showPage()

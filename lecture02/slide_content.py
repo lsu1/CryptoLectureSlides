@@ -3,7 +3,7 @@ from copy import deepcopy
 from deck_schema import *
 from otp_content import OTP_SLIDES,OTP_APPENDIX
 from block_content import BLOCK_SLIDES
-from des_content import FEISTEL_SLIDES,DES_SLIDES,DES_APPENDIX
+from des_content import FEISTEL_SLIDES,DES_SLIDES,DES_APPENDIX,FEISTEL_APPENDIX
 
 slides=[]
 SESSION_PLAN=[]
@@ -32,9 +32,17 @@ closing=slide('Three ideas to carry forward',[
  P('DES and Triple DES explain foundational design choices. Modern cipher design and message-encryption modes follow in later lectures.')],section='SYNTHESIS',notes='Use the last minutes for clarification and returning to the difference between a theorem of independence and a computational security assessment. The optional appendix is a reference, not material to rush through.',minutes=2)
 add_block(DES_SLIDES+[closing],'9:00 pm','10:00 pm',60,'DES internals, key schedule, Double DES, and Triple DES')
 MAIN_COUNT=len(slides)
-for i,s in enumerate(deepcopy(OTP_APPENDIX+DES_APPENDIX),1):
+appendix = OTP_APPENDIX + DES_APPENDIX + FEISTEL_APPENDIX
+for i,s in enumerate(deepcopy(appendix),1):
  s['title']=f'A{i} / '+s['title'];s['section']='APPENDIX';s['minutes']=0
  slides.append(s)
+
+# Make the classroom example's appendix reference navigable in the exported PDF.
+first_worked = appendix.index(FEISTEL_APPENDIX[0]) + 1
+example = next(s for s in slides if s['title'] == 'Two rounds: follow encryption and decryption')
+example['jump_page'] = MAIN_COUNT + first_worked
+example['take'] = (f'Decrypt with K₂, then K₁. See appendix A{first_worked}–A{first_worked + 1} '
+                   'for every AND, XOR, and final swap.')
 
 assert len([r for r in SESSION_PLAN if r['kind']=='break'])==2
 assert sum(r['minutes'] for r in SESSION_PLAN)==210

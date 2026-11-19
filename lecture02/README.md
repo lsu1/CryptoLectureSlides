@@ -7,7 +7,7 @@ A technical lecture for master's students, continuing from Lecture 01's classica
 - [Editable source bundle](Lecture02_Source.zip)
 - [Changes from the references](CHANGES.md)
 
-The main deck covers one-time pads and reuse, elementary probability and Bayes' rule, perfect secrecy, entropy and unicity distance, computational security, block-cipher design, a specified toy SPN, Feistel networks, DES, Double DES, and Triple DES. Optional appendix pages contain the conditional-entropy key bound and full DES reference tables. AES internals, modes of operation, and new advanced ciphers are left for later lectures.
+The main deck covers one-time pads and reuse, elementary probability and Bayes' rule, perfect secrecy, entropy and unicity distance, computational security, block-cipher design, a specified toy SPN, Feistel networks, DES, Double DES, and Triple DES. Optional appendix pages contain the conditional-entropy key bound, full DES reference tables, and the two-round Feistel calculation in both directions. AES internals, modes of operation, and new advanced ciphers are left for later lectures.
 
 ## Session plan
 

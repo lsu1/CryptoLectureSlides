@@ -247,8 +247,8 @@ if appendix_count:
     page('Optional appendix / reference use')
     p(f'The {appendix_count} appendix pages are outside the {teaching_minutes}-minute teaching plan. '
       'Use them to answer a specific question or support independent calculation. The main lecture '
-      'already contains the complete OTP proof and worked DES path; the appendix supplies '
-      'conditional-entropy depth and complete technical tables.', 'small')
+      'includes the OTP proof and a worked DES round. The appendix covers conditional entropy, '
+      'provides the full lookup tables, and works through both directions of the two-round Feistel example.', 'small')
     for offset, slide in enumerate(slides[MAIN_COUNT:], 1):
         label = f'A{offset}'
         title = slide['title'].split(' / ', 1)[-1]

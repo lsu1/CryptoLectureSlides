@@ -77,7 +77,7 @@
     "Lecture02_Instructor_Guide.pdf text uses glyphs covered by its DejaVu fonts"
   ],
   "teaching_pages": 85,
-  "appendix_pages": 11,
+  "appendix_pages": 13,
   "session_minutes": 210,
   "teaching_minutes": 190,
   "break_minutes": 20,
@@ -101,22 +101,22 @@
   },
   "pdfs": {
     "Lecture02_OTP_and_Block_Ciphers.pdf": {
-      "pages": 96,
-      "bytes": 354380,
-      "sha256": "151c5fcaa00ae64d268503c91fcf4caa0a925c430ca41b2bdd8dc897c4eed139",
-      "rendered_pages": 96,
+      "pages": 98,
+      "bytes": 358062,
+      "sha256": "4506e89ca36c0de7750472a4f069262a78a7212b1475d3e09b9d610863aa733a",
+      "rendered_pages": 98,
       "all_fonts_embedded": true,
       "fonts": {
-        "101:AAAAAA+DejaVuSans": true,
-        "105:AAAAAA+DejaVuSans-Bold": true,
-        "109:AAAAAA+DejaVuSansMono": true,
-        "235:TSLQHM+LMMathItalic12-Regular": true,
-        "241:HFSZWC+LMMathSymbols10-Regular": true,
-        "247:SFGEFQ+LMRoman17-Regular": true,
-        "266:UUYMEV+LMMathExtension10-Regular": true,
-        "318:RAZVEJ+MSBM10": true,
-        "342:RZWMKQ+LMSans17-Regular": true,
-        "365:CWZWNC+LMRoman12-Regular": true
+        "104:AAAAAA+DejaVuSans": true,
+        "108:AAAAAA+DejaVuSans-Bold": true,
+        "112:AAAAAA+DejaVuSansMono": true,
+        "242:TSLQHM+LMMathItalic12-Regular": true,
+        "248:HFSZWC+LMMathSymbols10-Regular": true,
+        "254:SFGEFQ+LMRoman17-Regular": true,
+        "273:UUYMEV+LMMathExtension10-Regular": true,
+        "325:RAZVEJ+MSBM10": true,
+        "349:RZWMKQ+LMSans17-Regular": true,
+        "372:CWZWNC+LMRoman12-Regular": true
       },
       "text_bounds_tolerance_pt": 0.75,
       "problems": [],
@@ -124,8 +124,8 @@
     },
     "Lecture02_Instructor_Guide.pdf": {
       "pages": 12,
-      "bytes": 100961,
-      "sha256": "2ff83da59684f15e297169b5dd96dbd27cb9dcb8a9a4275b6960b2557647d8cf",
+      "bytes": 101305,
+      "sha256": "b4c79c2c45e1e32b284834752d0142cfac68e32c999a9caa82d75b2b1f189ffe",
       "rendered_pages": 12,
       "all_fonts_embedded": true,
       "fonts": {

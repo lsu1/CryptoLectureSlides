@@ -1584,6 +1584,42 @@
       "type": "two",
       "top": 410,
       "bottom": 177.26
+    },
+    {
+      "slide": 97,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 97,
+      "type": "table",
+      "top": 347.76,
+      "bottom": 161.28
+    },
+    {
+      "slide": 97,
+      "type": "code",
+      "top": 148.28,
+      "bottom": 81.82
+    },
+    {
+      "slide": 98,
+      "type": "p",
+      "top": 410,
+      "bottom": 360.76
+    },
+    {
+      "slide": 98,
+      "type": "table",
+      "top": 347.76,
+      "bottom": 161.28
+    },
+    {
+      "slide": 98,
+      "type": "code",
+      "top": 148.28,
+      "bottom": 81.82
     }
   ]
 }

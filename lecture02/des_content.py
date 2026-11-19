@@ -76,6 +76,41 @@ FEISTEL_SLIDES = [
        notes='Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). Give students three minutes to calculate the reverse steps using K₂ and then K₁ before discussing the result.', minutes=6),
 ]
 
+def worked_feistel_rounds(states, keys, key_names):
+    columns = []
+    for (left, right), (next_left, next_right), key in zip(states, states[1:], keys):
+        f_value = right & key
+        columns.append([
+            f'({left:04b}, {right:04b})',
+            f'{right:04b} AND {key:04b} = {f_value:04b}',
+            f'{next_left:04b}',
+            f'{left:04b} XOR {f_value:04b} = {next_right:04b}',
+            f'({next_left:04b}, {next_right:04b})',
+        ])
+
+    labels = ['Input (L, R)', '1. Compute F = R AND K', '2. Copy R to the new left',
+              '3. New right = L XOR F', 'Output (new left, new right)']
+    headers = ['Round calculation',
+               f'First round ({key_names[0]} = {keys[0]:04b})',
+               f'Second round ({key_names[1]} = {keys[1]:04b})']
+    return T(headers, list(zip(labels, *columns)), [272, 292, 292])
+
+
+FEISTEL_APPENDIX = [
+    slide('Feistel by hand / encryption', [
+        P('Split the plaintext 10101100 into L = 1010 and R = 1100. Read each round down its column. Work one bit at a time. AND gives 1 when both bits are 1. XOR gives 1 when the bits differ.'),
+        worked_feistel_rounds(_toy, [0b0110, 0b0101], ['K₁', 'K₂']),
+        C('FINAL SWAP  •  WRITE THE RIGHT HALF FIRST, THEN THE LEFT',
+          'Ciphertext = 1000 || 1110 = 10001110', 19),
+    ], notes='AND gives 1 when both input bits are 1. XOR gives 1 when the bits differ. The symbol || joins the two four-bit halves. In each round calculate F from the input right half and use the input left half for the XOR.', minutes=0),
+    slide('Feistel by hand / decryption', [
+        P('Split the ciphertext 10001110 into L = 1000 and R = 1110. Apply the same round rule, using K₂ first and K₁ second.'),
+        worked_feistel_rounds(_toy_back, [0b0101, 0b0110], ['K₂', 'K₁']),
+        C('FINAL SWAP  •  WRITE THE RIGHT HALF FIRST, THEN THE LEFT',
+          'Recovered plaintext = 1010 || 1100 = 10101100', 19),
+    ], notes='Check the pair after the first reverse round against the first encryption round. Their halves appear in opposite order. The final swap gives the original plaintext, 10101100.', minutes=0),
+]
+
 _first = DES_TRACE['rounds'][0]
 _ks1 = DES_KEY_TRACE['rounds'][0]
 _s5 = des_sbox(5, 0b011011)

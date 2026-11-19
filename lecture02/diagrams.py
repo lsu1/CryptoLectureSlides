@@ -149,12 +149,57 @@ def draw(c,name,options,x,y,w):
   arrow(c,lx,164,rx,213,TEAL);arrow(c,rx,153,lx,213,TEAL)
   box(c,lx-88,218,176,38,'Lᵢ = Rᵢ₋₁');box(c,rx-116,218,232,38,'Rᵢ = Lᵢ₋₁ XOR F')
   h=269
+ elif name=='des_lookup':
+  table=options['table'];value=int(options.get('value',24))
+  if not 0<=value<64 or len(table)!=4 or any(len(row)!=16 for row in table):
+   raise ValueError('A DES lookup needs a six-bit input and a 4 × 16 S-box table')
+  bits=f'{value:06b}';outer=bits[0]+bits[-1];inner=bits[1:5]
+  row=int(outer,2);col=int(inner,2);result=table[row][col]
+  text(c,0,22,'6-bit input',12,True,TEAL)
+  text(c,102,24,bits[0],22,True,CORAL,True,True)
+  text(c,129,24,'|',20,color=MUTED,center=True,mono=True)
+  text(c,177,24,inner,22,True,TEAL,True,True)
+  text(c,226,24,'|',20,color=MUTED,center=True,mono=True)
+  text(c,253,24,bits[-1],22,True,CORAL,True,True)
+  text(c,302,22,f'Outer {outer} → row {row}',13,True,CORAL)
+  text(c,541,22,f'Inner {inner} → column {col}',13,True,TEAL)
+  gutter=44;cw=(w-gutter)/16;headh=25;top=54;body=82;ch=26
+  text(c,gutter,47,'Column index (decimal)',10,True,TEAL)
+  text(c,0,77,'Row',10,True,TEAL)
+  for j in range(16):
+   xx=gutter+j*cw;c.setFillColor(TEAL if j==col else NAVY)
+   c.roundRect(xx+1,-top-headh,cw-2,headh,2,fill=1,stroke=0)
+   text(c,xx+cw/2,top+18,str(j),12,True,WHITE,True,True)
+  for i,entries in enumerate(table):
+   yy=body+i*ch;c.setFillColor(CORAL if i==row else NAVY)
+   c.roundRect(1,-yy-ch+1,gutter-4,ch-2,2,fill=1,stroke=0)
+   text(c,(gutter-2)/2,yy+18,str(i),13,True,WHITE,True,True)
+   for j,val in enumerate(entries):
+    xx=gutter+j*cw;chosen=i==row and j==col
+    c.setFillColor(CORAL if chosen else LIGHT if i%2==0 else colors.HexColor('#EFF2EF'))
+    c.roundRect(xx+1,-yy-ch+1,cw-2,ch-2,2,fill=1,stroke=0)
+    text(c,xx+cw/2,yy+18,str(val),14,chosen,WHITE if chosen else INK,True,True)
+  text(c,w/2,216,f'Table entry = {result} (decimal) → output {result:04b}',16,True,TEAL,True)
+  h=225
+ elif name=='des_stage':
+  active=int(options.get('active',0))
+  if active not in range(4):raise ValueError('DES stage index must be 0, 1, 2, or 3')
+  labels=['1. Expand','2. XOR with key','3. S-box lookups','4. Permute bits'];gap=20;cw=(w-3*gap)/4
+  for i,label in enumerate(labels):
+   xx=i*(cw+gap);chosen=i==active
+   c.setFillColor(TEAL if chosen else LIGHT);c.roundRect(xx,-3-34,cw,34,5,fill=1,stroke=0)
+   text(c,xx+cw/2,25,label,14,True,WHITE if chosen else MUTED,True)
+   if i<3:arrow(c,xx+cw+2,20,xx+cw+gap-2,20,MUTED,1.2)
+  h=43
  elif name=='des_overview':
-  gap=20;cw=(w-5*gap)/6
-  labels=[('IP','64 → 64'),('Rounds 1–8','Feistel'),('Rounds 9–16','Feistel'),('Half-swap','R₁₆ || L₁₆'),('IP⁻¹','64 → 64'),('Ciphertext','64 bits')]
+  gap=20;cw=(w-4*gap)/5
+  labels=[('IP','64 → 64'),('16 Feistel rounds','Round keys K₁ … K₁₆'),('Swap halves','R₁₆ || L₁₆'),('IP⁻¹','64 → 64'),('Ciphertext','64 bits')]
   for i,(a,b) in enumerate(labels):
-   xx=i*(cw+gap);box(c,xx,42,cw,85,a,b,i in (1,2))
-   if i<5:arrow(c,xx+cw+2,84,xx+cw+gap-2,84)
+   xx=i*(cw+gap);chosen=i==1
+   c.setFillColor(TEAL if chosen else LIGHT);c.roundRect(xx,-42-85,cw,85,7,fill=1,stroke=0)
+   text(c,xx+cw/2,79,a,14 if chosen else 16,True,WHITE if chosen else INK,True)
+   text(c,xx+cw/2,103,b,11 if chosen else 12,color=WHITE if chosen else MUTED,center=True)
+   if i<4:arrow(c,xx+cw+2,84,xx+cw+gap-2,84)
   text(c,0,18,'64-bit plaintext enters IP',13,True,TEAL)
   text(c,w/2,163,'IP and IP⁻¹ are public, fixed bit permutations.',15,center=True)
   h=186

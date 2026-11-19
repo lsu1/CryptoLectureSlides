@@ -2111,664 +2111,796 @@
     "source": ""
   },
   {
-    "title": "One example will connect the whole design",
+    "title": "How does DES encrypt one block?",
     "blocks": [
       [
         "code",
-        "STANDARD KNOWN-ANSWER EXAMPLE • HEXADECIMAL",
-        "Plaintext  0123456789ABCDEF\nKey        133457799BBCDFF1\nCiphertext 85E813540F0AB405",
-        21
+        "ONE BLOCK AND ITS MASTER KEY  •  HEXADECIMAL",
+        "Plaintext   0123456789ABCDEF\nMaster key  133457799BBCDFF1",
+        20
       ],
-      [
-        "p",
-        "We will derive the first round and its first subkey, then connect them to this complete encryption."
-      ],
-      [
-        "p",
-        "Hexadecimal is a compact display of bits: one hex digit represents four bits."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "Leading zeros matter: each displayed plaintext and ciphertext is exactly 64 bits.",
-    "kind": "normal",
-    "notes": "Use this single dataset consistently throughout the DES section. This is a known-answer validation example, not an example of secure contemporary encryption. The complete round trace and all subkeys are retained in the appendix.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "The DES data path",
-    "blocks": [
       [
         "diagram",
         "des_overview",
         {}
-      ],
-      [
-        "p",
-        "After round 16, serialize R₁₆ ∥ L₁₆ before the final permutation. This is the final swap used in our Feistel convention."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Initial permutation → 16 rounds → final half swap → final permutation.",
+    "take": "Our first goal is to calculate the two halves leaving round 1. One hex digit represents four bits.",
     "kind": "normal",
-    "notes": "Keep round transformations separate from IP/FP and from the key-schedule branch. Some drawings omit the exchange in the last round instead of drawing a final undoing exchange. Both describe the same preoutput R16||L16.",
+    "notes": "Recall the two-round Feistel exercise on slide 57. DES repeats that same outer rule sixteen times. Trace the data across the diagram and pause at round 1. The example key includes the eight parity bits introduced on the preceding slide.",
     "minutes": 2.0,
     "source": ""
   },
   {
-    "title": "Initial and final permutations",
+    "title": "How to read the initial permutation",
     "blocks": [
       [
-        "math",
-        "L_0\\,\\|\\,R_0=\\operatorname{IP}(P),\\qquad C=\\operatorname{FP}(R_{16}\\,\\|\\,L_{16})."
-      ],
-      [
-        "math",
-        "\\operatorname{FP}=\\operatorname{IP}^{-1}."
-      ],
-      [
         "p",
-        "A table entry names the input bit copied to that output position. For example, the first eight IP output bits read input positions:"
+        "Number the 64 plaintext bits from the left, starting at 1. The first entry of the initial permutation (IP) is 58, so output bit 1 copies input bit 58."
       ],
       [
         "code",
-        "FIRST EIGHT ENTRIES OF IP",
-        "58, 50, 42, 34, 26, 18, 10, 2",
-        20
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "These fixed, public bit rearrangements do not add meaningful cryptographic strength.",
-    "kind": "normal",
-    "notes": "Explain the table convention before showing complete tables. Neither IP nor FP depends on the key. Appendix reference tables provide every position; no memorization of the wiring is required.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "A DES round is a Feistel round",
-    "blocks": [
-      [
-        "math",
-        "L_i=R_{i-1},\\qquad R_i=L_{i-1}\\oplus F(R_{i-1},K_i)."
+        "LOCATE BIT 58 IN THE LAST BYTE OF 0123456789ABCDEF",
+        "Positions   57 58 59 60 61 62 63 64\nEF in bits   1  1  1  0  1  1  1  1",
+        17
       ],
       [
         "table",
         [
-          "Input / output",
-          "Width"
+          "Output position",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
         ],
         [
           [
-            "Lᵢ₋₁ and Rᵢ₋₁",
-            "32 bits each"
+            "Read input bit",
+            "58",
+            "50",
+            "42",
+            "34",
+            "26",
+            "18",
+            "10",
+            "2"
           ],
           [
-            "Kᵢ",
-            "48 bits"
-          ],
-          [
-            "F(Rᵢ₋₁,Kᵢ)",
-            "32 bits"
+            "Bit copied",
+            "1",
+            "1",
+            "0",
+            "0",
+            "1",
+            "1",
+            "0",
+            "0"
           ]
         ],
         [
-          530,
-          326
+          190,
+          83.25,
+          83.25,
+          83.25,
+          83.25,
+          83.25,
+          83.25,
+          83.25,
+          83.25
         ]
-      ],
-      [
-        "p",
-        "The round function mixes a 32-bit half-block with a 48-bit subkey and returns 32 bits for the XOR."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "F does not have to be invertible; the whole Feistel round is.",
+    "take": "Read the copied bits from left to right. The first output byte is 11001100, or CC in hex.",
     "kind": "normal",
-    "notes": "The DES-specific work is inside F and the round-key schedule. The outer Feistel equations and reverse-key decryption argument are unchanged from the preceding section.",
+    "notes": "Input position 58 is the second bit of the last byte, EF. For a second independent check, locate input bit 50 as the second bit of CD. Repeat with the remaining table entries to get the first byte of the left half. Appendix A3 contains the whole IP table.",
+    "minutes": 3.0,
+    "source": ""
+  },
+  {
+    "title": "What enters the first Feistel round?",
+    "blocks": [
+      [
+        "code",
+        "APPLY IP, THEN SPLIT INTO TWO 32-BIT HALVES",
+        "IP output   CC00CCFFF0AAF0AA\nLeft  L₀    CC00CCFF\nRight R₀    F0AAF0AA",
+        20
+      ],
+      [
+        "code",
+        "USE THIS 48-BIT ROUND KEY FOR NOW",
+        "K₁ = 1B02EFFC7072",
+        19
+      ],
+      [
+        "math",
+        "L_1=R_0,\\qquad R_1=L_0\\oplus F(R_0,K_1)."
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "We can already write L₁ = F0AAF0AA. To calculate R₁, we need the value of F.",
+    "kind": "normal",
+    "notes": "Point to the first CC byte students have just calculated. The first eight hex digits make up L0 and the last eight make up R0. Treat K1 as given while working on the message. We derive this exact subkey after completing the round.",
     "minutes": 2.0,
     "source": ""
   },
   {
-    "title": "Inside the DES round function",
+    "title": "What is inside the DES round function?",
     "blocks": [
+      [
+        "p",
+        "In the toy example we used R AND K. DES keeps the Feistel rule and defines F with four operations. Follow the right half and the round key through them."
+      ],
       [
         "diagram",
         "des_f",
         {}
-      ],
-      [
-        "math",
-        "F(R,K)=\\mathsf P\\bigl(S(E(R)\\oplus K)\\bigr)."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Expand 32→48; mix the key; substitute 48→32; permute the 32 output bits.",
+    "take": "F returns 32 bits so its output can be XORed with the 32 bits of L₀.",
     "kind": "normal",
-    "notes": "Use the diagram to introduce all four stages before expanding them. Here the typeface P denotes the fixed 32-bit permutation, not the plaintext variable used elsewhere. The eight S-box outputs are concatenated before that permutation.",
+    "notes": "Point to the widths and the key entering at the XOR. Eight independent lookup tables shrink the result to 32 bits. The fixed permutation P is the last operation inside F. Leave the unchanged left input on the board until the end of the round.",
     "minutes": 2.0,
     "source": ""
   },
   {
-    "title": "Expansion: 32 input bits supply 48 positions",
-    "blocks": [
-      [
-        "table",
-        [
-          "Six-bit group",
-          "Input positions selected by E"
-        ],
-        [
-          [
-            "1",
-            "32, 1, 2, 3, 4, 5"
-          ],
-          [
-            "2",
-            "4, 5, 6, 7, 8, 9"
-          ],
-          [
-            "8",
-            "28, 29, 30, 31, 32, 1"
-          ]
-        ],
-        [
-          240,
-          616
-        ]
-      ],
-      [
-        "p",
-        "Some boundary bits appear in two groups. Expansion repeats and rearranges existing bits; it does not create new information."
-      ],
-      [
-        "math",
-        "B=E(R)\\oplus K\\qquad(48\\text{ bits})."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "The complete E table is in the appendix; each group feeds one S-box.",
-    "kind": "normal",
-    "notes": "Point to the overlap of positions 4 and 5 between the first two groups and the wrap-around from bit 32 to bit 1. The expanded value and round key must both be 48 bits for the XOR.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Mix the expanded half with the round key",
-    "blocks": [
-      [
-        "code",
-        "VALUES FOR THE FIRST ROUND OF OUR EXAMPLE",
-        "E(R₀) 7A15557A1555\nK₁    1B02EFFC7072\nXOR   6117BA866527",
-        21
-      ],
-      [
-        "p",
-        "For the first hex digit, 7 XOR 1 = 6. For the next, A XOR B = 1. Continue digit by digit, or work with all 48 bits."
-      ],
-      [
-        "p",
-        "The XOR result is divided into eight consecutive six-bit groups."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "These values come from the same known-answer example; the key schedule will derive K₁ shortly.",
-    "kind": "normal",
-    "notes": "Hex XOR is shorthand for four bitwise XORs per digit. Do not treat hexadecimal values as ordinary addition or subtraction. This is the first round’s key mixing, before the S-boxes.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Eight S-boxes reduce 48 bits to 32",
-    "blocks": [
-      [
-        "math",
-        "B=B_1\\|\\cdots\\|B_8,\\quad |B_j|=6;\\qquad S(B)=S_1(B_1)\\|\\cdots\\|S_8(B_8)."
-      ],
-      [
-        "table",
-        [
-          "One S-box",
-          "All eight S-boxes"
-        ],
-        [
-          [
-            "6 input bits → 4 output bits",
-            "48 input bits → 32 output bits"
-          ],
-          [
-            "A different fixed table for each j",
-            "Concatenate the eight four-bit outputs"
-          ]
-        ],
-        [
-          428,
-          428
-        ]
-      ],
-      [
-        "p",
-        "Each S-box is many-to-one and therefore non-invertible. Feistel decryption does not require an inverse S-box."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "The S-boxes supply the round’s nonlinearity; the full tables are retained in the appendix.",
-    "kind": "normal",
-    "notes": "There are 64 possible inputs and only 16 output values for each S-box. That pigeonhole argument already proves non-invertibility, independently of the particular entries.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "S₅(011011): read the row and column",
-    "blocks": [
-      [
-        "code",
-        "SEPARATE OUTER AND INNER BITS",
-        "0 | 1101 | 1",
-        23
-      ],
-      [
-        "p",
-        "Outer bits 01 select row 1. Inner bits 1101 select column 13. Both table indices start at 0."
-      ],
-      [
-        "table",
-        [
-          "S₅, row 1 / column",
-          "12",
-          "13",
-          "14",
-          "15"
-        ],
-        [
-          [
-            "Entry",
-            "3",
-            "9",
-            "8",
-            "6"
-          ]
-        ],
-        [
-          360,
-          124,
-          124,
-          124,
-          124
-        ]
-      ],
-      [
-        "math",
-        "S_5(011011)=9_{10}=1001_2."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "This standalone lookup illustrates the rule; the standard first round uses different S-box inputs.",
-    "kind": "normal",
-    "notes": "Retains the supplied reference’s S5 example, with explicit zero-based row and column selection. The two outer bits are not adjacent in the input. The complete S5 table appears with the other S-boxes in the appendix.",
-    "minutes": 3.0,
-    "source": ""
-  },
-  {
-    "title": "Permute the 32 S-box output bits",
-    "blocks": [
-      [
-        "p",
-        "The fixed P permutation redistributes the S-box output positions before the value is XORed into the other half."
-      ],
-      [
-        "code",
-        "FIRST EIGHT OUTPUT POSITIONS READ INPUT BITS",
-        "16, 7, 20, 21, 29, 12, 28, 17",
-        19
-      ],
-      [
-        "code",
-        "FIRST-ROUND EXAMPLE",
-        "Before P: 5C82B597\nAfter P:  234AA9BB",
-        21
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "P changes positions, not the number of bits or their individual values.",
-    "kind": "normal",
-    "notes": "The complete P table is available alongside E in the appendix. Students can verify selected output positions rather than perform all 32 selections in class.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Different stages serve different roles",
-    "blocks": [
-      [
-        "table",
-        [
-          "Stage",
-          "Role in F"
-        ],
-        [
-          [
-            "Expansion E",
-            "Repeat and rearrange bits into eight six-bit inputs."
-          ],
-          [
-            "XOR with Kᵢ",
-            "Introduce the secret round-key dependence."
-          ],
-          [
-            "S₁,…,S₈",
-            "Apply nonlinear, many-to-one substitutions."
-          ],
-          [
-            "Permutation P",
-            "Redistribute the resulting 32 bits."
-          ]
-        ],
-        [
-          250,
-          606
-        ]
-      ],
-      [
-        "p",
-        "The DES S-boxes were designed with resistance to differential cryptanalysis in mind; that attack is outside today’s scope."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "An invertible outer structure can contain deliberately non-invertible nonlinear components.",
-    "kind": "normal",
-    "notes": "Do not expand this historical comment into a new attack lecture. The point is to distinguish fixed wiring, key mixing, and substitution. The original reference’s observation about S-box design is preserved without claiming that structure alone proves security.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "The key schedule supplies sixteen subkeys",
+    "title": "Build the first six expansion bits",
     "blocks": [
       [
         "diagram",
-        "key_schedule",
-        {}
+        "des_stage",
+        {
+          "active": 0
+        }
       ],
-      [
-        "p",
-        "Permuted Choice 1 (PC1) removes parity. After rotating each 28-bit half, Permuted Choice 2 (PC2) selects the 48-bit round key."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "Sixteen subkeys are derived from one 56-bit effective master key; they are not independent secrets.",
-    "kind": "normal",
-    "notes": "The round-key schedule is deterministic. Its output contains 16×48 displayed bits, but the original effective secret still has only 56 independent bits. All bit selections and rotations are public.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "PC1: remove parity and split the key",
-    "blocks": [
       [
         "code",
-        "OUR EXAMPLE KEY AFTER PC1",
-        "Key:   133457799BBCDFF1\nPC1:   F0CCAAF556678F\nC₀:    F0CCAAF\nD₀:    556678F",
-        20
-      ],
-      [
-        "p",
-        "PC1 selects 56 of the 64 representation bits and orders them into C₀ and D₀, each 28 bits long."
-      ],
-      [
-        "p",
-        "Positions 8,16,…,64 are the discarded parity bits."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "The PC1 and PC2 tables are provided together in the appendix.",
-    "kind": "normal",
-    "notes": "C and D here name the key-schedule halves; they are different from the data-path halves L and R. The fixed-width hexadecimal display uses seven hex digits per 28-bit half.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Rotate the halves, then select 48 bits",
-    "blocks": [
-      [
-        "math",
-        "C_i=\\operatorname{rotl}_{28}(C_{i-1},s_i),\\qquad D_i=\\operatorname{rotl}_{28}(D_{i-1},s_i)."
-      ],
-      [
-        "math",
-        "K_i=\\operatorname{PC2}(C_i\\|D_i)."
+        "READ THE TWO ENDS OF THE RIGHT HALF",
+        "R₀ = F0AAF0AA     first byte F0 = 11110000     last digit A = 1010",
+        17
       ],
       [
         "table",
         [
-          "Round numbers",
-          "Left rotation sᵢ"
+          "Output position",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
         ],
         [
           [
-            "1,2,9,16",
-            "1 bit"
+            "Read input bit",
+            "32",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
           ],
           [
-            "All other rounds",
-            "2 bits"
+            "Bit copied",
+            "0",
+            "1",
+            "1",
+            "1",
+            "1",
+            "0"
           ]
         ],
         [
-          500,
-          356
+          190,
+          111.0,
+          111.0,
+          111.0,
+          111.0,
+          111.0,
+          111.0
         ]
       ],
       [
         "p",
-        "Rotations wrap within each 28-bit half. PC2 selects and permutes 48 of the combined 56 bits."
+        "The last bit is 0. The first five are 11110. Joining them in the order shown gives <b>011110</b>, the first six bits of E(R₀)."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "The complete shift sequence and all sixteen computed subkeys appear in the appendix.",
+    "take": "Expansion builds eight six-bit groups from 32 bits. Neighbouring groups reuse boundary bits. The full E table is in A4.",
     "kind": "normal",
-    "notes": "Clarify that each round rotates the preceding C and D, not the original halves afresh. Across all 16 rounds the scheduled left rotations sum to 28, so the last schedule halves return to their initial positions.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Compute the first round key",
-    "blocks": [
-      [
-        "code",
-        "ROUND 1 USES A ONE-BIT LEFT ROTATION",
-        "C₀ F0CCAAF → C₁ E19955F\nD₀ 556678F → D₁ AACCF1E",
-        21
-      ],
-      [
-        "code",
-        "APPLY PC2 TO C₁ ∥ D₁",
-        "K₁ = 1B02EFFC7072",
-        22
-      ],
-      [
-        "p",
-        "This is the same 48-bit subkey used in our earlier first-round XOR."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "Use the table as wiring: each PC2 entry selects one input position from the 56-bit concatenation.",
-    "kind": "normal",
-    "notes": "The displayed computed values are generated by the shared DES implementation. Students can verify the rotations at the bit level, then trace a few PC2 selections to connect the table to the hexadecimal subkey.",
+    "notes": "Read positions 32, 1, 2, 3, 4, 5 aloud. Circle the last bit of A, then take the four bits of F and the leading zero of the next digit. The next group uses positions 4 through 9, so positions 4 and 5 appear again.",
     "minutes": 3.0,
     "source": ""
   },
   {
-    "title": "Enter round 1 after the initial permutation",
+    "title": "XOR six bits with six key bits",
     "blocks": [
       [
-        "code",
-        "AFTER IP ON THE EXAMPLE PLAINTEXT",
-        "IP(P) = CC00CCFFF0AAF0AA\nL₀    = CC00CCFF\nR₀    = F0AAF0AA",
-        21
-      ],
-      [
-        "code",
-        "ROUND 1 SUBKEY",
-        "K₁ = 1B02EFFC7072",
-        21
+        "diagram",
+        "des_stage",
+        {
+          "active": 1
+        }
       ],
       [
         "p",
-        "We now have every input required to evaluate the first DES round."
-      ]
-    ],
-    "section": "DES",
-    "sub": "",
-    "take": "All displayed trace values are hexadecimal; input tables still select individual bits.",
-    "kind": "normal",
-    "notes": "This is the joining point of the data path and key schedule. The known-answer plaintext, master key, IP output, and first round key have each been introduced separately. Work through F next.",
-    "minutes": 2.0,
-    "source": ""
-  },
-  {
-    "title": "Round 1: inspect all eight S-box lookups",
-    "blocks": [
+        "K₁ starts with hex 1B, or 0001 1011 in binary. Its first six bits are 000110. XOR gives 1 wherever the two input bits differ."
+      ],
       [
-        "table",
-        [
-          "Box",
-          "Six-bit input",
-          "Row / column",
-          "Output"
-        ],
+        "two",
         [
           [
-            "S1",
-            "011000",
-            "0 / 12",
-            "0101"
-          ],
-          [
-            "S2",
-            "010001",
-            "1 / 8",
-            "1100"
-          ],
-          [
-            "S3",
-            "011110",
-            "0 / 15",
-            "1000"
-          ],
-          [
-            "S4",
-            "111010",
-            "2 / 13",
-            "0010"
-          ],
-          [
-            "S5",
-            "100001",
-            "3 / 0",
-            "1011"
-          ],
-          [
-            "S6",
-            "100110",
-            "2 / 3",
-            "0101"
-          ],
-          [
-            "S7",
-            "010100",
-            "0 / 10",
-            "1001"
-          ],
-          [
-            "S8",
-            "100111",
-            "3 / 3",
-            "0111"
+            "code",
+            "FIRST SIX BITS  •  BINARY",
+            "Expanded   011110\nKey        000110\nXOR        011000",
+            20
           ]
         ],
         [
-          110,
-          260,
-          260,
-          226
+          [
+            "code",
+            "ALL 48 BITS  •  HEX",
+            "E(R₀)   7A15557A1555\nK₁      1B02EFFC7072\nXOR     6117BA866527",
+            20
+          ]
         ]
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Concatenating these eight four-bit outputs gives 5C82B597; P then gives F(R₀,K₁)=234AA9BB.",
+    "take": "Split the 48-bit XOR result into eight groups of six. Send the first group, 011000, to S₁.",
     "kind": "normal",
-    "notes": "The input being partitioned is the XOR result 6117BA866527. Unlike the standalone S5 example, the fifth six-bit group here is 100001, which selects row 3, column 0 and returns 1011. The complete eight-box trace is generated rather than transcribed.",
+    "notes": "Compare the six aligned columns on the left. Bit 4 is 1 in both inputs, so the output there is 0. The hex view on the right shows the same operation across all eight groups. Six-bit boundaries can fall in the middle of a hex digit.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Look up 011000 in the first S-box",
+    "blocks": [
+      [
+        "diagram",
+        "des_stage",
+        {
+          "active": 2
+        }
+      ],
+      [
+        "diagram",
+        "des_lookup",
+        {
+          "table": [
+            [
+              14,
+              4,
+              13,
+              1,
+              2,
+              15,
+              11,
+              8,
+              3,
+              10,
+              6,
+              12,
+              5,
+              9,
+              0,
+              7
+            ],
+            [
+              0,
+              15,
+              7,
+              4,
+              14,
+              2,
+              13,
+              1,
+              10,
+              6,
+              12,
+              11,
+              9,
+              5,
+              3,
+              8
+            ],
+            [
+              4,
+              1,
+              14,
+              8,
+              13,
+              6,
+              2,
+              11,
+              15,
+              12,
+              9,
+              7,
+              3,
+              10,
+              5,
+              0
+            ],
+            [
+              15,
+              12,
+              8,
+              2,
+              4,
+              9,
+              1,
+              7,
+              5,
+              11,
+              3,
+              14,
+              10,
+              0,
+              6,
+              13
+            ]
+          ],
+          "value": 24
+        }
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "S₁ returns decimal 5. Write it as 0101, the first four bits of the 32-bit S-box output.",
+    "kind": "normal",
+    "notes": "The two outside bits form a two-bit row number. The four middle bits form a four-bit column number. Rows and columns both start at zero. Follow the highlighted row and column to 5. Since this table maps 64 inputs to 16 values, different inputs can produce the same output.",
     "minutes": 3.0,
     "source": ""
   },
   {
-    "title": "Complete round 1, then finish the encryption",
+    "title": "Where does that first 5 go?",
+    "blocks": [
+      [
+        "diagram",
+        "des_stage",
+        {
+          "active": 2
+        }
+      ],
+      [
+        "p",
+        "Each group goes to its own S-box, in order. Try S₂ on 010001. Which row and column would you use? The S₂ table is in A7."
+      ],
+      [
+        "code",
+        "JOIN THE EIGHT FOUR-BIT OUTPUTS FROM LEFT TO RIGHT",
+        "Box       S1    S2    S3    S4    S5    S6    S7    S8\nBits      0101  1100  1000  0010  1011  0101  1001  0111\nHex        5     C     8     2     B     5     9     7",
+        18
+      ],
+      [
+        "p",
+        "The 5 from S₁ becomes the first hex digit. The C from S₂ becomes the second. All eight together give <b>5C82B597</b>."
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "See appendix A14 for all eight calculations, from the expansion and key bits to each S-box output.",
+    "kind": "normal",
+    "notes": "Let students answer before interpreting the output strip. For 010001, outer bits 01 select row 1 and inner bits 1000 select column 8. S2 gives 12 in decimal, written C in hex or 1100 in four bits.",
+    "minutes": 3.0,
+    "source": "",
+    "jump_page": 99
+  },
+  {
+    "title": "Permute the 32 output bits",
+    "blocks": [
+      [
+        "diagram",
+        "des_stage",
+        {
+          "active": 3
+        }
+      ],
+      [
+        "p",
+        "The P table uses the same copying rule as IP. In 5C82B597, bit 16 is the last bit of the fourth digit, 2 = 0010. Copy its 0 into output position 1."
+      ],
+      [
+        "table",
+        [
+          "Output position",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        [
+          [
+            "Read input bit",
+            "16",
+            "7",
+            "20",
+            "21"
+          ],
+          [
+            "Bit copied",
+            "0",
+            "0",
+            "1",
+            "0"
+          ]
+        ],
+        [
+          190,
+          166.5,
+          166.5,
+          166.5,
+          166.5
+        ]
+      ],
+      [
+        "code",
+        "FIRST OUTPUT DIGIT 0010 = 2  •  CONTINUE FOR ALL 32 POSITIONS",
+        "Before P   5C82B597\nAfter P    234AA9BB",
+        18
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "After P, the value of F(R₀, K₁) is 234AA9BB. It is ready to mix into the left half.",
+    "kind": "normal",
+    "notes": "To check another bit, select input position 20, the last bit of the fifth digit B = 1011. It supplies the 1 in output position 3. P just rearranges all 32 bits. The complete table appears in A4.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Put F back into the Feistel round",
     "blocks": [
       [
         "math",
         "L_1=R_0,\\qquad R_1=L_0\\oplus F(R_0,K_1)."
       ],
       [
-        "code",
-        "FIRST ROUND",
-        "F(R₀,K₁) = 234AA9BB\nL₁ = F0AAF0AA\nR₁ = CC00CCFF XOR 234AA9BB = EF4A6544",
-        18
+        "two",
+        [
+          [
+            "code",
+            "COPY THE OLD RIGHT HALF",
+            "R₀    F0AAF0AA\nL₁    F0AAF0AA",
+            21
+          ]
+        ],
+        [
+          [
+            "code",
+            "XOR F INTO THE OLD LEFT HALF",
+            "L₀    CC00CCFF\nF     234AA9BB\nR₁    EF4A6544",
+            21
+          ]
+        ]
       ],
       [
-        "code",
-        "AFTER ROUND 16 AND THE FINAL SWAP",
-        "R₁₆ || L₁₆ = 0A4CD99543423234\nFP gives C = 85E813540F0AB405",
-        18
+        "p",
+        "Check the first digit of R₁ by hand. Hex C XOR 2 gives 1100 XOR 0010 = 1110, or E."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Rounds 2–16 repeat the same rule with their subkeys. The appendix retains every (Lᵢ,Rᵢ) pair.",
+    "take": "Round 1 ends with (L₁, R₁) = (F0AAF0AA, EF4A6544). These two halves are the input to round 2.",
     "kind": "normal",
-    "notes": "Check that the first-round left output equals the previous right input. The final code row is not obtained after one round; it reports the end of all 16 rounds. The preoutput and final permutation result are distinct values.",
+    "notes": "Ask which half was copied and which required the entire F calculation. Point back to the same two operations on slide 57. The output of F alone is not the right-half output of the round.",
     "minutes": 3.0,
     "source": ""
   },
   {
-    "title": "DES decryption follows the same data path",
+    "title": "Retrace the calculation of F",
     "blocks": [
       [
-        "code",
-        "KEY ORDER",
-        "Encryption: K₁, K₂, …, K₁₆\nDecryption: K₁₆, K₁₅, …, K₁",
-        20
+        "table",
+        [
+          "Operation",
+          "What it does",
+          "Round 1 result in hex"
+        ],
+        [
+          [
+            "Expand R₀",
+            "Repeat boundary bits to make eight groups.",
+            "7A15557A1555"
+          ],
+          [
+            "XOR with K₁",
+            "Mix the subkey into those groups.",
+            "6117BA866527"
+          ],
+          [
+            "Apply S₁ to S₈",
+            "Use a nonlinear six-bit to four-bit lookup.",
+            "5C82B597"
+          ],
+          [
+            "Permute with P",
+            "Move those 32 bits to their next positions.",
+            "234AA9BB"
+          ]
+        ],
+        [
+          165,
+          448,
+          243
+        ]
+      ],
+      [
+        "math",
+        "F(R_0,K_1)=\\mathsf{P}\\bigl(S(E(R_0)\\oplus K_1)\\bigr)."
       ],
       [
         "p",
-        "Keep IP, the round function, the final half swap, and FP in the same positions. Reverse only the order in which the round subkeys are supplied."
+        "Read the formula from the inside out. If we kept R₀ and changed K₁, at which row could the result first change?"
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The expansion depends only on R₀. The subkey first affects the result at the XOR.",
+    "kind": "normal",
+    "notes": "Use the question as a pause before the key schedule. Ask a student to point to the 5 from S1 and the 2 that starts the final output of F. The S-boxes supply nonlinearity, while E and P are fixed public bit selections.",
+    "minutes": 1.0,
+    "source": ""
+  },
+  {
+    "title": "Where did the round key come from?",
+    "blocks": [
+      [
+        "p",
+        "In round 1 we used K₁ = 1B02EFFC7072. Start with the master key and follow this separate calculation to reproduce those 48 bits."
+      ],
+      [
+        "diagram",
+        "key_schedule",
+        {}
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The same 56 effective master-key bits determine all sixteen round keys.",
+    "kind": "normal",
+    "notes": "The message halves L and R are set aside here. C and D below are halves of the key. Expand the abbreviations: PC1 is Permuted Choice 1, and PC2 is Permuted Choice 2.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Select the 56 key bits with PC1",
+    "blocks": [
+      [
+        "p",
+        "Permuted Choice 1 (PC1) reads the master key in a fixed order and skips the parity bit in each byte. Its first entry is 57. The last key byte is F1, or 11110001, so bit 57 is 1."
       ],
       [
         "code",
-        "CHECK THE COMPLETE REVERSE OPERATION",
-        "85E813540F0AB405 → 0123456789ABCDEF",
+        "SPLIT THE PC1 OUTPUT AFTER SEVEN HEX DIGITS",
+        "Master key   133457799BBCDFF1\nPC1 output   F0CCAAF556678F\nKey halves   C₀ = F0CCAAF    D₀ = 556678F",
         20
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "The same master key generates the subkeys; decryption consumes that list in reverse.",
+    "take": "Each key half contains 28 bits. The full PC1 and PC2 tables are in A5.",
     "kind": "normal",
-    "notes": "Applying IP to the ciphertext undoes the encryption’s FP and exposes R16||L16. The reverse-key Feistel run and its output swap recover the original IP output; FP then recovers the original plaintext. This uses the exact swap convention already established.",
+    "notes": "Key positions 8, 16, …, 64 carry parity. PC1 selects all the remaining positions once and rearranges them. Ask how seven hex digits correspond to 28 bits. The first digit F of C0 starts with the 1 just identified.",
     "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Rotate each key half one place",
+    "blocks": [
+      [
+        "p",
+        "In round 1, move the leftmost bit of each 28-bit half to its own right-hand end. Follow the separated bit in C₀."
+      ],
+      [
+        "code",
+        "ONE-BIT ROTATION OF THE LEFT KEY HALF",
+        "C₀   1 | 111000011001100101010101111\nC₁       111000011001100101010101111 | 1",
+        19
+      ],
+      [
+        "code",
+        "ROTATE THE RIGHT HALF BY THE SAME AMOUNT",
+        "C₀ F0CCAAF  →  C₁ E19955F\nD₀ 556678F  →  D₁ AACCF1E",
+        19
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "Round numbers 1, 2, 9 and 16 rotate by one place. The other rounds rotate by two, starting from the previous halves.",
+    "kind": "normal",
+    "notes": "Have students follow the leading 1 to the right end of C1. D0 rotates within its own 28 positions. Joining the halves before rotating would give a different result. A6 lists the shifts and every computed subkey.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Recover the six key bits we used",
+    "blocks": [
+      [
+        "p",
+        "Join C₁ and D₁ to form a 56-bit string. Permuted Choice 2 (PC2) picks 48 positions from it. Read the first six entries exactly as we read the IP and E tables."
+      ],
+      [
+        "code",
+        "ROTATED KEY HALVES SIDE BY SIDE",
+        "C₁ || D₁ = E19955F AACCF1E",
+        18
+      ],
+      [
+        "table",
+        [
+          "Output position",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        [
+          [
+            "Read input bit",
+            "14",
+            "17",
+            "11",
+            "24",
+            "1",
+            "5"
+          ],
+          [
+            "Bit copied",
+            "0",
+            "0",
+            "0",
+            "1",
+            "1",
+            "0"
+          ]
+        ],
+        [
+          190,
+          111.0,
+          111.0,
+          111.0,
+          111.0,
+          111.0,
+          111.0
+        ]
+      ],
+      [
+        "code",
+        "ALL 48 SELECTED BITS",
+        "K₁ = 1B02EFFC7072",
+        19
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The first six bits are 000110, exactly the bits we XORed with 011110 to enter S₁.",
+    "kind": "normal",
+    "notes": "Read the first copied bit from position 14 of the combined 56 bits. Complete the first six selections together. The remaining 42 selections follow the same rule. K1 is one 48-bit subkey derived from the original key.",
+    "minutes": 3.0,
+    "source": ""
+  },
+  {
+    "title": "Start round 2 with the output of round 1",
+    "blocks": [
+      [
+        "code",
+        "INPUT TO ROUND 2  •  HEX",
+        "L₁ = F0AAF0AA    R₁ = EF4A6544    K₂ = 79AED9DBC9E5",
+        19
+      ],
+      [
+        "p",
+        "Before calculating F again, which half of the round 2 output can you already write down?"
+      ],
+      [
+        "code",
+        "APPLY THE SAME TWO RULES",
+        "L₂ = R₁ = EF4A6544\nR₂ = L₁ XOR F(R₁, K₂) = F0AAF0AA XOR 3CAB87A3 = CC017709",
+        17
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "Repeat this round rule through round 16, using the next subkey each time. Appendix A11 lists the sixteen output pairs.",
+    "kind": "normal",
+    "notes": "Ask for L2 before uncovering the last box. The class can now follow later rounds without manually performing another eight lookups. Verify that round 2 starts from the pair at the end of round 1 and consumes K2 from the same key schedule.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Finish encryption after round 16",
+    "blocks": [
+      [
+        "code",
+        "LAST ROUND OUTPUT  •  HEX",
+        "L₁₆ = 43423234    R₁₆ = 0A4CD995",
+        21
+      ],
+      [
+        "code",
+        "SWAP THE HALVES, THEN APPLY THE FINAL PERMUTATION",
+        "R₁₆ || L₁₆     0A4CD99543423234\nCiphertext     85E813540F0AB405",
+        21
+      ],
+      [
+        "p",
+        "The final permutation (FP) undoes the opening bit rearrangement. Its first entry is 40, so it copies bit 40 of the swapped block into ciphertext position 1."
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The plaintext 0123456789ABCDEF encrypts to 85E813540F0AB405 with master key 133457799BBCDFF1.",
+    "kind": "normal",
+    "notes": "Point out the order of the two halves in the concatenation. FP is IP inverse, so it uses the full table in A3. Bits 33 to 40 of the swapped block form hex 43, ending in 1. This matches the leading bit of the ciphertext, which begins with hex 8.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Undo the last round first",
+    "blocks": [
+      [
+        "p",
+        "Recall the two-round example on slide 57. There we started decryption with K₂. DES has sixteen rounds, so start with K₁₆."
+      ],
+      [
+        "code",
+        "APPLY IP TO THE CIPHERTEXT",
+        "Ciphertext     85E813540F0AB405\nFirst pair     (0A4CD995, 43423234)",
+        19
+      ],
+      [
+        "code",
+        "ONE FEISTEL ROUND WITH K₁₆",
+        "Copy right      43423234\nF(right, K₁₆)   C8C04F98\nXOR into left   0A4CD995 XOR C8C04F98 = C28C960D",
+        18
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The first decryption round gives (R₁₅, L₁₅) = (43423234, C28C960D).",
+    "kind": "normal",
+    "notes": "IP undoes the FP just applied during encryption. The right half entering F is L16, equal to R15, so using K16 reproduces F = C8C04F98 from the last encryption round. XOR cancels it. Use A11 to compare the resulting pair with the round 15 pair in exchanged order.",
+    "minutes": 2.0,
+    "source": ""
+  },
+  {
+    "title": "Recover the original plaintext",
+    "blocks": [
+      [
+        "code",
+        "USE THE SAME DES ROUNDS WITH THE SUBKEYS IN REVERSE",
+        "Encrypt   K₁,  K₂,  …, K₁₅, K₁₆\nDecrypt   K₁₆, K₁₅, …, K₂,  K₁",
+        19
+      ],
+      [
+        "code",
+        "AFTER ALL SIXTEEN DECRYPTION ROUNDS  •  HEX",
+        "Output pair   (F0AAF0AA, CC00CCFF)\nAfter swap    CC00CCFFF0AAF0AA\nAfter FP      0123456789ABCDEF",
+        19
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "The last swap restores the two halves in their original order. FP returns them to their original plaintext bit positions.",
+    "kind": "normal",
+    "notes": "Compare the value after the swap with the IP output at the start. The same F, S-boxes, initial and final permutations work in both directions. Only the order of subkeys changes, as in the two-round Feistel example.",
+    "minutes": 1.0,
     "source": ""
   },
   {
@@ -4568,6 +4700,113 @@
     "take": "",
     "kind": "normal",
     "notes": "Check the pair after the first reverse round against the first encryption round. Their halves appear in opposite order. The final swap gives the original plaintext, 10101100.",
+    "minutes": 0,
+    "source": ""
+  },
+  {
+    "title": "A14 / Round 1 / all eight S-box calculations",
+    "blocks": [
+      [
+        "table",
+        [
+          "Box",
+          "E(R₀)",
+          "K₁",
+          "XOR",
+          "Outer bits → row",
+          "Inner bits → column",
+          "Output"
+        ],
+        [
+          [
+            "S1",
+            "011110",
+            "000110",
+            "011000",
+            "00 → 0",
+            "1100 → 12",
+            "0101"
+          ],
+          [
+            "S2",
+            "100001",
+            "110000",
+            "010001",
+            "01 → 1",
+            "1000 → 8",
+            "1100"
+          ],
+          [
+            "S3",
+            "010101",
+            "001011",
+            "011110",
+            "00 → 0",
+            "1111 → 15",
+            "1000"
+          ],
+          [
+            "S4",
+            "010101",
+            "101111",
+            "111010",
+            "10 → 2",
+            "1101 → 13",
+            "0010"
+          ],
+          [
+            "S5",
+            "011110",
+            "111111",
+            "100001",
+            "11 → 3",
+            "0000 → 0",
+            "1011"
+          ],
+          [
+            "S6",
+            "100001",
+            "000111",
+            "100110",
+            "10 → 2",
+            "0011 → 3",
+            "0101"
+          ],
+          [
+            "S7",
+            "010101",
+            "000001",
+            "010100",
+            "00 → 0",
+            "1010 → 10",
+            "1001"
+          ],
+          [
+            "S8",
+            "010101",
+            "110010",
+            "100111",
+            "11 → 3",
+            "0011 → 3",
+            "0111"
+          ]
+        ],
+        [
+          58,
+          99,
+          99,
+          99,
+          161,
+          190,
+          150
+        ]
+      ]
+    ],
+    "section": "APPENDIX",
+    "sub": "Read across each row. XOR the two six-bit groups, then look up the result in that row’s S-box.",
+    "take": "Join the outputs from S1 to S8 in order. 0101 1100 1000 0010 1011 0101 1001 0111 = 5C82B597 (hex).",
+    "kind": "normal",
+    "notes": "The first and sixth bits of the XOR result give the row. The four bits between them give the column. Both indices start at zero. Use the S-box tables in A7–A10 to check each four-bit output.",
     "minutes": 0,
     "source": ""
   }

@@ -7,7 +7,7 @@ A technical lecture for master's students, continuing from Lecture 01's classica
 - [Editable source bundle](Lecture02_Source.zip)
 - [Changes from the references](CHANGES.md)
 
-The main deck covers one-time pads and reuse, elementary probability and Bayes' rule, perfect secrecy, entropy and unicity distance, computational security, block-cipher design, a specified toy SPN, Feistel networks, DES, Double DES, and Triple DES. Optional appendix pages contain the conditional-entropy key bound, full DES reference tables, and the two-round Feistel calculation in both directions. AES internals, modes of operation, and new advanced ciphers are left for later lectures.
+The main deck covers one-time pads and reuse, elementary probability and Bayes' rule, perfect secrecy, entropy and unicity distance, computational security, block-cipher design, a specified toy SPN, Feistel networks, DES, Double DES, and Triple DES. Optional appendix pages contain the conditional-entropy key bound, full DES reference tables, the two-round Feistel calculation in both directions, and all eight first-round DES S-box calculations in A14. AES internals, modes of operation, and new advanced ciphers are left for later lectures.
 
 ## Session plan
 
@@ -26,6 +26,8 @@ The 6:30–10:00 pm session has **190 teaching minutes and two ten-minute breaks
 ## Examples and scope
 
 The new deck retains and completes the original `NANYANG` / `XRTRPLK` letter example, ten-bit XOR exercise, two-dice probability example, and fair/biased coin entropy examples. It adds a fully specified numerical trace for the reference's toy SPN and uses one DES known-answer vector throughout the data path and key schedule. The toy lookup values and keys are explicit teaching choices; the reference drawing did not supply them.
+
+The DES walkthrough follows one complete round in order: input halves after IP, expansion, key mixing, the actual S-box groups, permutation P, and the Feistel output. It then derives the round key and returns to the remaining rounds, final swap, and final ciphertext. The first-round S₁ lookup uses `011000`, row `00` (0), column `1100` (12), and output `0101` (5). Appendix A14 works every six-bit XOR and S-box selection, supporting a complete check of the same round.
 
 Contemporary security statements distinguish historical DES/TDEA from current deployment choices. NIST's withdrawal of the TDEA recommendation, effective 1 January 2024, is cited in the guide. The old processor-price lists and supercomputer rankings are replaced by clearly hypothetical key-search rates. A block cipher's key size, block size, and attack resistance are treated as separate quantities.
 

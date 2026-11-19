@@ -15,7 +15,7 @@ from reportlab.platypus import (
 
 from slide_content import MAIN_COUNT, SESSION_PLAN, slides
 from crypto_examples import (
-    DES_CIPHERTEXT, DES_KEY, DES_PLAINTEXT, DES_TRACE,
+    DES_CIPHERTEXT, DES_KEY, DES_PLAINTEXT, DES_TRACE, DES_KEY_TRACE,
     TOY_CIPHERTEXT, TOY_KEYS, TOY_PLAINTEXT, TOY_TRACE,
 )
 
@@ -50,6 +50,10 @@ styles = {
     'meta': ParagraphStyle('meta', fontName='Sans', fontSize=8, leading=11,
                            textColor=MUTED, spaceAfter=7),
 }
+# Reference entries retain the notes' type size and leading, with a smaller
+# inter-entry gap so the complete appendix index stays together on one page.
+styles['appendixhead'] = ParagraphStyle('appendixhead', parent=styles['notehead'], spaceAfter=2)
+styles['appendixnote'] = ParagraphStyle('appendixnote', parent=styles['note'], spaceAfter=3)
 story = []
 
 
@@ -138,8 +142,10 @@ p('The middle block turns from an exact distributional guarantee to computationa
   'Use the specified toy SPN to make substitution, wiring, and reversibility concrete. '
   'Feistel then prepares students to follow one real DES round without treating the inner function '
   'as an invertible cipher.')
-p('The final block follows the same DES test vector through the data path and key schedule, '
-  'then compares exhaustive search and meet-in-the-middle. The allocations include board work, '
+p('The final block first follows the same DES test vector through a complete first round: '
+  'IP and input halves, expansion, key XOR, the actual S-box groups, permutation P, and the round output. '
+  'The next pages derive the supplied round key, then return to the remaining rounds, final swap, and ciphertext. '
+  'The lecture then compares exhaustive search and meet-in-the-middle. The allocations include board work, '
   'student calculations, and questions. The optional tables and entropy bound support follow-up; '
   'they are not extra required material to fit before 10:00 pm.')
 h('Coverage of the supplied references')
@@ -159,6 +165,9 @@ table(['Supplied deck / original pages', 'Coverage in this deck'], [
 
 page('Worked checkpoints and important updates')
 first_toy_round = TOY_TRACE['rounds'][0]
+first_des_round = DES_TRACE['rounds'][0]
+first_des_box = first_des_round['boxes'][0]
+first_des_key = DES_KEY_TRACE['rounds'][0]
 redundancy = log2(26) - 1.25
 table(['Checkpoint', 'Verified answer / interpretation'], [
     ['Letter pad', 'NANYANG + XRTRPLK modulo 26 = KRGPPYQ. N + X gives (13 + 23) mod 26 = 10 = K.'],
@@ -174,12 +183,28 @@ table(['Checkpoint', 'Verified answer / interpretation'], [
      + f'. First round: XOR {first_toy_round["mixed"]:04X}, S-boxes '
      + f'{first_toy_round["substituted"]:04X}, permutation {first_toy_round["state"]:04X}. '
      + f'Final ciphertext {TOY_CIPHERTEXT:04X}.'],
-    ['DES known-answer vector (hexadecimal)',
-     f'P = {DES_PLAINTEXT:016X}; K = {DES_KEY:016X} (parity included); '
-     f'C = {DES_CIPHERTEXT:016X}. First-round F output 234AA9BB; '
-     'L₁ = F0AAF0AA, R₁ = EF4A6544.'],
-    ['DES S-box and final swap', 'S₅(011011): row 01₂ = 1, column 1101₂ = 13, output 9 = 1001. '
-     'After round 16, preoutput is R₁₆ || L₁₆ = 0A4CD99543423234 before IP⁻¹.'],
+    ['DES input and first-round setup (hexadecimal)',
+     f'P = {DES_PLAINTEXT:016X}; K = {DES_KEY:016X} (parity included). '
+     f'IP(P) = {DES_TRACE["post_ip"]:016X}; L₀ = {DES_TRACE["l0"]:08X}, '
+     f'R₀ = {DES_TRACE["r0"]:08X}. Use K₁ = {first_des_round["key"]:012X} for the worked round; '
+     'its derivation follows the data-path calculation.'],
+    ['DES round 1 / actual S-box input',
+     f'S₁({first_des_box["input"]:06b}): outer bits 00 give row {first_des_box["row"]}; '
+     f'inner bits 1100 give column {first_des_box["column"]}; output '
+     f'{first_des_box["output"]:04b} = {first_des_box["output"]}. '
+     f'All eight outputs concatenate to {first_des_round["sbox_output"]:08X}; '
+     f'permutation P gives F = {first_des_round["f"]:08X}. '
+     f'L₁ = {first_des_round["l"]:08X}, R₁ = {first_des_round["r"]:08X}. '
+     'Appendix A14 shows every six-bit XOR, row, column, and output.'],
+    ['DES round-key derivation',
+     f'PC1(K) = {DES_KEY_TRACE["pc1"]:014X}, split as '
+     f'C₀ = {DES_KEY_TRACE["c0"]:07X}, D₀ = {DES_KEY_TRACE["d0"]:07X}. '
+     f'Rotate each half left by one bit, then apply PC2 to obtain K₁ = {first_des_key["key"]:012X}. '
+     'This is the subkey already used in round 1.'],
+    ['DES remaining rounds and final output',
+     'Rounds 2–16 use the same data-path rule with their respective subkeys. '
+     f'Then serialize R₁₆ || L₁₆ = {DES_TRACE["preoutput"]:016X} and apply FP = IP⁻¹. '
+     f'The final ciphertext is {DES_CIPHERTEXT:016X}.'],
 ], [125, 374])
 h('Corrections that affect the explanation')
 p('<b>Shannon and language:</b> the information-theory paper is from 1948; the secrecy-systems '
@@ -248,14 +273,15 @@ if appendix_count:
     p(f'The {appendix_count} appendix pages are outside the {teaching_minutes}-minute teaching plan. '
       'Use them to answer a specific question or support independent calculation. The main lecture '
       'includes the OTP proof and a worked DES round. The appendix covers conditional entropy, '
-      'provides the full lookup tables, and works through both directions of the two-round Feistel example.', 'small')
+      'provides the full lookup tables, works through both directions of the two-round Feistel example, '
+      'and records all eight first-round DES S-box calculations in A14.', 'small')
     for offset, slide in enumerate(slides[MAIN_COUNT:], 1):
         label = f'A{offset}'
         title = slide['title'].split(' / ', 1)[-1]
         note = clean_note(slide.get('notes') or slide.get('take') or 'Reference table for checking the worked calculation.')
         story.append(KeepTogether([
-            para(f'{label} <font color="#536875">(PDF page {MAIN_COUNT + offset})</font> / {escape(title)}', 'notehead'),
-            para(escape(note), 'note'),
+            para(f'{label} <font color="#536875">(PDF page {MAIN_COUNT + offset})</font> / {escape(title)}', 'appendixhead'),
+            para(escape(note), 'appendixnote'),
         ]))
 
 page('Reading, provenance, and rebuilding')
@@ -296,7 +322,9 @@ p('The NANYANG letter pad, ten-bit XOR exercise, dice experiment, and coin-entro
   'are retained and completed from the reference. The toy SPN lookup values, bit permutation, '
   'plaintext, and round keys are explicit teaching choices because the old figure did not specify '
   'them. They do not define a recommended cipher. The DES plaintext/key/ciphertext vector '
-  'is a conventional known-answer example; its trace is recomputed from the standard tables '
+  'is a conventional known-answer example. The round walkthrough uses its actual S₁ input, '
+  'and appendix A14 expands all eight lookups. '
+  'Its trace is recomputed from the standard tables '
   'and was independently checked, including the ciphertext with OpenSSL.')
 h('Edit, build, and inspect')
 p('Requirements: Python 3, ReportLab, PyMuPDF, DejaVu Sans / Sans Mono fonts, and '
@@ -327,7 +355,9 @@ class GuideCanvas(Canvas):
 if __name__ == '__main__':
     document = SimpleDocTemplate(
         str(ROOT / 'Lecture02_Instructor_Guide.pdf'), pagesize=(595, 842),
-        leftMargin=48, rightMargin=48, topMargin=43, bottomMargin=47,
+        # Frame padding is 6 pt on each side: 42 pt margins give the intended
+        # 499 pt text width and align body text with the footer at x=48.
+        leftMargin=42, rightMargin=42, topMargin=43, bottomMargin=47,
         title='Lecture 02 — Instructor Guide', author='Cryptography lecture series',
     )
     document.build(story, onFirstPage=footer, onLaterPages=footer, canvasmaker=GuideCanvas)

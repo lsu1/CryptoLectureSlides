@@ -11,7 +11,8 @@ The three old decks are consolidated into **Lecture 02: One-time Pads and Block 
 - The reference toy SPN receives explicit S-box values, a bit permutation, round keys, and a numerical trace. These are identified as new teaching choices because the old diagram did not specify them.
 - The 16-bit SPN walkthrough now shows the first key XOR in binary, all four S-box lookups, and how to copy bits from the numbered input positions. Students can recover the first hex digit (9) by hand before following the rest of the permutation and later rounds.
 - Feistel inversion is shown algebraically and through a small calculation. One DES plaintext/key/ciphertext vector connects the initial permutation, first round, S-boxes, key schedule, final swap, and output.
-- Conditional-entropy depth and complete DES lookup tables are optional appendix material. The main deck includes the complete OTP proof and essential DES calculations.
+- Students complete the first DES round before deriving its subkey. They follow the actual first-round S₁ input `011000` to row 0, column 12, and read off `0101` (5). Appendix A14 gives the XOR, row, column, and output for each of the eight S-boxes. Reading the outputs in order gives `5C82B597` before permutation P.
+- Students can use the appendix for the conditional-entropy proof, complete DES lookup tables, and worked S-box calculations. The main deck includes the OTP proof and the first DES round.
 
 ## Corrections and updates
 

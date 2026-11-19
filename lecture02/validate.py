@@ -203,8 +203,10 @@ def numerical_checks():
             and (last['l'], last['r']) == (0x43423234, 0x0A4CD995)
             and trace['preoutput'] == 0x0A4CD99543423234
             and cx.permute(trace['preoutput'], cx.FP, 64) == cx.DES_CIPHERTEXT)
-    checked('DES S5 reference lookup uses outer-bit row and inner-bit column',
-            cx.des_sbox(5, 0b011011) == cx.SBOXES[4][1][13] == 0b1001)
+    checked('DES first-round S1 lookup uses outer-bit row and inner-bit column',
+            cx.des_sbox(1, 0b011000) == cx.SBOXES[0][0][12] == 0b0101
+            and first['boxes'][0]['input'] == 0b011000
+            and (first['boxes'][0]['row'], first['boxes'][0]['column']) == (0, 12))
     checked('DES first-round S-box inputs and outputs match the published trace',
             [row['input'] for row in first['boxes']] ==
             [0b011000, 0b010001, 0b011110, 0b111010, 0b100001, 0b100110, 0b010100, 0b100111]
@@ -387,17 +389,105 @@ def des_printed_checks(dc):
             and (reverse[-1][1], reverse[-1][0]) == forward[0]
             and (0b0000 & 0b0110) == (0b0001 & 0b0110))
     first = cx.DES_TRACE['rounds'][0]
-    checked('Printed eight-box first-round table matches all inputs, indices, and outputs',
-            one_table(dc.DES_SLIDES, ['Box', 'Six-bit input', 'Row / column', 'Output']) ==
-            [['S'+str(row['box']), f'{row["input"]:06b}', f'{row["row"]} / {row["column"]}',
-              f'{row["output"]:04b}'] for row in first['boxes']])
-    checked('Printed S5 row includes the reference lookup at zero-based column 13',
-            one_table(dc.DES_SLIDES, ['S₅, row 1 / column', '12', '13', '14', '15']) ==
-            [['Entry'] + [str(value) for value in cx.SBOXES[4][1][12:16]]])
-    checked('Printed expansion groups select the correct first, second, and last bits',
-            one_table(dc.DES_SLIDES, ['Six-bit group', 'Input positions selected by E']) ==
-            [[str(group), ', '.join(map(str, cx.E[start:start+6]))]
-             for group, start in [(1, 0), (2, 6), (8, 42)]])
+    # Use strings with explicit MSB-first indexing as an independent route
+    # through the worked bit selections, rather than reuse cx.permute.
+    def select_bits(value, positions, width):
+        source = f'{value:0{width}b}'
+        return ''.join(source[position-1] for position in positions)
+
+    def normalized_rows(rows):
+        return [[str(cell) for cell in row] for row in rows]
+
+    def des_slide(title):
+        matches = [item for item in dc.DES_SLIDES if item['title'] == title]
+        if len(matches) != 1:
+            raise AssertionError(f'Expected one DES slide titled {title!r}')
+        return matches
+
+    ip_positions = [58, 50, 42, 34, 26, 18, 10, 2]
+    ip_bits = select_bits(cx.DES_PLAINTEXT, ip_positions, 64)
+    checked('Worked IP first byte independently copies bits 58,50,42,34,26,18,10,2',
+            ip_bits == '11001100' and ip_bits[0] == '1'
+            and normalized_rows(one_table(des_slide('How to read the initial permutation'),
+                ['Output position'] + [str(i) for i in range(1, 9)])) ==
+            [['Read input bit'] + list(map(str, ip_positions)),
+             ['Bit copied'] + list(ip_bits)]
+            and f'{cx.DES_TRACE["post_ip"]:064b}'[:8] == ip_bits)
+    e_positions = [32, 1, 2, 3, 4, 5]
+    e_bits = select_bits(cx.DES_TRACE['r0'], e_positions, 32)
+    expanded_bits = f'{first["expanded"]:048b}'
+    key_bits = f'{first["key"]:048b}'
+    xor_bits = ''.join(str(int(a) ^ int(b)) for a, b in zip(expanded_bits, key_bits))
+    checked('Worked expansion group independently copies R0 and retains its leading zero',
+            e_bits == expanded_bits[:6] == '011110'
+            and normalized_rows(one_table(des_slide('Build the first six expansion bits'),
+                ['Output position'] + [str(i) for i in range(1, 7)])) ==
+            [['Read input bit'] + list(map(str, e_positions)),
+             ['Bit copied'] + list(e_bits)])
+    checked('Worked first six expanded and subkey bits XOR to the actual S1 input',
+            key_bits[:6] == '000110' and xor_bits[:6] == '011000'
+            and int(xor_bits, 2) == first['xored'] == 0x6117BA866527
+            and all(value in code_text(dc.DES_SLIDES)
+                    for value in [e_bits, key_bits[:6], xor_bits[:6]]))
+
+    rotated_halves = cx.DES_KEY_TRACE['rounds'][0]
+    combined_key = (rotated_halves['c'] << 28) | rotated_halves['d']
+    pc2_positions = [14, 17, 11, 24, 1, 5]
+    selected_key_bits = select_bits(combined_key, pc2_positions, 56)
+    checked('Worked PC2 first six selections reproduce the round-key bits used at S1',
+            selected_key_bits == key_bits[:6] == '000110'
+            and normalized_rows(one_table(des_slide('Recover the six key bits we used'),
+                ['Output position'] + [str(i) for i in range(1, 7)])) ==
+            [['Read input bit'] + list(map(str, pc2_positions)),
+             ['Bit copied'] + list(selected_key_bits)]
+            and f'{first["key"]:012X}' in code_text(des_slide('Recover the six key bits we used')))
+
+    s1_diagrams = [block[2] for item in dc.DES_SLIDES for block in walk_blocks(item['blocks'])
+                   if block[:2] == ('diagram', 'des_lookup')]
+    checked('Worked S1 diagram uses the complete S1 table and the actual first-round input',
+            len(s1_diagrams) == 1 and s1_diagrams[0]['table'] == cx.SBOXES[0]
+            and s1_diagrams[0]['value'] == 0b011000
+            and cx.SBOXES[0][int(xor_bits[0] + xor_bits[5], 2)][int(xor_bits[1:5], 2)] == 5)
+
+    expected_lookups = []
+    sbox_outputs = []
+    for index in range(8):
+        expanded_group = expanded_bits[6*index:6*index+6]
+        key_group = key_bits[6*index:6*index+6]
+        mixed_group = ''.join(str(int(a) ^ int(b)) for a, b in zip(expanded_group, key_group))
+        outer = mixed_group[0] + mixed_group[-1]
+        inner = mixed_group[1:5]
+        row, column = int(outer, 2), int(inner, 2)
+        output = cx.SBOXES[index][row][column]
+        expected_lookups.append(['S'+str(index+1), expanded_group, key_group, mixed_group,
+                                 f'{outer} → {row}', f'{inner} → {column}', f'{output:04b}'])
+        sbox_outputs.append(f'{output:04b}')
+    checked('Appendix eight S-box calculations independently verify expansion, key XOR, indices, and outputs',
+            one_table(dc.DES_SBOX_APPENDIX, ['Box', 'E(R₀)', 'K₁', 'XOR',
+                                       'Outer bits → row', 'Inner bits → column', 'Output'])
+            == expected_lookups
+            and int(''.join(sbox_outputs), 2) == first['sbox_output'] == 0x5C82B597)
+
+    p_positions = [16, 7, 20, 21]
+    p_bits = select_bits(first['sbox_output'], p_positions, 32)
+    p_first_byte = select_bits(first['sbox_output'], [16, 7, 20, 21, 29, 12, 28, 17], 32)
+    checked('Worked P first nibble independently selects S-box output bits 16,7,20,21',
+            p_bits == '0010' and p_first_byte == '00100011'
+            and normalized_rows(one_table(des_slide('Permute the 32 output bits'),
+                ['Output position'] + [str(i) for i in range(1, 5)])) ==
+            [['Read input bit'] + list(map(str, p_positions)),
+             ['Bit copied'] + list(p_bits)]
+            and f'{first["f"]:032b}'[:4] == p_bits
+            and (first['f'] >> 24) == int(p_first_byte, 2) == 0x23)
+    all_p_bits = select_bits(first['sbox_output'], cx.P, 32)
+    r1_bits = ''.join(str(int(a) ^ int(b)) for a, b in
+                      zip(f'{cx.DES_TRACE["l0"]:032b}', all_p_bits))
+    checked('Worked F result and first-round halves independently agree after XOR',
+            int(all_p_bits, 2) == first['f'] == 0x234AA9BB
+            and first['l'] == cx.DES_TRACE['r0'] == 0xF0AAF0AA
+            and int(r1_bits, 2) == first['r'] == 0xEF4A6544
+            and all(f'{value:08X}' in code_text(dc.DES_SLIDES)
+                    for value in [first['f'], first['l'], first['r']]))
     printed_keys = [row for table in tables(dc.DES_APPENDIX, ['i', 'sᵢ', 'Kᵢ (hex)'])
                     for row in table[2]]
     checked('All sixteen printed DES subkeys preserve their shifts and 48-bit widths',

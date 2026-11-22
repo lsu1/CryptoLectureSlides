@@ -1,0 +1,381 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,tabularx,booktabs,array}
+\usepackage[table]{xcolor}
+\usepackage[left=22mm,right=22mm,top=22mm,bottom=22mm,headheight=23pt,headsep=14pt,footskip=26pt]{geometry}
+\usepackage{fancyhdr,hyperref}
+\usepackage{tcolorbox}
+\input{glyphtounicode}
+\pdfgentounicode=1
+\hypersetup{hidelinks,pdftitle={MH6003 Cryptography - Tutorial 1 (Lectures 1 and 2)},pdfauthor={MH6003 Cryptography},pdfsubject={Tutorial questions and worked solutions}}
+\definecolor{ink}{HTML}{132B3C}
+\definecolor{teal}{HTML}{076E73}
+\definecolor{pale}{HTML}{EDF4F3}
+\definecolor{linecol}{HTML}{BCCDCB}
+\definecolor{muted}{HTML}{465E6A}
+\color{ink}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\emergencystretch}{8pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\bfseries MH6003\enspace\textcolor{teal}{/}\enspace Cryptography}
+\fancyhead[R]{\small Tutorial 1\enspace\textcolor{teal}{/}\enspace Lectures 1 and 2}
+\newcommand{\slideref}{}
+\fancyfoot[L]{\footnotesize\color{muted}\slideref}
+\fancyfoot[R]{\footnotesize\color{muted}Questions and worked solutions\quad\textbar\quad\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{linecol}\leaders\hrule height \headrulewidth\hfill}}
+\newcommand{\topic}[5]{%
+  \renewcommand{\slideref}{#5}%
+  \pdfbookmark[1]{#1. #3}{q#1}%
+  {\small\bfseries\color{teal}QUESTION #1 OF 7\quad\textbar\quad #2}\par
+  {\raggedright\fontsize{24}{28}\selectfont\bfseries #3\par}
+  {\color{muted}#4\par}\vspace{5pt}}
+\newcommand{\task}[2]{\par\noindent\hangindent=1.8em\hangafter=1\makebox[1.8em][l]{\bfseries\color{teal}(#1)}#2\par}
+\newcommand{\workarea}{\par\vspace{6pt}{\footnotesize\color{muted}Your working}\par
+  {\color{linecol}\vspace{7pt}\hrule height 0.25pt\vspace{15pt}\hrule height 0.25pt}\par}
+\newcommand{\solution}{\par\vspace{9pt}{\color{linecol}\hrule}\vspace{8pt}{\color{teal}\large\bfseries Worked solution}\par\vspace{2pt}}
+\newcommand{\step}[2]{\par\textbf{(#1) #2}\par}
+\newcommand{\bits}[1]{\texttt{#1}}
+\newtcolorbox{data}{colback=pale,colframe=linecol,boxrule=0.45pt,arc=1mm,left=9pt,right=9pt,top=5pt,bottom=5pt,before skip=5pt,after skip=5pt}
+\newcommand{\answer}[1]{\par\vspace{3pt}{\color{teal}\bfseries #1}\par}
+\begin{document}
+
+\topic{1}{Easy}{Recover a shift key}{A colleague used the same Caesar shift to encrypt every letter of a short message. You know the first plaintext letter was W.}{Lecture 1, slides 12--17}
+\begin{data}
+Ciphertext\quad\bits{FXATBQXY}\par
+Number letters $\mathrm{A}=0,\ldots,\mathrm{Z}=25$. Encryption uses $c=(p+k)\bmod 26$.
+\end{data}
+\task{a}{Use the known first letter to find the key $k$ between 0 and 25.}
+\task{b}{Decrypt the eight letters. Show a subtraction that wraps around the alphabet, then re-encrypt the last letter to check your answer.}
+\workarea
+\solution
+\step{a}{Find the shift from one matching pair.}
+The plaintext W has value 22. Its ciphertext F has value 5. Subtract the plaintext value from the ciphertext value and reduce modulo 26.
+\[
+   k=(5-22)\bmod 26=(-17)\bmod 26=9.
+\]
+Adding 26 to $-17$ gives the equivalent shift in the required range.
+\step{b}{Subtract 9 from every ciphertext value.}
+For the third letter, $\mathrm{A}=0$ and $0-9=-9$. Adding 26 gives 17, the value of R.
+\begin{center}
+\begin{tabular}{l*{8}{c}}\toprule
+Ciphertext & F & X & A & T & B & Q & X & Y\\
+Ciphertext value & 5 & 23 & 0 & 19 & 1 & 16 & 23 & 24\\
+After subtracting 9 (mod 26) & 22 & 14 & 17 & 10 & 18 & 7 & 14 & 15\\
+Plaintext & W & O & R & K & S & H & O & P\\\bottomrule
+\end{tabular}
+\end{center}
+\answer{The plaintext is WORKSHOP.}
+The last letter P has value 15. Encrypting it gives $15+9=24$, or Y, as required.
+
+\newpage
+\topic{2}{Easy}{Two messages, one pad}{Two eight-bit messages were encrypted using the same eight-bit pad $K$. You know the first plaintext and have both ciphertexts.}{Lecture 2, slides 5--10}
+\begin{data}
+\begin{tabular}{@{}ll@{}}First plaintext $P_1$ & \bits{0110 1001}\\
+First ciphertext $C_1$ & \bits{1010 0110}\\
+Second ciphertext $C_2$ & \bits{1110 0010}\end{tabular}
+\end{data}
+For each message, $C_i=P_i\oplus K$. The symbol $\oplus$ means bitwise XOR. Spaces group the bits in fours.
+\task{a}{Recover the pad $K$, then use it to decrypt $C_2$.}
+\task{b}{Calculate $C_1\oplus C_2$ and $P_1\oplus P_2$ separately. Why do these two results agree in this example?}
+\workarea
+\solution
+\step{a}{Undo the first XOR, then use the recovered pad.}
+XORing with the same bit twice cancels it. Line up the two operands and compare one column at a time. Equal bits give 0 and different bits give 1.
+\begin{center}
+\begin{tabular}{ll@{\hspace{2.5em}}ll}\toprule
+$C_1$ & \bits{1010 0110} & $C_2$ & \bits{1110 0010}\\
+$P_1$ & \bits{0110 1001} & $K$   & \bits{1100 1111}\\\cmidrule(r){1-2}\cmidrule(l){3-4}
+$K=C_1\oplus P_1$ & \bits{1100 1111} & $P_2=C_2\oplus K$ & \bits{0010 1101}\\\bottomrule
+\end{tabular}
+\end{center}
+\step{b}{Check both pairs.}
+\begin{center}
+\begin{tabular}{lll}\toprule
+$C_1\oplus C_2$ & \bits{1010 0110} $\oplus$ \bits{1110 0010} & $=$ \bits{0100 0100}\\
+$P_1\oplus P_2$ & \bits{0110 1001} $\oplus$ \bits{0010 1101} & $=$ \bits{0100 0100}\\\bottomrule
+\end{tabular}
+\end{center}
+In the ciphertext XOR the pad appears twice. Regrouping gives
+$(P_1\oplus P_2)\oplus(K\oplus K)=P_1\oplus P_2$.
+\answer{The reused pad reveals the XOR of the messages. Knowing the first message lets you recover the second.}
+
+\newpage
+\topic{3}{Medium}{Prepare and encrypt a Playfair message}{Encrypt the five-letter message CARRY using the square below. The square uses the keyword CAMPUS and combines I and J.}{Lecture 1, slides 53--63}
+\begin{center}
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{>{\ttfamily}c>{\ttfamily}c>{\ttfamily}c>{\ttfamily}c>{\ttfamily}c}
+\toprule C&A&M&P&U\\S&B&D&E&F\\G&H&I&K&L\\N&O&Q&R&T\\V&W&X&Y&Z\\\bottomrule
+\end{tabular}
+\end{center}
+\task{a}{Prepare the plaintext in pairs. If the next two letters match, pair the first with X and leave the second for the next pair. Pad a final unpaired letter with X.}
+\task{b}{Encrypt each pair and name its rule. Move right in a shared row or down in a shared column, wrapping at the edge. For a rectangle, keep each letter's row and take the other letter's column.}
+\task{c}{Decrypt the final ciphertext pair to check the wraparound.}
+\workarea
+\solution
+\step{a}{Track which letters you have consumed.}
+Take \bits{CA}. The remaining letters are \bits{RRY}, so emit \bits{RX} and consume only the first R. The remaining \bits{RY} makes the last pair. The prepared message is \bits{CA RX RY}.
+\step{b}{Apply one rule per pair.}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}llXc@{}}\toprule
+Pair & Rule & Moves in the square & Output\\\midrule
+\bits{CA} & Same row & One place right sends C to A and A to M. & \bits{AM}\\
+\bits{RX} & Rectangle & R takes X's column to give Q. X takes R's column to give Y. & \bits{QY}\\
+\bits{RY} & Same column & R moves down to Y. Y wraps from the bottom to P at the top. & \bits{YP}\\\bottomrule
+\end{tabularx}
+\end{center}
+\answer{The ciphertext is AMQYYP.}
+\step{c}{Reverse the last pair.}
+Move one place up in the P--E--K--R--Y column. Y returns to R and P wraps to Y, recovering \bits{RY}.
+\newpage
+\topic{4}{Medium}{A ciphertext bit and a biased pad}
+{Let the plaintext bit be $P$, the key bit be $K$, and $C=P\oplus K$. The key is independent of the plaintext. The prior is $\Pr[P=1]=3/4$. You observe $C=1$.}
+{Lecture 2, slides 13--24}
+
+\begin{data}
+Case A, $\Pr[K=0]=\Pr[K=1]=1/2$.\qquad
+Case B, $\Pr[K=0]=3/4$, $\Pr[K=1]=1/4$.
+\end{data}
+
+\task{a}{For the fair key in Case A, list the joint probabilities of the four $(P,K)$ pairs and compute $\Pr[P=1\mid C=1]$.}
+\task{b}{Repeat for Case B. Compare each posterior with the prior $3/4$. Does independence of $P$ and $K$ alone ensure that the ciphertext leaves this prior unchanged?}
+
+\workarea
+\solution
+\step{a}{Form the joint probabilities for the fair key.}
+Independence gives $\Pr[P=p,K=k]=\Pr[P=p]\Pr[K=k]$.
+The last two columns below are \emph{joint} probabilities.
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$p$ & $k$ & $c=p\oplus k$ & Case A, fair key & Case B, biased key \\
+\midrule
+0 & 0 & 0 & $1/8$ & $3/16$ \\
+0 & 1 & 1 & $1/8$ & $1/16$ \\
+1 & 0 & 1 & $3/8$ & $9/16$ \\
+1 & 1 & 0 & $3/8$ & $3/16$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For Case A, the rows with $c=1$ have total probability $1/8+3/8=1/2$.
+Only the row $(p,k)=(1,0)$ also has $p=1$. Therefore
+\[
+ \Pr[P=1\mid C=1]
+ =\frac{\Pr[P=1,C=1]}{\Pr[C=1]}
+ =\frac{3/8}{1/8+3/8}=\frac34.
+\]
+
+\step{b}{Condition on the observation with the biased key.}
+The Case B column gives $\Pr[C=1]=1/16+9/16=5/8$, so
+\[
+ \Pr[P=1\mid C=1]
+ =\frac{9/16}{1/16+9/16}=\frac9{10}.
+\]
+The key is independent of the plaintext in both cases. The fair key leaves the
+prior unchanged for this observation. The biased key raises it from $3/4$ to
+$9/10$. Independence alone is therefore insufficient.
+
+\answer{The change from 75\% to 90\% gives a counterexample to perfect secrecy for the biased key.}
+
+\newpage
+\topic{5}{Medium}{Two Feistel rounds, in both directions}
+{Use four-bit halves and the toy function $F(R,K)=R\mathbin{\mathrm{AND}}K$, with AND applied bit by bit. Each round sets $L_{\mathrm{new}}=R$ and $R_{\mathrm{new}}=L\oplus F(R,K)$. After two rounds, swap the final halves before writing the output.}
+{Lecture 2, slides 53--57}
+
+\begin{data}
+$L_0=$\bits{1011},\quad $R_0=$\bits{0110},\qquad
+$K_1=$\bits{1101},\quad $K_2=$\bits{1011}.
+\end{data}
+
+\task{a}{Encrypt. For each round, list the input halves, key, AND result, and output halves. Apply the final swap to obtain the eight-bit ciphertext.}
+\task{b}{Decrypt that ciphertext using the same two-round construction with the keys in reverse order. Show both rounds and the final swap.}
+
+\workarea
+\solution
+\step{a}{Encrypt with $K_1$, then $K_2$}
+Read each row from left to right. The AND result is $F(R,K)$. The new right
+half is the input left half XOR that result.
+
+\begin{center}
+\begin{tabular}{ccccccc}
+\toprule
+Round & Input $L$ & Input $R$ & Key & AND result & New $L$ & New $R$ \\
+\midrule
+1 & \bits{1011} & \bits{0110} & \bits{1101} & \bits{0100} & \bits{0110} & \bits{1111} \\
+2 & \bits{0110} & \bits{1111} & \bits{1011} & \bits{1011} & \bits{1111} & \bits{1101} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The XOR calculations are \bits{1011} $\oplus$ \bits{0100} $=$ \bits{1111}
+and \bits{0110} $\oplus$ \bits{1011} $=$ \bits{1101}.
+The round state is now $(L_2,R_2)=(\bits{1111},\bits{1101})$.
+Write the right half first to perform the final swap.
+\[
+ C=R_2\,\|\,L_2=\bits{1101}\,\|\,\bits{1111}=\bits{11011111}.
+\]
+
+\step{b}{Split the ciphertext and use $K_2$, then $K_1$}
+The decryption input halves are \bits{1101} and \bits{1111}.
+Apply the same round rule, supplying the keys in reverse order.
+
+\begin{center}
+\begin{tabular}{ccccccc}
+\toprule
+Round & Input $L$ & Input $R$ & Key & AND result & New $L$ & New $R$ \\
+\midrule
+1 & \bits{1101} & \bits{1111} & \bits{1011} & \bits{1011} & \bits{1111} & \bits{0110} \\
+2 & \bits{1111} & \bits{0110} & \bits{1101} & \bits{0100} & \bits{0110} & \bits{1011} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Here \bits{1101} $\oplus$ \bits{1011} $=$ \bits{0110}
+and \bits{1111} $\oplus$ \bits{0100} $=$ \bits{1011}.
+Swap the final halves once more to recover
+\bits{1011}\,$\|$\,\bits{0110} $=$ \bits{10110110}.
+
+\answer{The ciphertext is \bits{11011111}. Decryption returns \bits{10110110}.}
+\newpage
+\topic{6}{Challenging}{Recover a repeating Vigen\`ere key}{Use a repeated segment and a known plaintext fragment to recover an unknown key period and keyword.}{Lecture 1, slides 34--41 and 45--49}
+
+\begin{data}
+Number letters $A=0,\ldots,Z=25$ and positions from 0. The shortest period satisfies $2\le m\le5$ and the keyword begins at position $0$.
+\[
+ c_i=(p_i+k_{i\bmod m})\bmod26,
+ \qquad p_i=(c_i-k_{i\bmod m})\bmod26.
+\]
+Ciphertext: \bits{NPQGVBTIWWOONPQGVBTIRIFI}\par
+The plaintext at positions $5$--$11$ is \bits{THELOCK}.
+\end{data}
+
+\task{a}{Locate the first two occurrences of \bits{NPQ}. If both came from the same plaintext at the same key alignment, which periods would their spacing suggest?}
+\task{b}{Find the aligned key shifts $(c_i-p_i)\bmod26$ at the seven known positions. Test periods $2$--$5$, then recover the keyword with its correct alignment.}
+\task{c}{Decrypt the complete message. Re-encrypt its last four plaintext letters to check your answer.}
+
+\solution
+\step{a}{Use the distance as a clue.}
+The segment starts at positions 0 and 12. The divisors of 12 in the allowed range are 2, 3 and 4. A chance repetition is also possible, so check the proposed period against the known letters.
+
+\step{b}{Recover the shifts at their actual positions.}
+At position 5, $(1-19)\bmod26=8$, giving key letter I. Applying the same subtraction gives the other six shifts.
+
+{\small
+\begin{tabularx}{\linewidth}{@{}l*{7}{>{\centering\arraybackslash}X}@{}}
+\toprule
+Position $i$ & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+\midrule
+Ciphertext $c_i$ & B & T & I & W & W & O & O \\
+Plaintext $p_i$ & T & H & E & L & O & C & K \\
+$(c_i-p_i)\bmod26$ & 8 & 12 & 4 & 11 & 8 & 12 & 4 \\
+Key-stream letter & I & M & E & L & I & M & E \\
+\bottomrule
+\end{tabularx}\par
+}
+
+Periods 2, 3 and 5 fail. In each case a repeat of I at position 5 would be required at position 7 (E), 8 (L) or 10 (M), respectively. Period $4$ fits. Positions $8$--$11$ have key indices $0,1,2,3$, so the keyword is \bits{LIME}.
+
+\step{c}{Repeat \bits{LIME} from position $0$ and subtract modulo $26$.}
+\begin{center}
+\begin{tabular}{@{}ll@{}}Ciphertext & \bits{NPQG VBTI WWOO NPQG VBTI RIFI}\\
+Key & \bits{LIME LIME LIME LIME LIME LIME}\\
+Plaintext & \bits{CHEC KTHE LOCK CHEC KTHE GATE}\end{tabular}
+\end{center}
+\answer{CHECK THE LOCK CHECK THE GATE}
+The final four positions use \bits{LIME} again. Re-encrypting \bits{GATE} gives
+\[
+ (6,0,19,4)+(11,8,12,4)
+ \equiv(17,8,5,8)\pmod{26}
+ \quad\longrightarrow\quad\texttt{RIFI}.
+\]
+\newpage
+\topic{7}{Challenging}{Trace one bit through a DES round}{Work through two S-boxes, then use their outputs to count exactly how many bits change in the whole round.}{Lecture 2, slides 64--72 and appendix A7}
+
+The round sends \((L,R)\) to \((R,L\oplus F(R,K))\). The right half is \(R=\mathtt{6B24D891}\) in hexadecimal. The first two six-bit groups of the round key \(K\) are \bits{100101} and \bits{011010}, respectively. Count bit positions in \(R\) from the left, starting at 1.
+
+\task{a}{Compute the first two groups of \(E(R)\oplus K\). For each group, show the six expansion bits, the XOR calculation, the S-box row and column, and the four-bit output.}
+\task{b}{Flip only bit 5 of \(R\), keeping \(L\) and \(K\) fixed. Identify every expansion group that changes. For each affected S-box, predict whether its row or its column changes, then calculate its new four-bit output.}
+\task{c}{How many bits change in the 32-bit output of \(F\)? How many change in the 64-bit output of the full Feistel round? Justify both counts without looking up S3 through S8.}
+
+\textbf{Reference for the calculation.}
+The eight expansion groups start at positions 32, 4, 8, 12, 16, 20, 24 and 28. Each group takes six consecutive bits, wrapping from 32 back to 1. For each S-box, the first and last XOR bits form the row. The middle four bits form the column. The table entries are decimal. Write each selected entry as four bits. Join the eight outputs in order, then apply the fixed bit permutation to obtain $F$.
+
+\begin{center}
+{\normalsize\setlength{\tabcolsep}{5.0pt}
+\begin{tabular}{@{}ll*{16}{r}@{}}
+\toprule
+ & & \multicolumn{16}{c}{Column}\\
+Box & Row & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
+\midrule
+S1 & 0 & 14 & 4 & 13 & 1 & 2 & 15 & 11 & 8 & 3 & 10 & 6 & 12 & 5 & 9 & 0 & 7\\
+   & 1 & 0 & 15 & 7 & 4 & 14 & 2 & 13 & 1 & 10 & 6 & 12 & 11 & 9 & 5 & 3 & 8\\
+   & 2 & 4 & 1 & 14 & 8 & 13 & 6 & 2 & 11 & 15 & 12 & 9 & 7 & 3 & 10 & 5 & 0\\
+   & 3 & 15 & 12 & 8 & 2 & 4 & 9 & 1 & 7 & 5 & 11 & 3 & 14 & 10 & 0 & 6 & 13\\
+\midrule
+S2 & 0 & 15 & 1 & 8 & 14 & 6 & 11 & 3 & 4 & 9 & 7 & 2 & 13 & 12 & 0 & 5 & 10\\
+   & 1 & 3 & 13 & 4 & 7 & 15 & 2 & 8 & 14 & 12 & 0 & 1 & 10 & 6 & 9 & 11 & 5\\
+   & 2 & 0 & 14 & 7 & 11 & 10 & 4 & 13 & 1 & 5 & 8 & 12 & 6 & 9 & 3 & 2 & 15\\
+   & 3 & 13 & 8 & 10 & 1 & 3 & 15 & 4 & 2 & 11 & 6 & 7 & 12 & 0 & 5 & 14 & 9\\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\textbf{Your working}\par
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabularx}{\linewidth}{@{}l*{5}{>{\centering\arraybackslash}X}@{}}
+\toprule Input / box & Expansion & After XOR & Row & Column & Output\\\midrule
+Original $R$, $S_1$ &&&&&\\\midrule
+Original $R$, $S_2$ &&&&&\\\midrule
+Flipped bit 5, $S_1$ &&&&&\\\midrule
+Flipped bit 5, $S_2$ &&&&&\\\bottomrule
+\end{tabularx}
+\end{center}
+
+\newpage
+{\small\bfseries\color{teal}QUESTION 7 OF 7\quad\textbar\quad WORKED SOLUTION}\par
+{\raggedright\fontsize{24}{28}\selectfont\bfseries Trace one bit through a DES round\par}\vspace{6pt}
+
+\step{a}{Read the expansion positions and look up the two outputs.}
+The leading hex digits \bits{6B2} give \bits{0110 1011 0010}. The final hex digit \bits{1} gives \bits{0001}, so bit 32 is 1. Group 1 reads positions \(32,1,2,3,4,5\), giving \bits{101101}. Group 2 reads positions \(4,5,6,7,8,9\), giving \bits{010110}.
+
+\begin{center}
+{\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccclll@{}}
+\toprule
+Box & Expansion & Key & XOR & Outer / row & Inner / column & Output\\
+\midrule
+S1 & \bits{101101} & \bits{100101} & \bits{001000} & \bits{00} / 0 & \bits{0100} / 4 & \(2=\mathtt{0010}_2\)\\
+S2 & \bits{010110} & \bits{011010} & \bits{001100} & \bits{00} / 0 & \bits{0110} / 6 & \(3=\mathtt{0011}_2\)\\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\step{b}{Follow the two copies of bit 5.}
+Flipping bit 5 changes \(R\) to \(\mathtt{6324D891}\). Bit 5 appears last in group 1 and second in group 2. XOR with the same key flips those same positions in the mixed groups. In S1 the last bit chooses part of the \emph{row}. In S2 the second bit chooses part of the \emph{column}. The other six groups never read position 5.
+
+\begin{center}
+{\small\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccclll@{}}
+\toprule
+Box & Expansion & Key & XOR & Outer / row & Inner / column & Output\\
+\midrule
+S1 & \bits{101100} & \bits{100101} & \bits{001001} & \bits{01} / 1 & \bits{0100} / 4 & \(14=\mathtt{1110}_2\)\\
+S2 & \bits{000110} & \bits{011010} & \bits{011100} & \bits{00} / 0 & \bits{1110} / 14 & \(5=\mathtt{0101}_2\)\\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+\step{c}{Count the differences that reach each half.}
+The first two S-box outputs change from \bits{0010 0011} to \bits{1110 0101}. Their XOR is \bits{1100 0110} with four 1s. The other six S-box outputs are identical. The permutation \(P\) moves bits without changing this count, so four bits differ in \(F\).
+
+The new right half is \(L\oplus F(R,K)\). XOR with the same \(L\) preserves all four differences. The new left half is a copy of the input \(R\), so it differs in one bit.
+\answer{The Hamming distance is 4 at the output of \(F\) and \(1+4=5\) across the complete round output.}
+\end{document}

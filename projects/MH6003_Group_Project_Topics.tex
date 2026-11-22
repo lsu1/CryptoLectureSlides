@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,tabularx,booktabs,array}
+\usepackage[table]{xcolor}
+\usepackage[a4paper,left=22mm,right=22mm,top=22mm,bottom=21mm,headheight=26pt,headsep=12pt,footskip=25pt]{geometry}
+\usepackage{fancyhdr,hyperref}
+\input{glyphtounicode}
+\pdfgentounicode=1
+\definecolor{ink}{HTML}{132B3C}
+\definecolor{teal}{HTML}{076E73}
+\definecolor{muted}{HTML}{435D69}
+\definecolor{rulegrey}{HTML}{B7CCCA}
+\hypersetup{colorlinks=true,linkcolor=teal,urlcolor=teal,
+  pdftitle={MH6003 Cryptography - Group project topics},
+  pdfsubject={Eight project proposals for instructor review},pdfauthor={MH6003 Cryptography}}
+\renewcommand{\familydefault}{\sfdefault}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{9pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\bfseries MH6003\enspace\textcolor{teal}{/}\enspace Cryptography}
+\fancyhead[R]{\small Group project topics}
+\fancyfoot[L]{\footnotesize\color{muted}Proposed topics for instructor review}
+\fancyfoot[R]{\footnotesize\color{muted}\thepage}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegrey}\leaders\hrule height .6pt\hfill}}
+\newcommand{\pagetitle}[1]{{\fontsize{27}{30}\selectfont\bfseries #1\par}\vspace{5pt}}
+\newcommand{\project}[3]{%
+  \pdfbookmark[1]{#1. #2}{project#1}%
+  \hypertarget{topic#1}{}{\footnotesize\bfseries\color{teal}TOPIC #1\enspace /\enspace #3\par}
+  {\raggedright\fontsize{19}{22}\selectfont\bfseries #2\par}\vspace{1pt}}
+\newcommand{\entry}[2]{{\raggedright\noindent\textcolor{teal}{\bfseries #1}\enspace #2\par}}
+\newcommand{\reading}[1]{{\small\color{muted}Starting point\enspace #1\par}}
+\newcommand{\topicbreak}{\vspace{12pt}{\color{rulegrey}\hrule}\vspace{14pt}}
+\newcommand{\spot}[3]{\hyperlink{topic#1}{\textbf{#1}\enspace #2} & #3\\}
+\begin{document}
+\pdfbookmark[0]{Project menu}{menu}
+\pagetitle{Group project topics}
+{\large Eight options for exploring cryptography in a team of 3--4.\par}
+\medskip
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{By week 7} & \textbf{Weeks 8--11} & \textbf{End of week 11}\\
+Form a group and choose a topic. & Carry out the four-week project. & Submit the project report.\\
+\bottomrule
+\end{tabularx}
+
+The group project contributes \textbf{30\% of the course grade}. A prototype or computational experiment is preferred. The report should state the question, explain the method and assumptions, present the evidence, interpret its limitations, and identify each member's contribution.
+
+\vspace{5pt}
+{\large\bfseries Which question would your group like to answer?\par}
+{\small Select a title to read its brief. Groups may also propose a different cryptography question of similar scope.\par}
+\begingroup
+\renewcommand{\arraystretch}{1.42}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.54\linewidth} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Proposed topic} & \textbf{What the report could show}\\
+\midrule
+\spot{1}{AI for classical-cipher identification}{Whether a learned classifier improves on a statistical rule}
+\spot{2}{Two ways to compute the AES S-box}{An exhaustive correctness check and a time--storage comparison}
+\spot{3}{Choosing encrypted file chunk sizes}{The cost of reading one record or the whole file}
+\spot{4}{Proving membership with a Merkle tree}{How proof size grows as a catalogue expands}
+\spot{5}{The cost of post-quantum key establishment}{The bytes and time needed for one exchange}
+\spot{6}{What a Schnorr transcript reveals}{A test of the honest-verifier zero-knowledge claim}
+\spot{7}{Counting private responses with two servers}{An exact tally and the trust assumptions it requires}
+\spot{8}{Selective disclosure in digital credentials}{Which claims a verifier learns in two services}
+\bottomrule
+\end{tabularx}
+\endgroup
+
+\newpage
+\pagetitle{Experiments with ciphers}
+\project{1}{Can a model recognise a classical cipher?}{Classical ciphers and machine learning}
+\entry{Research question}{Can a small machine-learning model distinguish Vigenère ciphertext from block-transposition ciphertext more accurately than a rule based on the index of coincidence? How does passage length affect the answer?}
+\entry{Rationale}{Transposition preserves the letter counts of the original passage. A repeating Vigenère key can alter them. This gives the group a reason to expect a signal and a way to investigate what the model has learned.}
+\entry{Suggested implementation}{Take passages of three lengths from public-domain books. Encrypt each passage both ways using fresh keys and identical formatting. Choose lengths that avoid padding. Train a logistic classifier on letter and adjacent-pair frequencies. Fit the comparison rule on training data. Reserve entire books and new keys for testing so both versions of a passage stay in the same split.}
+\entry{Expected outcome}{Report a confusion matrix and accuracy by length for both methods. Show a difficult example and test whether removing pair frequencies changes the result. A finding that the simple rule performs just as well is informative.}
+\reading{Lecture 1 on frequency analysis and coincidence. \href{https://scikit-learn.org/stable/modules/cross_validation.html}{Scikit-learn guide to grouped evaluation}}
+
+\topicbreak
+\project{2}{Two ways to compute the AES S-box}{AES and finite-field arithmetic}
+\entry{Research question}{What time and storage costs arise when the same AES byte substitution is computed from its algebraic definition or read from a 256-entry table?}
+\entry{Rationale}{Students see all 256 outputs in the standard. Reconstructing the table connects the finite-field arithmetic from class to an implementation decision.}
+\entry{Suggested implementation}{Write one byte-substitution function using inversion in the AES field $\mathrm{GF}(2^8)$ followed by the affine transformation, including the specified treatment of zero. Write a second function that reads the published table. Verify every input against the standard, then time both implementations on the same batches of bytes in the same language and runtime.}
+\entry{Expected outcome}{Produce a 256-case correctness check, a throughput plot with repeated measurements, and a storage breakdown that distinguishes table bytes from runtime overhead. State what the measurements support on the tested machine. Average timings alone cannot establish resistance to side channels.}
+\reading{\href{https://doi.org/10.6028/NIST.FIPS.197-upd1}{NIST FIPS 197, AES S-box definition and table}}
+
+\newpage
+\pagetitle{Integrity for stored data}
+\project{3}{Choosing encrypted file chunk sizes}{Block-cipher modes and authenticated encryption}
+\entry{Research question}{Which chunk size works best for a full backup restore? Does the answer change if a reader needs just one 4\,KiB record from a random position?}
+\entry{Rationale}{Authenticated encryption lets a reader verify a chunk before using its contents. Large chunks reduce the number of tags, but a small read may have to fetch and verify many extra bytes.}
+\entry{Suggested implementation}{Use a library's AES-GCM on one immutable synthetic file. Compare three chunk sizes, for example 4, 64 and 1024\,KiB. Give each run a fresh key and each chunk a distinct nonce under that key. Bind the file identifier and chunk index as associated data. Check round-trip recovery and confirm that changing one stored chunk causes its verification to fail.}
+\entry{Expected outcome}{For each workload, measure bytes read, stored nonce/tag overhead and elapsed time. Recommend a chunk size for each workload using those measurements. State the assumption that the reader already knows the expected file length and chunk layout.}
+\reading{\href{https://doi.org/10.6028/NIST.SP.800-38D}{NIST SP 800-38D, Galois/Counter Mode}}
+
+\topicbreak
+\project{4}{Proving membership with a Merkle tree}{Hash functions and data structures}
+\entry{Research question}{A device knows the trusted root hash of a catalogue. How much data must a server send to convince it that a particular file digest occupies a particular catalogue entry?}
+\entry{Rationale}{Hashing a complete list makes verification easy when the reader has the whole list. A Merkle tree lets the reader check a single entry using the hashes along one path. The comparison makes the role of a trusted root explicit.}
+\entry{Suggested implementation}{Build a binary tree over ordered lists of file digests using SHA-256 and separate prefixes for leaves and internal nodes. Start with powers of two. Generate and verify proofs with the sibling hashes in order. Test a changed digest and an incorrect path. Compare with sending the full ordered list and checking its root.}
+\entry{Expected outcome}{Produce a verifier and plot proof bytes and verification hashes against catalogue size. Derive the sibling-hash cost for $2^h$ entries and check it against the plot. Explain how a verifier obtains the trusted root in your scenario.}
+\reading{\href{https://www.rfc-editor.org/rfc/rfc9162.html\#section-2.1}{RFC 9162, Merkle trees and inclusion proofs}}
+
+\newpage
+\pagetitle{Public-key protocols}
+\project{5}{The cost of post-quantum key establishment}{Key agreement, elliptic curves and post-quantum cryptography}
+\entry{Research question}{How much transmitted data and computation would two devices budget for an ML-KEM-768 exchange compared with ephemeral X25519?}
+\entry{Rationale}{A key-encapsulation mechanism and elliptic-curve Diffie--Hellman both let two parties obtain a shared secret. They send different objects across the link, which matters when a connection has a tight size or latency budget.}
+\entry{Suggested implementation}{Use existing libraries to run each exchange locally between two processes. Assume the peers begin without cached exchange keys. For X25519, count both ephemeral public keys. For ML-KEM-768, count a newly sent recipient public key and a ciphertext. Check that the peers obtain equal secrets within each method. Time key generation separately from the remaining operations and repeat under the same conditions.}
+\entry{Expected outcome}{Draw the two message flows and report transmitted bytes, median computation time and variability. Translate the byte difference into extra transmission time on a stated link speed. Specify that the measurements cover the exchange primitives and exclude peer authentication and protocol framing.}
+\reading{\href{https://doi.org/10.6028/NIST.FIPS.203}{NIST FIPS 203, ML-KEM}\enspace$\cdot$\enspace\href{https://www.rfc-editor.org/rfc/rfc7748.html}{RFC 7748, X25519}}
+
+\topicbreak
+\project{6}{What does a Schnorr transcript reveal?}{Identification and zero-knowledge proofs}
+\entry{Research question}{Can a simulator using only a public key generate the same distribution of transcripts as an honest Schnorr identification session in a small group?}
+\entry{Rationale}{A verifier can accept evidence of knowledge during an interaction, yet a record produced afterwards can be simulated. Exploring these two facts side by side clarifies the role of the verifier's fresh challenge.}
+\entry{Suggested implementation}{Use the order-11 subgroup generated by $g=2$ modulo 23. Implement the honest interaction and its simulator for one public key. Enumerate the possible nonce and challenge choices modulo 11. Give the simulator only the public key and have it construct accepting transcripts without computing the secret exponent. Count each commitment--challenge--response triple and check the verification equation.}
+\entry{Expected outcome}{Show one exchange, one simulated transcript, and a comparison of the complete frequency tables. Give an algebraic explanation for the result. Explain why choosing a challenge while simulating a record differs from answering a verifier who chooses it after the commitment.}
+\reading{\href{https://www.rfc-editor.org/rfc/rfc8235.html}{RFC 8235, underlying interactive Schnorr protocol}}
+
+\newpage
+\pagetitle{Privacy in applications}
+\project{7}{Counting private responses with two servers}{Secret sharing and privacy-preserving computation}
+\entry{Research question}{Can a class compute its exact number of yes votes while either counting server, acting alone, sees only a random share of each response? What does this cost over a direct tally?}
+\entry{Rationale}{Each server can add its inputs while learning nothing from any single share. Releasing the final tally changes what observers can infer, especially in very small classes.}
+\entry{Suggested implementation}{Simulate clients with synthetic binary votes and two servers that follow the protocol and do not collude. Choose a modulus $q$ larger than the number of voters. For a vote $v$, send a uniform share $r$ to one server and $(v-r)\bmod q$ to the other. Add the two server totals modulo $q$. Compare the result and traffic with a direct tally at several class sizes.}
+\entry{Expected outcome}{Check exact totals, including all-zero and all-one classes. Report bytes per voter under a stated encoding. Show why a single server's share is uniform for either vote, and give a case where the released total itself reveals someone's response.}
+\reading{\href{https://csrc.nist.gov/projects/pec}{NIST Privacy-Enhancing Cryptography project}}
+
+\topicbreak
+\project{8}{Selective disclosure in digital credentials}{Digital signatures, authentication and data minimisation}
+\entry{Research question}{Can one university-issued credential confirm active student status to a library and current lab training to a laboratory while revealing only the attributes each service requests?}
+\entry{Rationale}{A signature authenticates claims, but handing over a fully signed record can disclose a person's programme and name when a service only needs a yes/no eligibility claim.}
+\entry{Suggested implementation}{Create a mock issuer, holder and two verifiers with synthetic records. Compare a conventional signed JSON Web Token with a selective-disclosure JWT (SD-JWT) using an existing library. Both verifiers trust the issuer's public key. Give each service a distinct claim policy and test valid, missing and modified disclosures.}
+\entry{Expected outcome}{Produce a matrix showing which application claims each verifier sees and which presentations it accepts. Compare presentation sizes and identify any stable values that allow two presentations to be linked. State separately what the prototype establishes about the claims and about the person presenting them.}
+\reading{\href{https://datatracker.ietf.org/doc/draft-ietf-oauth-selective-disclosure-jwt/}{IETF SD-JWT specification}\enspace$\cdot$\enspace\href{https://github.com/openwallet-foundation-labs/sd-jwt-python}{Reference implementation and examples}}
+
+\end{document}

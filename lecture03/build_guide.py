@@ -86,7 +86,8 @@ def notes_entry(number, slide, with_duration):
     heading = f"{number}  /  {escape(slide['title'])}"
     if with_duration:
         minutes = slide['minutes']
-        heading += f'   <font color="#536875">· {minutes:g} min</font>'
+        timing = 'break' if slide['section'].startswith('BREAK') else 'estimated'
+        heading += f'   <font color="#536875">· {minutes:g} min {timing}</font>'
     text = slide.get('notes') or slide.get('take') or ''
     entry = [para(heading, 'head')]
     if text:
@@ -96,57 +97,125 @@ def notes_entry(number, slide, with_duration):
 
 def get_story(slides, main_count, plan):
     rows = []
+    teaching_minutes = 0
+    teaching_estimate = 0
+    break_minutes = 0
     for row in plan:
         first, last = row['first'], row['last']
         pages = str(first) if first == last else f'{first}–{last}'
-        rows.append([f"{row['start']}–{row['end']}", pages, row['label'], f"{row['minutes']} min"])
+        if slides[first - 1]['section'].startswith('BREAK'):
+            break_minutes += row['minutes']
+            estimate_label = 'Break'
+        else:
+            teaching_minutes += row['minutes']
+            teaching_estimate += row['estimate']
+            estimate_label = f"{row['estimate']:g} min"
+        rows.append([f"{row['start']}–{row['end']}", pages, row['label'], estimate_label])
+    excess = teaching_estimate - teaching_minutes
+    if excess > 0:
+        difference = f'{excess:g} minutes beyond the classroom allocation'
+    elif excess < 0:
+        difference = f'leaving {-excess:g} minutes for additional discussion'
+    else:
+        difference = 'exactly the classroom allocation'
     story = [
         para('Teaching AES', 'title'),
-        para('Start with the question left by the 16-bit substitution–permutation network in '
-             'Lecture 2. How can a cipher combine reversible steps so that a local change '
-             'spreads across a 128-bit block? Use the same AES-128 plaintext and key throughout '
-             'the state trace.'),
-        para('Evening plan', 'section'),
-        table(['Local time', 'Slides', 'Focus', 'Time'], rows, [92, 54, BODY_WIDTH - 206, 60]),
+        para(f'This review edition has {len(slides)} slides. Pages 1–{main_count} include the '
+             f'lecture and break markers. The final {len(slides) - main_count} pages hold '
+             'reference tables and additional working.'),
+        para('Class timetable and full teaching estimates', 'section'),
+        table(['Class time', 'Slides', 'Material', 'Full teaching'], rows,
+              [90, 58, BODY_WIDTH - 233, 85]),
         Spacer(1, 6),
-        para('The 180 teaching minutes include time for students to calculate, compare results '
-             'and ask questions. The two 15-minute breaks bring the session to 3½ hours. '
-             'Appendix slides are available for reference after the session.'),
-        para('Prompts for the board', 'section'),
-        para('<b>Before the first field product.</b> Write 80 in hex and 10000000 in binary. '
-             'Ask which polynomial it represents. Multiplying by the field element 02 produces '
-             'the term of degree eight. The AES modulus reduces that term to 1B.'),
-        para('<b>Before the first row shift.</b> Have one student label the rows and another '
-             'load the bytes down the columns. Mark a byte in the second row and follow its '
-             'destination when the row rotates left.'),
-        para('<b>Before decryption.</b> Ask which encryption operation touched the ciphertext '
-             'last. XOR with the last round key reverses that step. Let students reason backwards '
-             'through the remaining operations.'),
+        para(f'The booked session runs from {plan[0]["start"]} to {plan[-1]["end"]}, with '
+             f'{teaching_minutes} teaching minutes and {break_minutes} minutes of breaks. '
+             f'Allowing time to explain every main slide and work the examples gives an '
+             f'estimated <b>{teaching_estimate:g} teaching minutes</b>, '
+             f'{difference}. '
+             'This estimate excludes the appendix.'),
+        para('How to read the AES overview', 'section'),
+        para('<b>1 Prepare.</b> Load the plaintext into a four-by-four state and expand the key. '
+             '<b>2 Initial XOR.</b> Combine the state with the first key. '
+             '<b>3 Full rounds.</b> Apply A SubBytes, B ShiftRows, C MixColumns and D AddRoundKey '
+             'in order. <b>4 Final round.</b> Apply A, B and D, then read the ciphertext down '
+             'the columns.'),
+        para('Use the marker to point back to the operation under discussion. For instance, '
+             'the byte-inverse example supports A, while the polynomial fold explains C. '
+             'For a decryption slide, “Undo” identifies the corresponding encryption step. '
+             'Ask which state the class should recover before showing the result.'),
+        para('Sources for the lecture', 'section'),
+        para('Wu Hongjun, <i>MH4311 Cryptography, Lecture 6, Block Cipher AES</i>. The '
+             'supplied deck develops the mathematics from Euclid’s algorithm through column '
+             'polynomials and includes the 57 × 83 field product and the inverse of 05.'),
+        para('NIST, <i>Advanced Encryption Standard (AES)</i>, FIPS 197, updated 2023. '
+             'Sections 3–5 specify the state layout, field operations, key expansion and inverse '
+             'cipher. <link color="#087E83" href="https://doi.org/10.6028/NIST.FIPS.197-upd1">'
+             'Read the standard.</link>'),
+        para('The ascending-byte key and 001122…EEFF plaintext are the AES-128 example in '
+             'Appendix C.1 of the original 2001 edition. '
+             '<link color="#087E83" href="https://doi.org/10.6028/NIST.FIPS.197">'
+             'See the 2001 example.</link> '
+             '<link color="#087E83" href="https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines/example-values">'
+             'See NIST’s further worked examples.</link>'),
         PageBreak(),
-        para('Answers to check at the board', 'title'),
-        para('Use these values while students work. Two hexadecimal digits denote one byte. '
-             'When four bytes appear together as a state column, read from top to bottom.'),
+        para('Mathematics to check at the board', 'title'),
+        para('Choose the coefficient system first. In the integer examples below the numbers '
+             'are decimal. In the field and column examples, pairs of digits are hex bytes.'),
         table(['Checkpoint', 'Working or expected value'], [
-            ['Inverse of 05', '05 × 52 = 01 in the AES field. The unreduced polynomial '
-             'product is 11A in hex. XOR with the modulus 11B leaves 01.'],
-            ['Reference field product', '83 has set bits at positions 7, 1 and 0. The corresponding '
-             'multiples of 57 are 38, AE and 57. Their XOR is C1.'],
+            ['Integer inverses', 'For 12 and 5, the last nonzero remainder is 1. '
+             'The identity 1 = 5 × 5 − 2 × 12 gives the inverse of 12 modulo 5 as 3. '
+             'For 45 and 19 the remainders are 7, 5, 2, 1, 0. Back-substitution gives '
+             '1 = 19 × 19 − 8 × 45. The inverse of 45 modulo 19 is −8 ≡ 11.'],
+            ['Field with two elements', 'In GF(2), 1 + 1 = 0. Like powers of x therefore '
+             'cancel when their coefficients are added. Check addition one bit at a time '
+             'using 57 XOR 83 = D4.'],
+            ['Field product', '83 has set bits at positions 7, 1 and 0. The corresponding '
+             'field multiples of 57 are 38, AE and 57. Their XOR is C1. Equivalently, the '
+             'unreduced bit-polynomial product is 2B79. XOR with 2360, then 08D8 '
+             '(shifted copies of 11B), leaves C1.'],
+            ['Inverse of 05', 'The division identity is m(x) = (x⁶ + x⁴ + x)(x² + 1) + 1, '
+             'where m(x) is the AES byte modulus. The factor x⁶ + x⁴ + x encodes 52. '
+             'Check 05 × 52. The unreduced product 11A XOR the modulus 11B is 01.'],
+            ['Cubic column polynomial', 'Write a column top to bottom as the coefficients of '
+             '1, y, y², y³. Multiplication of two cubic polynomials gives coefficients '
+             'c₀ through c₆. Because y⁴ = 1 modulo y⁴ + 1, the reduced coefficients are '
+             '(c₀ + c₄, c₁ + c₅, c₂ + c₆, c₃). Each plus sign is bytewise XOR.'],
+            ['Two different moduli', 'Bit-polynomial products within a single byte reduce '
+             'modulo x⁸ + x⁴ + x³ + x + 1. Column-polynomial products across four bytes '
+             'reduce modulo y⁴ + 1. For instance, y³ × y = 1 in the column ring.'],
+        ], [127, BODY_WIDTH - 127]),
+        PageBreak(),
+        para('The AES-128 trace at the board', 'title'),
+        para('One input block, 00112233445566778899AABBCCDDEEFF, and the ascending key '
+             '000102030405060708090A0B0C0D0E0F identify the example. In a state column, '
+             'read the four bytes from top to bottom.'),
+        table(['Checkpoint', 'Working or expected value'], [
             ['Input and initial key', 'The first plaintext column is 00 11 22 33. XOR with the '
              'first key column 00 01 02 03 gives 00 10 20 30.'],
             ['First substituted byte', 'Input 00 maps to 63. The S-box table row is the high '
              'hex digit and the column is the low hex digit. The separate algebra example '
-             'on input 05 yields 6B.'],
+             'on input 05 starts from the inverse 52. Its four one- through four-bit left '
+             'rotations are A4, 49, 92 and 25. XOR these with 52 and 63 to obtain 6B.'],
             ['First mixed output', 'ShiftRows assembles 63 53 E0 8C in the first column. The '
              'four terms of the first MixColumns row are C6, F5, E0 and 8C. Their XOR is 5F.'],
             ['First round key', 'RotWord changes 0C 0D 0E 0F to 0D 0E 0F 0C. SubWord gives '
              'D7 AB 76 FE. After the first round constant and XOR with the first master-key '
              'word, the new word is D6 AA 74 FD.'],
+            ['AES-256 key expansion', 'The master key has eight 32-bit words. When the word index '
+             'i leaves remainder 4 on division by 8, apply SubWord to the preceding word '
+             'and XOR with word i − 8. The RotWord and round-constant branch applies at '
+             'multiples of 8.'],
             ['End of round 1', 'The first mixed column 5F 72 64 15 XOR the first round-key '
              'column D6 AA 74 FD gives 89 D8 10 E8.'],
             ['End of round 10', 'The ciphertext is 69C4E0D8 6A7B0430 D8CDB780 70B4C55A. '
              'Each group is one column. Decrypting it with the original key returns the input.'],
+            ['Undo the final XOR', 'The first ciphertext column 69 C4 E0 D8 XOR the first '
+             'column of the last round key, 13 11 1D 7F, recovers 7A D5 FD A7. Next, undo '
+             'the row shifts, then the byte substitutions, to recover the end of round 9.'],
         ], [134, BODY_WIDTH - 134]),
         PageBreak(), para('Slide-by-slide notes', 'title'),
+        para('Each slide number matches the review PDF. Teaching estimates include the '
+             'calculation or discussion described in the note. Break durations follow the class timetable.'),
     ]
     last_section = None
     for number, slide in enumerate(slides[:main_count], 1):
@@ -156,26 +225,9 @@ def get_story(slides, main_count, plan):
             entry.insert(0, para(escape(section.title()), 'section'))
         story.append(KeepTogether(entry))
         last_section = section
-    story.extend([PageBreak(), para('Appendix and sources', 'title')])
+    story.extend([PageBreak(), para('Appendix slide notes', 'title')])
     for number, slide in enumerate(slides[main_count:], main_count + 1):
         story.append(KeepTogether(notes_entry(number, slide, False)))
-    story.extend([
-        para('Teaching references', 'section'),
-        para('Wu Hongjun, <i>MH4311 Cryptography, Lecture 6, Block Cipher AES</i>. '
-             'The supplied lecture connects Euclid’s algorithm and finite fields to the AES '
-             'S-box, column mixing, key expansion and decryption. The 57 × 83 product and '
-             'the inverse of 05 are worked examples from that lecture.'),
-        para('NIST, <i>Advanced Encryption Standard (AES)</i>, FIPS 197, updated 2023. '
-             'Sections 3–5 specify the state layout, field operations, key expansion and inverse '
-             'cipher. <link color="#087E83" href="https://doi.org/10.6028/NIST.FIPS.197-upd1">'
-             'Read the standard.</link>'),
-        para('The sequential-byte key and 001122…EEFF plaintext are the AES-128 example in '
-             'Appendix C.1 of the original 2001 edition. '
-             '<link color="#087E83" href="https://doi.org/10.6028/NIST.FIPS.197">'
-             'See the 2001 example.</link> '
-             '<link color="#087E83" href="https://csrc.nist.gov/projects/cryptographic-standards-and-guidelines/example-values">'
-             'See NIST’s further worked examples.</link>'),
-    ])
     return story
 
 

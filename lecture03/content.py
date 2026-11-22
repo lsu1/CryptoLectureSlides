@@ -7,6 +7,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[1] / 'lecture02'))
 from deck_schema import C, M, P, T, slide
 from aes_trace import KEY, PLAINTEXT, ROUND_KEYS, ROUND_STATES
+from algorithm import overview
 import field
 import keys
 import rounds
@@ -48,6 +49,7 @@ opening = [
         P('All three operate on exactly 16 bytes at a time. The suffix gives the key length. A longer key also changes how the round keys are generated.'),
         P('For the worked example we use AES-128, so the master key and the block each occupy 16 bytes.'),
     ], 2, 'Ask how many state columns AES-256 has. The answer is four, as for AES-128. Reserve the key-schedule details for the final hour.'),
+    *overview,
     intro('Place 16 input bytes into the state', [
         C('PLAINTEXT BYTES IN INPUT ORDER', '00 11 22 33   44 55 66 77   88 99 AA BB   CC DD EE FF', 19),
         ('states', [('Plaintext state', PLAINTEXT, [0, 1, 2, 3])]),
@@ -59,11 +61,7 @@ opening = [
         ('states', [('Locate input byte 9', PLAINTEXT, [9]), ('Load the key by the same rule', KEY, [9])]),
         P('Since 9 = 4 × 2 + 1, look in row 1, column 2. The plaintext byte 99 meets key byte 09 at this position.'),
     ], 2, 'Give students thirty seconds to predict both coordinates with the grid covered. Ask for the initial XOR at that cell. The answer is 90 in hex.'),
-    intro('Which steps repeat in AES-128?', [
-        ('flow', [('Before round 1', 'AddRoundKey'), ('Rounds 1–9', 'SubBytes → ShiftRows\nMixColumns → AddRoundKey'), ('Round 10', 'SubBytes → ShiftRows\nAddRoundKey')]),
-        P('The state passes through nine complete rounds. In the tenth, ShiftRows feeds directly into the final key XOR. Eleven round keys are used in all.'),
-        P('We already know XOR. To see how AES constructs its substitution table and mixes a column, we need to learn how it multiplies two bytes.'),
-    ], 2, 'Point out that rounds 1 through 9 are the only ones that include MixColumns. Ask the class to count the initial key, the nine middle keys and the final key.'),
+
 ]
 
 
@@ -87,6 +85,10 @@ def checkpoints(first, last):
     ], section='APPENDIX', minutes=0, notes='All values use the plaintext 00112233445566778899AABBCCDDEEFF and the ascending key starting at 00. The original FIPS 197 Appendix C.1 lists the same example.')
 
 
+for item in opening:
+    if item['title'] in ('Place 16 input bytes into the state', 'Where does byte 99 belong?'):
+        item['aes_focus'] = 'state'
+
 slides = []
 plan = []
 
@@ -94,9 +96,12 @@ plan = []
 def add_session(label, start, end, items):
     items = deepcopy(items)
     first = len(slides) + 1
-    duration = sum(s['minutes'] for s in items)
+    estimate = sum(s['minutes'] for s in items)
+    start_h, start_m = map(int, start.split(':'))
+    end_h, end_m = map(int, end.split(':'))
+    duration = 60 * (end_h - start_h) + end_m - start_m
     slides.extend(items)
-    plan.append(dict(label=label, start=start, end=end, first=first, last=len(slides), minutes=duration))
+    plan.append(dict(label=label, start=start, end=end, first=first, last=len(slides), minutes=duration, estimate=estimate))
 
 
 def add_break(number, start, end, prompt, hint):
@@ -123,6 +128,24 @@ reference = [
     checkpoints(6, 10),
 ] + field.appendix + rounds.appendix + keys.appendix
 
+appendix_focus = {
+    'Forward S-box': 'sbox_ref',
+    'Inverse S-box': 'inverse_lookup',
+    'Which binary polynomials are irreducible?': 'math_inverse',
+    'A second integer inverse by back-substitution': 'math_inverse',
+    'How polynomial coefficients wrap into four rows': 'mix',
+    'Why the fixed column multiplier has an inverse': 'inv_mix',
+}
+
 for index, item in enumerate(deepcopy(reference), 1):
+    if item['title'].startswith('AES-128 checkpoints'):
+        item['aes_focus'] = 'checkpoints'
+    elif item['title'] in appendix_focus:
+        item['aes_focus'] = appendix_focus[item['title']]
     item.update(title=f'A{index} / {item["title"]}', section='APPENDIX', minutes=0)
     slides.append(item)
+
+
+# The numerical walkthrough begins immediately after the two algorithm overviews.
+first_example = slides.index(next(s for s in slides if s['title'] == 'Place 16 input bytes into the state'))
+assert all(s.get('aes_focus') for s in slides[first_example:] if s['kind'] != 'divider')

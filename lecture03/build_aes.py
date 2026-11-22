@@ -9,6 +9,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen.canvas import Canvas
 
 from content import slides, MAIN_COUNT
+from algorithm import MAP_TITLE, ROUND_TITLE, STAGES, OPERATIONS, STAGE_EXAMPLES, OPERATION_EXAMPLES, location
 import build_lecture as style
 from aes_trace import SBOX, INV_SBOX, verify_examples
 from math_typesetting import compile_equations
@@ -78,16 +79,71 @@ def draw_timeline(c, events, x, top, w):
     return top - 168
 
 
-def draw_flow(c, items, x, top, w):
-    gap = 12
-    card = (w - (len(items) - 1) * gap) / len(items)
-    for i, (title, lines) in enumerate(items):
-        left = x + i * (card + gap)
-        box(c, left, top - 106, card, 106, LIGHT)
-        write(c, title, left + 14, top - 31, 18, TEAL, 'Bold')
-        for j, line in enumerate(lines.splitlines()):
-            write(c, line, left + 14, top - 61 - j * 21, 15, INK)
-    return top - 123
+def link_to_slide(c, title, bounds):
+    number = next(n for n, item in enumerate(slides, 1) if item['title'] == title)
+    c.linkRect(title, f'slide-{number}', bounds, relative=0, thickness=0)
+
+
+def draw_stage_map(c, descriptions, x, top, w):
+    rowh = 49
+    for i, (label, description) in enumerate(zip(STAGES, descriptions, strict=True)):
+        y = top - (i + 1) * rowh
+        box(c, x, y + 3, w, rowh - 5, LIGHT if i % 2 == 0 else SOFT, 4)
+        box(c, x + 10, y + 10, 31, 30, TEAL, 5)
+        write(c, str(i+1), x + 25, y + 18, 15, WHITE, 'Bold', 'center')
+        write(c, label, x + 55, y + 18, 17, NAVY, 'Bold')
+        end = style.para(c, description, x + 200, y + rowh - 7, w - 210, 14)
+        assert end > y + 1, (label, end, y)
+        link_to_slide(c, STAGE_EXAMPLES[i], (x, y + 2, x + w, y + rowh - 2))
+    return top - len(descriptions) * rowh - 14
+
+
+def draw_operation_map(c, descriptions, x, top, w):
+    gap, height = 9, 125
+    cardw = (w - 3 * gap) / 4
+    for i, (label, description) in enumerate(zip(OPERATIONS, descriptions, strict=True)):
+        left = x + i * (cardw + gap)
+        box(c, left, top - height, cardw, height, LIGHT)
+        box(c, left + 11, top - 37, 27, 26, TEAL, 4)
+        write(c, chr(65 + i), left + 24.5, top - 29.5, 15, WHITE, 'Bold', 'center')
+        write(c, label, left + 46, top - 30, 17, NAVY, 'Bold')
+        end = style.para(c, description, left + 13, top - 52, cardw - 26, 15)
+        assert end >= top - height + 7
+        link_to_slide(c, OPERATION_EXAMPLES[i], (left, top - height, left + cardw, top))
+    return top - height - 16
+
+
+def draw_round_paths(c, x, top, w):
+    entries = [
+        ('3  Full rounds', 'A  →  B  →  C  →  D', 'Run rounds 1 through r − 1.'),
+        ('4  Final round', 'A  →  B  →  D', 'ShiftRows feeds directly into AddRoundKey.'),
+    ]
+    for i, (label, sequence, note) in enumerate(entries):
+        y = top - i * 35
+        write(c, label, x + 12, y - 17, 15, NAVY, 'Bold')
+        write(c, sequence, x + 180, y - 17, 16, TEAL, 'Bold')
+        write(c, note, x + 410, y - 17, 15)
+    return top - 81
+
+
+def draw_location(c, item):
+    focus = item.get('aes_focus')
+    if not focus:
+        return
+    phase, operation = location(focus)
+    caption = item.get('aes_detail') or operation
+    left, right, gap = 347, 908, 4
+    cardw = (right - left - 3 * gap) / 4
+    for i, label in enumerate(STAGES, 1):
+        x = left + (i - 1) * (cardw + gap)
+        selected = phase == i
+        box(c, x, 501, cardw, 22, TEAL if selected else LIGHT, 3)
+        write(c, f'{i}  {label}', x + cardw / 2, 507, 12,
+              WHITE if selected else MUTED, 'Bold' if selected else 'Sans', 'center')
+    assert pdfmetrics.stringWidth(caption, 'Bold', 12.5) <= right - left, caption
+    write(c, caption, right, 482, 12.5, TEAL, 'Bold', 'right')
+    page = ROUND_TITLE if phase in (3, 4) or focus.startswith(('math_', 'inv_', 'sbox')) else MAP_TITLE
+    link_to_slide(c, page, (left, 478, right, 525))
 
 
 def draw_boxmap(c, inverse, x, top, w):
@@ -119,8 +175,12 @@ def draw_blocks(c, blocks, x, top, width, number):
         kind = block[0]
         if kind == 'states':
             top = draw_states(c, block[1], x, top, width)
-        elif kind == 'flow':
-            top = draw_flow(c, block[1], x, top, width)
+        elif kind == 'stage_map':
+            top = draw_stage_map(c, block[1], x, top, width)
+        elif kind == 'operation_map':
+            top = draw_operation_map(c, block[1], x, top, width)
+        elif kind == 'round_paths':
+            top = draw_round_paths(c, x, top, width)
         elif kind == 'timeline':
             top = draw_timeline(c, block[1], x, top, width)
         elif kind == 'boxmap':
@@ -189,7 +249,9 @@ def render(out):
             key = f'slide-{n}'
             c.bookmarkPage(key)
             if s['section'] != last_section:
-                c.addOutlineEntry(s['section'].title(), key, level=0)
+                section_key = f'section-{n}'
+                c.bookmarkPage(section_key)
+                c.addOutlineEntry(s['section'].title(), section_key, level=0)
                 last_section = s['section']
             if n > MAIN_COUNT:
                 c.addOutlineEntry(s['title'], key, level=1)
@@ -202,6 +264,7 @@ def render(out):
                 c.setFillColor(CORAL)
                 c.rect(52, 492, 34, 4, stroke=0, fill=1)
                 write(c, s['section'], 98, 490, 10, WHITE if dark else TEAL, 'Bold')
+                draw_location(c, s)
                 fs = 34
                 while pdfmetrics.stringWidth(s['title'], 'Bold', fs) > 856:
                     fs -= .5

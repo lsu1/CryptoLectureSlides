@@ -2,9 +2,11 @@
 from deck_schema import C, M, P, T, slide
 
 
-def lesson(title, blocks, minutes, notes, take=''):
-    return slide(title, blocks, section='BYTE ARITHMETIC', minutes=minutes,
+def lesson(title, blocks, minutes, notes, take='', *, focus='math_byte'):
+    item = slide(title, blocks, section='BYTE ARITHMETIC', minutes=minutes,
                  notes=notes, take=take)
+    item['aes_focus'] = focus
+    return item
 
 
 slides = [
@@ -17,20 +19,122 @@ slides = [
         ], [1.05, 3.8, 2.1]),
     ], 3, 'Start with the distinction between an additive inverse and a multiplicative inverse. In a ring the latter may exist for some elements. In a field it exists for every nonzero element.'),
 
+    lesson('Why do repeated divisions find the gcd?', [
+        P('For positive integers a and b, divide a by b. The quotient q counts whole copies of b and the remainder r is smaller than b.'),
+        M(r'a=qb+r,\quad 0\leq r<b,\qquad \gcd(a,b)=\gcd(b,r).'),
+        P('Any divisor of a and b also divides r = a − qb. Conversely, any divisor of b and r divides a = qb + r. The two pairs have exactly the same common divisors.'),
+        P('Replace (a, b) by (b, r). The positive remainders strictly decrease, so eventually a remainder is zero. The last nonzero remainder is the gcd.'),
+    ], 3, 'Work through the divisor argument in both directions. With the final pair (d, 0), the greatest common divisor is d. The same reasoning will apply to polynomial remainders.', focus='math_inverse'),
+
+    lesson('Find an inverse by tracing remainders', [
+        P('Which integer multiplied by 12 leaves remainder 1 modulo 5? Apply Euclid’s algorithm to 12 and 5. Then express the last nonzero remainder using the original two numbers.'),
+        C('DIVIDE, THEN SUBSTITUTE BACK', '12 = 2 × 5 + 2      5 = 2 × 2 + 1      2 = 2 × 1 + 0\n 1 = 5 − 2 × 2 = 5 − 2(12 − 2 × 5) = 5 × 5 − 2 × 12', 18),
+        P('The last nonzero remainder is 1, so gcd(12, 5) = 1. The equation 1 = (−2) × 12 + 5 × 5 expresses the gcd as a combination of the inputs. This is a Bézout identity.'),
+    ], 4, 'Underline the last nonzero remainder, then label the coefficient of 12. This Bézout identity is the template for finding an inverse of a polynomial later.', focus='math_inverse'),
+
+    lesson('One Bézout identity gives two inverses', [
+        M(r'1=ax+by\quad\Longrightarrow\quad ax\equiv1\pmod b,\qquad by\equiv1\pmod a.'),
+        P('The coefficient of a is its inverse modulo b. Swap the roles of a and b to read the other inverse. This works when their gcd is 1.'),
+        T(['Read 1 = (−2) × 12 + 5 × 5', 'Coefficient', 'Check the remainder'], [
+            ['Inverse of 12 modulo 5', '−2 ≡ 3 modulo 5', '12 × 3 = 36 = 7 × 5 + 1'],
+            ['Inverse of 5 modulo 12', '5', '5 × 5 = 25 = 2 × 12 + 1'],
+        ], [1.9, 1.35, 2.1]),
+    ], 2, 'Cover the middle column and ask for the second inverse. Distinguish the coefficient of an input from the modulus used when reading that coefficient.', focus='math_inverse'),
+
+    lesson('Track the coefficients at each division', [
+        P('Instead of substituting backwards, write each remainder as rᵢ = sᵢa + tᵢb. Start with a and b themselves.'),
+        M(r'(r_0,s_0,t_0)=(a,1,0),\qquad(r_1,s_1,t_1)=(b,0,1).'),
+        P('For each nonzero current remainder, take q = ⌊rᵢ₋₁ / rᵢ⌋. Subtract q copies of the current row from the preceding row, including its two coefficients.'),
+        M(r'\begin{aligned}r_{i+1}&=r_{i-1}-qr_i,\\(s_{i+1},t_{i+1})&=(s_{i-1},t_{i-1})-q(s_i,t_i).\end{aligned}'),
+    ], 3, 'After the first two rows, each update preserves r = sa + tb. The coefficients in the last nonzero row form a Bézout identity. Floor brackets mean round the nonnegative quotient down.', focus='math_inverse'),
+
+    lesson('Run the coefficient table for 45 and 19', [
+        P('Read each new coefficient pair from the two rows above it. The quotient shown on a row is the one used to produce that row.'),
+        T(['Remainder r', 'Division step', 's', 't', 'Check r = 45s + 19t'], [
+            ['45', 'Initial a', '1', '0', '45'],
+            ['19', 'Initial b', '0', '1', '19'],
+            ['7',  '45 − 2 × 19', '1', '−2', '45 − 38 = 7'],
+            ['5',  '19 − 2 × 7', '−2', '5', '−90 + 95 = 5'],
+            ['2',  '7 − 1 × 5', '3', '−7', '135 − 133 = 2'],
+            ['1',  '5 − 2 × 2', '−8', '19', '−360 + 361 = 1'],
+        ], [1.1, 1.55, .65, .65, 1.9]),
+    ], 3, 'For the row with remainder 5, use (0,1) − 2(1,−2) = (−2,5). Have the class compute the final coefficient pair. The next division, 2 = 2 × 1 + 0, stops the algorithm.', focus='math_inverse'),
+
+    lesson('Recover both inverses for 45 and 19', [
+        M(r'1=(-8)\cdot45+19\cdot19.'),
+        P('Modulo 19, the second term disappears. The coefficient −8 is equivalent to 11, so 45 has inverse 11 modulo 19.'),
+        P('Modulo 45, the first term disappears. The coefficient 19 gives the inverse of 19 modulo 45.'),
+        C('CHECK BOTH PRODUCTS', '45 × 11 = 495 = 26 × 19 + 1\n19 × 19 = 361 =  8 × 45 + 1', 19),
+    ], 2, 'The appendix repeats this example using back-substitution so students can compare the two ways of finding the coefficients.', focus='math_inverse'),
+
+    lesson('What makes an operation a group?', [
+        P('Let G be a set with a binary operation, written here as a · b. A group satisfies all four rules.'),
+        T(['Rule', 'What must hold for elements of G'], [
+            ['Closure', 'For every a and b in G, the result a · b belongs to G.'],
+            ['Associativity', '(a · b) · c = a · (b · c) for every a, b and c.'],
+            ['Identity', 'There is an e in G with a · e = e · a = a for every a.'],
+            ['Inverse', 'Every a has a b in G such that a · b = b · a = e.'],
+        ], [1, 4.2]),
+        P('When a · b = b · a for all elements, the group is also called abelian.'),
+    ], 2, 'Under addition replace the dot by plus and e by 0. Under multiplication the identity is 1. The examples on the next slide test whether inverses stay in the chosen set.'),
+
+    lesson('Test the inverse in three familiar sets', [
+        T(['Set and operation', 'Test', 'Conclusion'], [
+            ['All integers, addition', 'The identity is 0. For any integer a, its inverse −a is another integer.', 'Abelian group'],
+            ['Nonnegative integers, addition', 'An inverse of 3 would be −3, outside the set.', 'Fails the inverse rule'],
+            ['All integers, multiplication', 'An inverse of 2 would satisfy 2b = 1. No integer b does.', 'Fails the inverse rule'],
+        ], [1.45, 2.9, 1.35]),
+        P('The same set can behave differently when the operation changes. Keep the operation in view when asking for an inverse.'),
+    ], 2, 'For the additive integer group, check closure and associativity as well. Ask which rational number would invert 2 under multiplication.'),
+
+    lesson('A ring has two operations', [
+        P('We use rings with a multiplicative identity. Addition makes the set an abelian group, with additive identity 0.'),
+        P('Multiplication is closed and associative and has an identity 1. It distributes over addition in both directions.'),
+        M(r'a(b+c)=ab+ac,\qquad (a+b)c=ac+bc.'),
+        P('Integers, real numbers and complex numbers are rings under their usual operations. Square matrices of a fixed size over the real numbers also form a ring.'),
+    ], 2, 'Integers supply the simplest example. Matrices motivate having both distributive laws because general matrix multiplication may change when factors are exchanged.'),
+
+    lesson('Which rings are fields?', [
+        P('A field is a commutative ring with distinct elements 0 and 1. Its nonzero elements form an abelian group under multiplication.'),
+        T(['Set', 'Can every nonzero element a be inverted?', 'Structure'], [
+            ['Rational numbers ℚ', 'Yes. If a = m/n with m and n nonzero, n/m is its inverse.', 'Field'],
+            ['Real numbers ℝ', 'Yes. For every nonzero real a, its reciprocal 1/a is real.', 'Field'],
+            ['Integers ℤ', 'The reciprocal of 2 is 1/2, outside ℤ.', 'Ring'],
+        ], [1.4, 3.1, .85]),
+        P('These examples have infinitely many elements. AES uses a field that fits into one byte.'),
+    ], 2, 'Ask why zero is excluded. Its product with any element is zero, while the required multiplicative identity is one.'),
+
+    lesson('How many elements can a finite field have?', [
+        P('A finite field is a field with finitely many elements. GF stands for Galois field.'),
+        M(r'\text{For each prime }p\text{ and integer }n\ge1,\quad\mathrm{GF}(p^n)\text{ exists and has }p^n\text{ elements.}'),
+        P('Every finite field has a prime-power size. With p = 7 and n = 1 we can use integer arithmetic modulo 7. With p = 2 and n = 8 we will represent elements by eight binary coefficients.'),
+        P('Integer arithmetic modulo 256 has 256 residues, but 2 has no multiplicative inverse there. AES therefore needs a different rule for multiplication.'),
+    ], 2, 'A field of a given prime-power order is unique up to isomorphism. Different encodings can give different bit patterns for products. AES selects a particular polynomial encoding.'),
+
     lesson('Start with arithmetic on one bit', [
-        P('GF means Galois field, a field with finitely many elements. Its size is a prime power. In GF(2) the elements are 0 and 1, and both operations use the remainder modulo 2.'),
+        P('In GF(2) the elements are 0 and 1. Addition and multiplication use the remainder modulo 2. Each table entry gives the result on the two inputs named at the top.'),
         T(['Operation', '0 with 0', '0 with 1', '1 with 0', '1 with 1'], [
             ['Add (XOR)', '0', '1', '1', '0'],
             ['Multiply (AND)', '0', '0', '0', '1'],
         ]),
-        P('For a larger example, 3 has inverse 5 modulo 7 because 3 × 5 = 15 leaves remainder 1. Modulo 6, every multiple of 2 is even, so 2 has no inverse.'),
+        P('Each bit added to itself gives zero. The only nonzero element is 1, and 1 × 1 = 1. We will use these two rules for the coefficients of AES byte polynomials.'),
     ], 2, 'Ask which entry in the first row changes ordinary polynomial addition. The answer is 1 + 1 = 0. In GF(7) every nonzero element is invertible since 7 is prime.'),
 
-    lesson('Find an inverse by tracing remainders', [
-        P('Which integer multiplied by 12 leaves remainder 1 modulo 5? Euclid’s algorithm finds the greatest common divisor. Its extended form expresses that divisor in terms of the two inputs.'),
-        C('DIVIDE, THEN SUBSTITUTE BACK', '12 = 2 × 5 + 2      5 = 2 × 2 + 1      2 = 2 × 1 + 0\n 1 = 5 − 2 × 2 = 5 − 2(12 − 2 × 5) = 5 × 5 − 2 × 12', 18),
-        P('Reduce the last equality modulo 5. The term 5 × 5 vanishes, leaving 1 ≡ (−2) × 12. Since −2 ≡ 3 modulo 5, the inverse is 3. Indeed, 12 × 3 = 36 = 7 × 5 + 1.'),
-    ], 4, 'Underline the last nonzero remainder, then label the coefficient of 12. This Bézout identity is the template for finding an inverse of a polynomial later.'),
+    lesson('Compare the arithmetic modulo 7 and modulo 6', [
+        T(['Modulus', 'Elements', 'Example calculation'], [
+            ['7', '0, 1, 2, 3, 4, 5, 6', '4 + 5 ≡ 2 and 3 × 5 ≡ 1 modulo 7.'],
+            ['6', '0, 1, 2, 3, 4, 5', '2 × 0, 2 × 1, …, 2 × 5 give residues 0, 2, 4, 0, 2, 4.'],
+        ], [1.05, 1.55, 3.3]),
+        P('Modulo 7 every nonzero residue is coprime to 7. The extended Euclidean algorithm therefore supplies each inverse. These residues form GF(7).'),
+        P('Modulo 6, no product with 2 gives 1. The six residues form a ring in which 2 has no multiplicative inverse.'),
+    ], 2, 'Ask for the inverse of 3 modulo 7. Then ask where a 1 would have to appear in the second row to make 2 invertible.'),
+
+    lesson('Encode an element of the AES byte field', [
+        P('The AES field extends GF(2). Each element has a unique polynomial representative of degree at most seven, or the zero polynomial. Its coefficients are bits.'),
+        M(r'b(x)=b_7 x^7+b_6x^6+\cdots+b_1x+b_0,\qquad b_i\in\{0,1\}.'),
+        C('READ THE COEFFICIENTS FROM HIGH POWER TO LOW POWER', '00 = 0000 0000   zero polynomial\n01 = 0000 0001   constant polynomial 1\nFF = 1111 1111   all eight coefficients equal 1', 18),
+        P('Eight independent binary choices give 2⁸ = 256 encodings. Each group of four bits becomes one hexadecimal digit.'),
+    ], 2, 'The one-byte representation includes all-zero coefficients. Count the number of choices without assigning the product rule of the integers modulo 256 to these encodings.'),
 
     lesson('Read a byte as a polynomial', [
         P('One hexadecimal digit encodes four bits. The byte 57 in hexadecimal is 0101 0111 in binary. The rightmost bit is the coefficient of the constant term.'),
@@ -38,18 +142,42 @@ slides = [
         M(r'\mathtt{57}\quad\longleftrightarrow\quad x^6+x^4+x^2+x+1'),
     ], 3, 'Read the coefficient row from left to right. Point to each 1, and write its term. On subsequent slides two-character byte values are hexadecimal.', 'Eight binary coefficients give 256 possible bytes.'),
 
+    lesson('Match hexadecimal digits to four bits', [
+        P('Hexadecimal is base 16. Digits A through F stand for the values ten through fifteen. The prefix 0x is one way to mark a hexadecimal value.'),
+        C('ONE DIGIT ENCODES FOUR BITS', '0  0000     4  0100     8  1000     C  1100\n1  0001     5  0101     9  1001     D  1101\n2  0010     6  0110     A  1010     E  1110\n3  0011     7  0111     B  1011     F  1111', 19),
+        P('For example, 0x83 gives 1000 0011. Its 1s occur at powers 7, 1 and 0, so its polynomial is x⁷ + x + 1.'),
+    ], 2, 'Use the table to have the class translate D4 as two four-bit groups. The notation {57} in the supplied reference is also a hexadecimal byte.'),
+
     lesson('Add bytes one coefficient at a time', [
         P('Add 57 and 83 in the AES byte field. Their binary polynomials have coefficients in GF(2), so two copies of a term cancel.'),
         C('ALIGN CORRESPONDING POWERS', '57       0101 0111\n83   XOR 1000 0011\n         ---------\nD4       1101 0100'),
-        P('Both inputs contain x and 1. These terms cancel. The remaining powers are 7, 6, 4 and 2, giving D4.'),
+        M(r'(x^6+x^4+x^2+x+1)+(x^7+x+1)=x^7+x^6+x^4+x^2.'),
+        P('The repeated x terms and constants cancel. In general a ⊕ 00 = a and a ⊕ a = 00. Each byte is its own additive inverse.'),
     ], 2, 'Ask for the low two bits before revealing why they are both zero. The additive inverse of any byte equals that same byte.'),
 
     lesson('Keep a product inside one byte', [
         P('Two byte polynomials can multiply to a degree above seven. AES divides the product by a fixed polynomial and keeps the remainder.'),
         M(r'm(x)=x^8+x^4+x^3+x+1\quad(\text{binary }100011011=\text{hex }\mathtt{11B})'),
         M(r'\mathrm{GF}(2^8)=\mathrm{GF}(2)[x]/(m(x))'),
-        P('The quotient identifies binary polynomials with the same remainder. The modulus is irreducible, meaning it has no factorisation into lower-degree nonconstant binary polynomials. This guarantees a multiplicative inverse for each nonzero byte.'),
+        P('The quotient identifies binary polynomials with the same remainder. There are 30 irreducible degree-eight polynomials over GF(2). AES uses the one shown here. With this modulus every nonzero byte has an inverse.'),
     ], 3, 'Define irreducible as having no factorisation into two lower-degree nonconstant binary polynomials. Give the prime integer analogy if needed. AES fixes this particular irreducible polynomial.'),
+
+    lesson('Try factoring four binary polynomials', [
+        P('Over GF(2), an irreducible polynomial has no factorisation into two nonconstant polynomials of smaller degree. Which of these four are irreducible?'),
+        M(r'x^2+1,\qquad x^3+1,\qquad x^4+1,\qquad x^2+x+1.'),
+        P('For each polynomial, first evaluate it at 0 and 1. A root at 0 gives a factor x. A root at 1 gives a factor x + 1, because 1 = −1 in GF(2).'),
+        P('If a quadratic factors, it must have a linear factor. Use this fact to decide the last case.'),
+    ], 3, 'Give students two minutes in pairs. Ask them to exhibit a factor when they claim reducibility, and to justify the irreducible case.'),
+
+    lesson('Read the factors and the irreducible case', [
+        T(['Polynomial', 'Evidence in GF(2)', 'Conclusion'], [
+            ['x² + 1', '(x + 1)² = x² + 2x + 1 = x² + 1.', 'Reducible'],
+            ['x³ + 1', '(x + 1)(x² + x + 1) = x³ + 1.', 'Reducible'],
+            ['x⁴ + 1', '(x + 1)⁴ = (x² + 1)² = x⁴ + 1.', 'Reducible'],
+            ['x² + x + 1', 'The value is 1 at both 0 and 1. A factorisation of this quadratic would have a linear factor.', 'Irreducible'],
+        ], [1.05, 3.25, 1.05]),
+        P('The third example will return in MixColumns, where a different variable describes the position of a byte in a column.'),
+    ], 2, 'The calculation (x + 1)² uses the cancellation of 2x. A root test suffices for a quadratic or cubic since a proper factorisation must then have a linear factor.'),
 
     lesson('Multiply by 02 with one shift', [
         P('The byte 02 represents x. Multiplying by x shifts each coefficient up one power. If an x⁸ term appears, cancel it by adding the modulus 11B.'),
@@ -58,45 +186,62 @@ slides = [
             ['AE = 1010 1110', '1 0101 1100 = 15C', '15C XOR 11B = 047, giving 47'],
         ], [1.25, 2.05, 2.4]),
         P('In an eight-bit register the extra bit falls away. If the original high bit was 1, XOR the low eight bits with 1B. AES calls this calculation xtime.'),
-    ], 3, 'In the second row trace the outgoing high bit. Cancel the degree-eight term by XORing 11B. Discarding the extra bit and XORing 1B has the same effect.'),
+    ], 3, 'In the second row trace the outgoing high bit. Cancel the degree-eight term by XORing 11B. Discarding the extra bit and XORing 1B has the same effect.', focus='math_product'),
 
     lesson('Try two products with the same byte', [
         P('Work with a partner for three minutes. Write each byte in hexadecimal and keep the intermediate shift.'),
         C('INPUT BYTE', '83 = 1000 0011'),
         P('<b>1.</b> Find 02 · 83. Does the shift create a ninth bit? Show the reduction if it does.'),
         P('<b>2.</b> Find 03 · 83 using your first answer. The byte 03 represents x + 1.'),
-    ], 4, 'Give three minutes of calculation time and one minute to compare methods. Ask pairs to predict which operation undoes addition of the modulus.'),
+    ], 4, 'Give three minutes of calculation time and one minute to compare methods. Ask pairs to predict which operation undoes addition of the modulus.', focus='math_product'),
 
     lesson('Use the first product to get the second', [
         C('02 TIMES 83', 'Shift left         1 0000 0110   = 106\nReduce             106 XOR 11B   = 01D'),
         M(r'\mathtt{03}\cdot\mathtt{83}=(x+1)\cdot\mathtt{83}=(\mathtt{02}\cdot\mathtt{83})\oplus\mathtt{83}'),
         C('03 TIMES 83', '1D XOR 83 = 0001 1101 XOR 1000 0011 = 1001 1110 = 9E', 18),
-    ], 2, 'Ask a student to explain why the second line distributes. This shortcut for multiplication by 03 will appear in the MixColumns matrix.'),
+    ], 2, 'Ask a student to explain why the second line distributes. This shortcut for multiplication by 03 will appear in the MixColumns matrix.', focus='math_product'),
 
     lesson('Which partial products do we need?', [
         P('To multiply 57 by 83, look for the 1s in the multiplier. The byte 83 has a 1 in positions 7, 1 and 0, counting from the right starting at 0.'),
         C('DECODE THE MULTIPLIER', '83 = 1000 0011   →   x⁷ + x + 1'),
         M(r'\mathtt{57}\cdot\mathtt{83}=x^7\cdot\mathtt{57}\;\oplus\;x\cdot\mathtt{57}\;\oplus\;\mathtt{57}\pmod{m(x)}'),
         P('Start at 57 and apply xtime repeatedly. Save the starting byte and the values after one and seven shifts.'),
-    ], 3, 'Pause for the class to choose three powers of x. Distinguish polynomial bit positions from the bit numbering used in DES permutations. Here position j is the exponent of x.'),
+    ], 3, 'Pause for the class to choose three powers of x. Distinguish polynomial bit positions from the bit numbering used in DES permutations. Here position j is the exponent of x.', focus='math_product'),
 
     lesson('Follow seven shifts from 57', [
         P('Each arrow multiplies the current byte by x and reduces the result. A high input bit of 1 triggers the XOR with 1B.'),
         C('POWER OF x MULTIPLYING 57', 'Power     0     1     2     3     4     5     6     7\nByte     57 →  AE →  47 →  8E →  07 →  0E →  1C →  38', 18),
         P('For the step from power 3 to 4, shift 8E to 11C. Cancel the high bit by computing 11C XOR 11B = 07. The next three shifts all fit in one byte.'),
-    ], 3, 'Have students fill in 07 before following the last three arrows. The three values selected by the multiplier are 38, AE and 57.'),
+    ], 3, 'Have students fill in 07 before following the last three arrows. The three values selected by the multiplier are 38, AE and 57.', focus='math_product'),
 
     lesson('Combine the three selected bytes', [
         C('SELECT POWERS 7, 1 AND 0', 'x⁷ · 57   38      0011 1000\nx  · 57   AE      1010 1110\n1  · 57   57      0101 0111'),
         C('ADD THE PARTIAL PRODUCTS USING XOR', '38 XOR AE = 96       96 XOR 57 = C1'),
         P('The AES byte product of 57 and 83 is C1. The same method works for any two bytes.'),
-    ], 2, 'Carry out one XOR nibble by nibble. All partial products have already been reduced. Their XOR fits in eight bits.'),
+    ], 2, 'Carry out one XOR nibble by nibble. All partial products have already been reduced. Their XOR fits in eight bits.', focus='math_product'),
+
+    lesson('Multiply 57 by 83 directly as polynomials', [
+        P('We can check C1 by leaving reduction until the end. Write A = x⁶ + x⁴ + x² + x + 1 for 57. The three terms of 83 give three shifted copies of A.'),
+        M(r'\begin{aligned} x^7 A&=x^{13}+x^{11}+x^9+x^8+x^7,\\ x A&=x^7+x^5+x^3+x^2+x,\\ A&=x^6+x^4+x^2+x+1.\end{aligned}'),
+        P('Add the rows. Powers 7, 2 and 1 each occur twice and cancel. The sum is the unreduced product, with degree 13.'),
+        M(r'P(x)=x^{13}+x^{11}+x^9+x^8+x^6+x^5+x^4+x^3+1.'),
+    ], 3, 'Trace the duplicated terms in the three rows before collecting coefficients. The expanded product is encoded by hex 2B79.', focus='math_product'),
+
+    lesson('Reduce the degree-13 product by long division', [
+        P('The binary coefficients of the product encode hex 2B79. To remove its leading power x¹³, XOR the product with x⁵ times the degree-eight modulus m.'),
+        T(['Current value', 'Multiple of the modulus', 'Remainder after XOR'], [
+            ['2B79 (degree 13)', 'x⁵m → 2360', '2B79 XOR 2360 = 0819 (degree 11)'],
+            ['0819 (degree 11)', 'x³m → 08D8', '0819 XOR 08D8 = 00C1 (degree 7)'],
+        ], [1.35, 1.7, 2.5]),
+        M(r'P(x)=(x^5+x^3)m(x)+(x^7+x^6+1).'),
+        P('The remainder has degree below eight. Its bits are 1100 0001, which encode the same C1 we obtained by repeated xtime.'),
+    ], 3, 'Recompute the first step by hand as a polynomial subtraction: in GF(2) it is an XOR. The remaining degree-seven polynomial fits in a byte and the division stops.', focus='math_product'),
 
     lesson('What would it mean to invert 05?', [
         P('To construct the S-box entry for 05, the first step is to find a byte that gives 01 when multiplied by 05. Write b(x) = x² + 1 for the byte 05.'),
         M(r'b(x)d(x)+m(x)c(x)=1\quad\Longrightarrow\quad b(x)d(x)\equiv 1\pmod{m(x)}'),
         P('This is the polynomial version of the integer inverse calculation. Irreducibility of m guarantees that its greatest common divisor with a nonzero byte polynomial is 1.'),
-    ], 3, 'Point to d(x), the coefficient of the byte polynomial. It plays the same role as the coefficient −2 of 12 in the integer example. A zero input requires the special S-box convention.'),
+    ], 3, 'Point to d(x), the coefficient of the byte polynomial. It plays the same role as the coefficient −2 of 12 in the integer example. A zero input requires the special S-box convention.', focus='math_inverse'),
 
     lesson('Divide the AES modulus by x² + 1', [
         P('At each step, cancel the leading term using a shifted copy of b(x). Hexadecimal values below encode the coefficients, including the ninth bit when present.'),
@@ -106,14 +251,14 @@ slides = [
             ['00B, degree 3', 'x (3 − 2 = 1)', '00B XOR 00A', '001, degree 0'],
         ], [1.25, 1.45, 1.4, 1.35]),
         M(r'm(x)=(x^6+x^4+x)b(x)+1'),
-    ], 4, 'Explain 140 by shifting binary 101 left six positions. Read the chosen terms down the middle column. The remainder 1 has degree below the divisor and is the last nonzero remainder.'),
+    ], 4, 'Explain 140 by shifting binary 101 left six positions. Read the chosen terms down the middle column. The remainder 1 has degree below the divisor and is the last nonzero remainder.', focus='math_inverse'),
 
     lesson('Read the inverse and check it', [
         P('Modulo m(x), the division identity gives (x⁶ + x⁴ + x)b(x) = 1. Since 1 + 1 = 0 in GF(2), each polynomial is its own additive inverse.'),
         C('ENCODE THE QUOTIENT', 'x⁶ + x⁴ + x   →   0101 0010   →   52'),
         C('CHECK 05 TIMES 52 USING 05 = x² + 1', 'xtime(52) = A4       xtime(A4) = 48 XOR 1B = 53\n05 · 52   = 53 XOR 52 = 01', 18),
         P('Thus 52 is the inverse of 05. The S-box will apply one further transformation to 52.'),
-    ], 3, 'Show the difference between an inverse and an S-box output. The reference example is completed when 52 is put through the affine transformation.'),
+    ], 3, 'Show the difference between an inverse and an S-box output. The reference example is completed when 52 is put through the affine transformation.', focus='math_inverse'),
 
     lesson('Where do these operations appear in AES?', [
         T(['Arithmetic we can now do', 'Where it enters a round'], [
@@ -128,15 +273,11 @@ slides = [
 
 appendix = [
     slide('Which binary polynomials are irreducible?', [
-        P('An irreducible polynomial over GF(2) has no factorisation into lower-degree nonconstant polynomials with coefficients in GF(2).'),
-        T(['Polynomial', 'What to check', 'Result over GF(2)'], [
-            ['x² + 1', 'At x = 1 the value is 0.', '(x + 1)²'],
-            ['x³ + 1', 'At x = 1 the value is 0.', '(x + 1)(x² + x + 1)'],
-            ['x⁴ + 1', 'Square x² + 1.', '(x + 1)⁴'],
-            ['x² + x + 1', 'Its value at both 0 and 1 is 1.', 'Irreducible. A reducible quadratic has a linear factor.'],
-        ], [1.1, 1.85, 2.7]),
-        P('The degree-eight AES modulus is irreducible. At degree eight, testing for roots alone only rules out linear factors.'),
-    ], section='APPENDIX', minutes=0, notes='Extra examples adapted from the supplied AES reference. Contrast the byte modulus with the reducible column modulus used in MixColumns.'),
+        P('A root finds a linear factor. What if a higher-degree polynomial has no root in GF(2)? Consider f(x) = x⁴ + x² + 1.'),
+        M(r'f(0)=1,\qquad f(1)=1,\qquad f(x)=(x^2+x+1)^2.'),
+        P('The polynomial has no linear factor, yet it is reducible. Squaring in GF(2) keeps the squares of each term because the cross terms occur in equal pairs.'),
+        P('For degrees two and three, a factorisation must contain a linear factor and testing both roots suffices. For degree four, a complete test must also allow two quadratic factors.'),
+    ], section='APPENDIX', minutes=0, notes='Pairs with the four class examples on factoring binary polynomials. The AES degree-eight modulus is a specified irreducible polynomial.'),
     slide('A second integer inverse by back-substitution', [
         C('FIND THE LAST NONZERO REMAINDER', '45 = 2 × 19 + 7      19 = 2 × 7 + 5\n 7 = 1 × 5  + 2       5 = 2 × 2 + 1'),
         C('WRITE 1 IN TERMS OF 45 AND 19', '1 = 5 − 2(7 − 5) = 3 × 5 − 2 × 7\n  = 3(19 − 2 × 7) − 2 × 7 = 3 × 19 − 8 × 7\n  = 3 × 19 − 8(45 − 2 × 19) = 19 × 19 − 8 × 45', 17),

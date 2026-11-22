@@ -2,17 +2,19 @@
 
 [Download the AES lecture](Lecture03_AES.pdf) · [Download the instructor guide](Lecture03_Instructor_Guide.pdf)
 
-The lecture follows the substitution–permutation network in Lecture 2 into the Advanced Encryption Standard. A single AES-128 plaintext and key connect state layout, the first round, the key schedule and decryption. In the arithmetic section, students calculate the reference lecture’s byte product 57 × 83 = C1 and use the inverse of 05 to construct the S-box entry 6B. All byte values in these examples are hexadecimal.
+This instructor-review edition follows one AES-128 block from the plaintext to the ciphertext and back. It includes the mathematical development from the reference lecture alongside the worked encryption. Slides 5 and 6 map the four stages of encryption and the operations within a round. Select a stage or operation to open a worked example. Select the strip above a calculation to return to its overview.
 
-| Time | Slides | Classroom activity |
-| --- | --- | --- |
-| 18:30–19:30 | 1–23 | Load a block into the state. Interpret bytes as polynomials, multiply in the AES field and find a multiplicative inverse. |
-| 19:30–19:45 | 24 | Break |
-| 19:45–20:45 | 25–41 | Trace all four operations in round 1. Calculate one MixColumns output together, then try a second column. |
-| 20:45–21:00 | 42 | Break |
-| 21:00–22:00 | 43–60 | Derive the first round key, compare key sizes, reach the ciphertext and reverse the operations. Check the result against a published test vector. |
+| Scheduled time | Slides | Material | Estimated time to teach in full |
+| --- | --- | --- | --- |
+| 18:30–19:30 | 1–41 | Meet AES, load the state, calculate integer GCDs and modular inverses, and build the byte field with polynomial examples. | 104 min |
+| 19:30–19:45 | 42 | Break | 15 min |
+| 19:45–20:45 | 43–74 | Trace the first round. Construct an S-box entry, rotate rows, derive and invert the MixColumns matrix, and XOR the round key. | 106 min |
+| 20:45–21:00 | 75 | Break | 15 min |
+| 21:00–22:00 | 76–94 | Expand the key, reach the final ciphertext, decrypt the example and check an implementation. | 60 min |
 
-Slides 61–69 are optional references. They include the forward and inverse S-boxes, every AES-128 round key and round-end state for this example, and worked algebra. The PDF bookmarks and links on the teaching slides open the corresponding references.
+The class has 180 teaching minutes. Working through every main slide and exercise is estimated at 270 teaching minutes. The break slides mark the scheduled classroom breaks. The full sequence is available for the instructor to review before choosing what to teach live.
+
+Appendix slides 95–105 contain the forward and inverse S-boxes, all eleven round keys and round-end states for the AES-128 example, additional worked algebra, the decryption loop and an implementation comparison. The PDF bookmarks list each appendix entry. Links beside slide footers open the corresponding reference.
 
 ## Sources
 
@@ -20,7 +22,7 @@ The scope follows Wu Hongjun’s supplied *MH4311 Cryptography, Lecture 6, Block
 
 ## Editing and rebuilding
 
-The opening, schedule and reference tables are in [content.py](content.py). The three teaching sections are in [field.py](field.py), [rounds.py](rounds.py) and [keys.py](keys.py). Both PDFs use the same slide records. [aes_trace.py](aes_trace.py) derives the lookup tables and state grids and checks all three key sizes against published known answers.
+The opening, schedule and reference tables are in [content.py](content.py). The overview slides and step labels are in [algorithm.py](algorithm.py). The three teaching sections are in [field.py](field.py), [rounds.py](rounds.py) and [keys.py](keys.py). Both PDFs use the same slide records. [aes_trace.py](aes_trace.py) derives the lookup tables and state grids and checks all three key sizes against published known answers.
 
 With the [Lecture 2 Python dependencies](../lecture02/requirements.txt), DejaVu fonts and pdfLaTeX installed, run these commands from the repository root. The slide builder uses the existing Lecture 2 layout and vector maths code.
 

@@ -2084,29 +2084,26 @@
     "title": "Why 64 key bits mean 56 secret bits",
     "blocks": [
       [
-        "p",
-        "Each of the eight key bytes contains seven effective key bits and one odd-parity bit."
-      ],
-      [
-        "code",
-        "FIRST BYTE OF THE EXAMPLE KEY: HEX 13",
-        "0001001 | 1\n7 key bits | parity bit",
-        20
-      ],
-      [
-        "math",
-        "64=8(7+1),\\qquad\\text{effective key bits}=8\\cdot7=56."
+        "diagram",
+        "des_key_parity",
+        {
+          "key": 1383827165325090801
+        }
       ],
       [
         "p",
-        "The byte 00010011 has three 1s, so its parity is odd. Parity can detect some representation errors; it adds no secret-key strength."
+        "The seven key bits contain two 1s. Set the parity bit to 1 so that the whole byte has three 1s. DES uses this <b>odd parity</b> rule for each of the eight bytes."
+      ],
+      [
+        "p",
+        "If a bit flips and 00010011 becomes 00000011, only two 1s remain. A parity check flags that byte."
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "PC1 discards the parity positions before generating round keys.",
+    "take": "Each byte contributes seven independent key bits. Across eight bytes, the secret key has 8 × 7 = 56 bits.",
     "kind": "normal",
-    "notes": "Bit numbering in the DES tables is 1-based from the most significant bit. The parity positions are 8,16,…,64. The standard example key has odd parity in every byte. Changing only parity bits does not change DES encryption.",
+    "notes": "Start with the full example key and point to its first byte, 13 in hexadecimal. Read each hex digit as four bits. Then regroup the same eight bits as seven key bits and one check bit. To generate a key, choose the seven key bits per byte freely and set the last bit to make the total number of ones odd. Ask what the check bit would be if the seven key bits already contained an odd number of ones (0). A single flipped bit fails the check. Two flipped bits in the same byte preserve parity.",
     "minutes": 2.0,
     "source": ""
   },
@@ -2127,9 +2124,9 @@
     ],
     "section": "DES",
     "sub": "",
-    "take": "Our first goal is to calculate the two halves leaving round 1. One hex digit represents four bits.",
+    "take": "Our first goal is to apply IP and calculate L₁ and R₁, the two halves that enter round 2.",
     "kind": "normal",
-    "notes": "Recall the two-round Feistel exercise on slide 57. DES repeats that same outer rule sixteen times. Trace the data across the diagram and pause at round 1. The example key includes the eight parity bits introduced on the preceding slide.",
+    "notes": "Follow the full path from plaintext to ciphertext. IP rearranges the plaintext bits, which we split into L₀ and R₀. Round 1 uses K₁ to produce L₁ and R₁. Point to these halves on the arrow into round 2. The omitted rounds follow the same Feistel rule, each with its own subkey. Only after round 16 do we join R₁₆ before L₁₆ and apply IP⁻¹.",
     "minutes": 2.0,
     "source": ""
   },
@@ -2215,6 +2212,7 @@
               ],
               "cols": 8,
               "label": "Complete IP table",
+              "note": "DES specifies this fixed, public table for every block and key.",
               "output_ranges": true,
               "highlight_row": 0,
               "height": 266
@@ -2229,33 +2227,15 @@
             20
           ],
           [
-            "table",
-            [
-              "Output",
-              "Input",
-              "Byte in binary",
-              "Copy"
-            ],
-            [
-              [
-                "1",
-                "58",
-                "EF = 1110 1111",
-                "1"
-              ],
-              [
-                "2",
-                "50",
-                "CD = 1100 1101",
-                "1"
+            "diagram",
+            "ip_byte_copies",
+            {
+              "plaintext": 81985529216486895,
+              "input_positions": [
+                58,
+                50
               ]
-            ],
-            [
-              72,
-              68,
-              206,
-              68
-            ]
+            }
           ],
           [
             "code",
@@ -2268,9 +2248,9 @@
     ],
     "section": "DES",
     "sub": "",
-    "take": "The highlighted row gives 1100 1100 = CC in hex. Reading all eight rows gives CC00CCFFF0AAF0AA.",
+    "take": "Row 1 gives the first output byte, 1100 1100 = CC. For this plaintext the eight rows give CC 00 CC FF F0 AA F0 AA.",
     "kind": "normal",
-    "notes": "Point to 58 in the highlighted row. The last byte EF occupies positions 57–64, so position 58 is its second bit. Move one cell right to 50. The preceding byte CD occupies positions 49–56, so position 50 is its second bit. Follow the remaining six cells from rightmost plaintext byte toward the left to get 11001100. Point to the next row for output bits 9–16. The entire result is split into L0 and R0 on the next slide.",
+    "notes": "DES specifies the same public table for every key and block. Point to entry 58 and the boxed 1 in EF. This byte occupies positions 57–64, so 58 is its second bit from the left. The next entry, 50, points to the boxed second bit of CD, which occupies positions 49–56. Read the remaining six entries to finish the first output byte, CC. Row 2 produces the second byte, 00. Use the eight output bytes to identify the two halves on the next slide.",
     "minutes": 3.0,
     "source": ""
   },

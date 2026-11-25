@@ -16,6 +16,7 @@ import json
 import re
 
 import fitz
+from reportlab.pdfbase.pdfmetrics import registerFont
 from reportlab.pdfbase.ttfonts import TTFont
 import crypto_examples as cx
 import otp_content as oc
@@ -26,9 +27,11 @@ ROOT = Path(__file__).resolve().parent
 CHECKS = []
 FONT_FILES = {'Sans': 'DejaVuSans.ttf', 'Bold': 'DejaVuSans-Bold.ttf',
               'Mono': 'DejaVuSansMono.ttf', 'Italic': 'DejaVuSans-Oblique.ttf'}
-FONT_CMAPS = {name: {codepoint for codepoint, glyph in TTFont('Check' + name,
-                     '/usr/share/fonts/truetype/dejavu/' + filename).face.charToGlyph.items() if glyph != 0}
-              for name, filename in FONT_FILES.items()}
+FONT_CMAPS = {}
+for name, filename in FONT_FILES.items():
+    font = TTFont(name, '/usr/share/fonts/truetype/dejavu/' + filename)
+    registerFont(font)  # The diagrams use the same font metrics for bit highlights.
+    FONT_CMAPS[name] = {codepoint for codepoint, glyph in font.face.charToGlyph.items() if glyph != 0}
 
 
 class PlainText(HTMLParser):
@@ -427,8 +430,9 @@ def des_printed_checks(dc):
         byte_label = f'{int(byte_bits, 2):02X} = {byte_bits[:4]} {byte_bits[4:]}'
         expected_byte_copies.append([str(output), str(position), byte_label,
                                      input_bit_string[position-1]])
+    copies = [b[2] for b in walk_blocks(ip_slide[0]['blocks']) if b[:2] == ('diagram', 'ip_byte_copies')]
     checked('Worked IP examples locate input bits 58 and 50 in the correct plaintext bytes',
-            one_table(ip_slide, ['Output', 'Input', 'Byte in binary', 'Copy']) == expected_byte_copies
+            copies == [dict(plaintext=cx.DES_PLAINTEXT, input_positions=canonical_ip[:2])]
             and expected_byte_copies == [['1', '58', 'EF = 1110 1111', '1'],
                                           ['2', '50', 'CD = 1100 1101', '1']])
     ip_positions = canonical_ip[:8]

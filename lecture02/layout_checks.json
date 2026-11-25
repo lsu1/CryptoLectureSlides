@@ -933,27 +933,21 @@
     },
     {
       "slide": 61,
-      "type": "p",
+      "type": "diagram",
       "top": 410,
-      "bottom": 384.88
-    },
-    {
-      "slide": 61,
-      "type": "code",
-      "top": 371.88,
-      "bottom": 277.28
-    },
-    {
-      "slide": 61,
-      "type": "math",
-      "top": 264.28,
-      "bottom": 215.9986470031738
+      "bottom": 215
     },
     {
       "slide": 61,
       "type": "p",
-      "top": 202.9986470031738,
-      "bottom": 153.7586470031738
+      "top": 202,
+      "bottom": 152.76
+    },
+    {
+      "slide": 61,
+      "type": "p",
+      "top": 139.76,
+      "bottom": 90.51999999999998
     },
     {
       "slide": 62,
@@ -965,7 +959,7 @@
       "slide": 62,
       "type": "diagram",
       "top": 302.4,
-      "bottom": 117.39999999999998
+      "bottom": 114.39999999999998
     },
     {
       "slide": 63,
@@ -987,15 +981,15 @@
     },
     {
       "slide": 63,
-      "type": "table",
+      "type": "diagram",
       "top": 291.08,
-      "bottom": 213.5
+      "bottom": 215.07999999999998
     },
     {
       "slide": 63,
       "type": "code",
-      "top": 200.5,
-      "bottom": 111.25999999999999
+      "top": 202.07999999999998,
+      "bottom": 112.83999999999997
     },
     {
       "slide": 63,

@@ -1,6 +1,7 @@
 """Vector-only lecture illustrations; coordinates are local, measured from the top."""
 from math import log2
 from reportlab.lib import colors
+from reportlab.pdfbase.pdfmetrics import stringWidth
 
 NAVY=colors.HexColor('#132B3C');TEAL=colors.HexColor('#087E83');CORAL=colors.HexColor('#D85C36')
 LIGHT=colors.HexColor('#E5EEED');INK=colors.HexColor('#183342');MUTED=colors.HexColor('#536875');WHITE=colors.white
@@ -137,6 +138,38 @@ def draw(c,name,options,x,y,w):
    text(c,cx,199,str(bit),22,True,INK,True,True)
   text(c,w/2,231,'Output bits 1–4 = '+''.join(copied),15,True,TEAL,True)
   h=235
+ elif name=='des_key_parity':
+  key_bytes=options['key'].to_bytes(8, 'big')
+  text(c,0,13,'EXAMPLE DES MASTER KEY IN HEX',11,True,TEAL)
+  gap=7
+  cell=(w-7*gap)/8
+  for i,value in enumerate(key_bytes):
+   left=i*(cell+gap)
+   c.setFillColor(TEAL if i==0 else LIGHT)
+   c.roundRect(left,-66,cell,44,5,fill=1,stroke=0)
+   text(c,left+cell/2,52,f'{value:02X}',23,color=WHITE if i==0 else INK,center=True,mono=True)
+
+  # Two views of the same byte: hex-digit boundaries and DES key/parity boundaries.
+  byte=key_bytes[0]
+  bits=f'{byte:08b}'
+  card=(w-60)/2
+  for left in (0,card+60):
+   c.setFillColor(LIGHT)
+   c.roundRect(left,-191,card,96,6,fill=1,stroke=0)
+  text(c,16,114,'Read the first byte in hex',14,True)
+  for i,digit in enumerate(f'{byte:02X}'):
+   center=card*(.30+i*.40)
+   text(c,center,140,digit,18,True,TEAL,True)
+   text(c,center,174,bits[4*i:4*i+4],24,center=True,mono=True)
+  arrow(c,card+11,145,card+49,145)
+  right=card+60
+  text(c,right+16,114,'Regroup the same eight bits',14,True)
+  text(c,right+card*.32,141,'7 key bits',13,color=MUTED,center=True)
+  text(c,right+card*.32,174,bits[:7],24,center=True,mono=True)
+  line(c,right+card*.60,130,right+card*.60,178,TEAL,1)
+  text(c,right+card*.78,141,'Parity bit',13,True,TEAL,True)
+  text(c,right+card*.78,174,bits[7],24,color=TEAL,center=True,mono=True)
+  h=196
  elif name=='feistel_round':
   lx=w*.22;rx=w*.78;fx=w*.51
   box(c,lx-88,0,176,38,'Lᵢ₋₁');box(c,rx-88,0,176,38,'Rᵢ₋₁')
@@ -192,17 +225,30 @@ def draw(c,name,options,x,y,w):
    if i<3:arrow(c,xx+cw+2,20,xx+cw+gap-2,20,MUTED,1.2)
   h=43
  elif name=='des_overview':
-  gap=20;cw=(w-4*gap)/5
-  labels=[('IP','64 → 64'),('16 Feistel rounds','Round keys K₁ … K₁₆'),('Swap halves','R₁₆ || L₁₆'),('IP⁻¹','64 → 64'),('Ciphertext','64 bits')]
-  for i,(a,b) in enumerate(labels):
-   xx=i*(cw+gap);chosen=i==1
-   c.setFillColor(TEAL if chosen else LIGHT);c.roundRect(xx,-42-85,cw,85,7,fill=1,stroke=0)
-   text(c,xx+cw/2,79,a,14 if chosen else 16,True,WHITE if chosen else INK,True)
-   text(c,xx+cw/2,103,b,11 if chosen else 12,color=WHITE if chosen else MUTED,center=True)
-   if i<4:arrow(c,xx+cw+2,84,xx+cw+gap-2,84)
-  text(c,0,18,'64-bit plaintext enters IP',13,True,TEAL)
-  text(c,w/2,163,'IP and IP⁻¹ are public, fixed bit permutations.',15,center=True)
-  h=186
+  stages=[
+   ('Plaintext','64 bits',89), ('IP','',49), ('Round 1','K₁',81),
+   ('Round 2','K₂',81), ('…','Rounds 3–15',84), ('Round 16','K₁₆',88),
+   ('Swap halves','R₁₆ || L₁₆',109), ('IP⁻¹','',51), ('Ciphertext','64 bits',99),
+  ]
+  gap=(w-sum(width for _,_,width in stages))/(len(stages)-1)
+  starts=[];xx=0
+  for i,(title,subtitle,width) in enumerate(stages):
+   starts.append(xx)
+   c.setFillColor(LIGHT);c.roundRect(xx,-111,width,66,6,fill=1,stroke=0)
+   text(c,xx+width/2,74 if subtitle else 84,title,14,True,INK,True)
+   if subtitle:text(c,xx+width/2,96,subtitle,11.5,color=MUTED,center=True)
+   if i<len(stages)-1:arrow(c,xx+width+2,78,xx+width+gap-2,78)
+   xx+=width+gap
+  first=starts[2];last=starts[5]+stages[5][2];middle=(first+last)/2
+  text(c,middle,23,'16 Feistel rounds',14,True,MUTED,True)
+  for x1,x2 in [(first,middle-77),(last,middle+77)]:
+   line(c,x1,19,x2,19,MUTED,1);line(c,x1,19,x1,30,MUTED,1)
+  for index,halves in [(1,'L₀, R₀'),(2,'L₁, R₁'),(5,'L₁₆, R₁₆')]:
+   connector=starts[index]+stages[index][2]+gap/2
+   line(c,connector,87,connector,121,MUTED,1)
+   text(c,connector,139,halves,14,True,INK,True)
+  text(c,w/2,176,'IP is the initial permutation. IP⁻¹ applies its inverse after the final swap.',15,center=True)
+  h=189
  elif name=='des_f':
   gap=24;cw=(w-3*gap)/4
   labels=[('Expand E','32 → 48 bits'),('XOR Kᵢ','48 → 48 bits'),('S₁ … S₈','48 → 32 bits'),('Permute P','32 → 32 bits')]
@@ -227,6 +273,30 @@ def draw(c,name,options,x,y,w):
    if i<2:arrow(c,xx+cw+3,80,xx+cw+gap-3,80)
   text(c,w/2,163,'Three DES operations on the same 64-bit block.',15,center=True)
   h=184
+ elif name=='ip_byte_copies':
+  plaintext=options['plaintext'].to_bytes(8,'big')
+  positions=options['input_positions']
+  lefts=(8,w*.21,w*.42,w*.86)
+  c.setFillColor(NAVY);c.rect(0,-23,w,23,fill=1,stroke=0)
+  for left,label in zip(lefts,('Output bit','Input bit','Source byte','Copy')):
+   text(c,left,16,label,12,True,WHITE)
+  for output,position in enumerate(positions,1):
+   byte_index,bit_index=divmod(position-1,8)
+   value=plaintext[byte_index]
+   bits=f'{value:08b}'
+   prefix=f'{value:02X} = '
+   binary=bits[:4]+' '+bits[4:]
+   baseline=23+27*(output-1)+19
+   c.setFillColor(LIGHT if output%2 else colors.HexColor('#EFF2EF'))
+   c.rect(0,-baseline-8,w,27,fill=1,stroke=0)
+   for left,label in zip(lefts,(str(output),str(position),prefix+binary,bits[bit_index])):
+    text(c,left,baseline,label,14,mono=True)
+   # The printed string has one extra character between the nibbles.
+   char_index=len(prefix)+bit_index+int(bit_index>=4)
+   advance=stringWidth('0','Mono',14)
+   c.setStrokeColor(colors.HexColor('#B9362C'));c.setLineWidth(1.3)
+   c.rect(lefts[2]+char_index*advance-.3,-baseline-3,advance+.6,17,fill=0,stroke=1)
+  h=23+27*len(positions)
  elif name=='bit_table':
   values=options['table'];label=options.get('label','');desired=options.get('height',None)
   nested=bool(values and isinstance(values[0],(list,tuple)))
@@ -250,6 +320,9 @@ def draw(c,name,options,x,y,w):
    gutter=84 if labeled_ranges else 0
    labelh=25 if label else 0
    if label:text(c,0,14,label,15 if labeled_ranges else 12,True,TEAL)
+   if options.get('note'):
+    text(c,0,labelh+4,options['note'],12,color=INK)
+    labelh+=16
    if labeled_ranges:
     text(c,gutter/2,labelh+12,'Output bits',12,True,NAVY,True)
     text(c,(w+gutter)/2,labelh+12,'Input positions to copy',12,True,NAVY,True)

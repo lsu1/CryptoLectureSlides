@@ -181,15 +181,17 @@ DES_SLIDES = [
         P('In the toy example we used R AND K. DES keeps the Feistel rule and defines F with four operations. Follow the right half and the round key through them.'),
         D('des_f'),
     ], take='F returns 32 bits so its output can be XORed with the 32 bits of L₀.',
-       notes='Point to the widths and the key entering at the XOR. Eight independent lookup tables shrink the result to 32 bits. The fixed permutation P is the last operation inside F. Leave the unchanged left input on the board until the end of the round.', minutes=2),
+       notes='Point to the widths and the key entering at the XOR. E is the expansion function, which copies selected bits of the right half. Eight lookup tables shrink the result to 32 bits. The fixed permutation P is the last operation inside F. Leave the unchanged left input on the board until the end of the round.', minutes=2),
+    ds('How expansion turns 32 bits into 48', [
+        D('des_stage', active=0),
+        D('des_expansion_rule'),
+    ], take='Read each row from left to right. Each entry after the group number gives an input bit position to copy, counting from 1.',
+       notes='Begin with the 32-bit right half, with positions numbered from the left. Split it into eight four-bit groups. For each group, copy the previous bit to its left and the following bit to its right. At either end, wrap around: bit 32 precedes bit 1, and bit 1 follows bit 32. Read the first two rows as position numbers, then ask which positions surround the last group. Join the eight six-bit groups in order to obtain 48 bits. These are ready for the 48-bit key XOR before the S-boxes.', minutes=3),
     ds('Build the first six expansion bits', [
         D('des_stage', active=0),
-        C('READ THE TWO ENDS OF THE RIGHT HALF',
-          'R₀ = F0AAF0AA     first byte F0 = 11110000     last digit A = 1010', 17),
-        bit_copy_table(DES_TRACE['r0'], 32, E[:6]),
-        P('The last bit is 0. The first five are 11110. Joining them in the order shown gives <b>011110</b>, the first six bits of E(R₀).'),
-    ], take='Expansion builds eight six-bit groups from 32 bits. Neighbouring groups reuse boundary bits. The full E table is in A4.',
-       notes='Read positions 32, 1, 2, 3, 4, 5 aloud. Circle the last bit of A, then take the four bits of F and the leading zero of the next digit. The next group uses positions 4 through 9, so positions 4 and 5 appear again.', minutes=3),
+        D('des_expansion_example', value=DES_TRACE['r0']),
+    ], take='Repeat for the other seven groups. Joining the eight six-bit results gives E(R₀), ready for the key XOR.',
+       notes='Keep the first four bits, 1111, in the centre. Bit 32, the final bit of the right half, is 0 and is copied to the left. Bit 5, immediately after the first group, is 0 and is copied to the right. Read 0 | 1111 | 0 as 011110, preserving its leading zero. Ask students which input positions supply the second group: 4, 5, 6, 7, 8, 9. Its result is 100001. The complete expansion table is also in appendix A4.', minutes=3),
     ds('XOR six bits with six key bits', [
         D('des_stage', active=1),
         P('K₁ starts with hex 1B, or 0001 1011 in binary. Its first six bits are 000110. XOR gives 1 wherever the two input bits differ.'),
@@ -399,7 +401,7 @@ DES_SBOX_APPENDIX = [
 ]
 
 # Content-level invariants are useful before the full PDF and layout checks run.
-assert len(FEISTEL_SLIDES)==5 and len(DES_SLIDES)==26 and len(DES_APPENDIX)==9
+assert len(FEISTEL_SLIDES)==5 and len(DES_SLIDES)==27 and len(DES_APPENDIX)==9
 assert DES_CIPHERTEXT==0x85E813540F0AB405
 assert DES_TRACE['post_ip']==0xCC00CCFFF0AAF0AA
 assert _first['expanded']==0x7A15557A1555 and _first['xored']==0x6117BA866527

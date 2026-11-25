@@ -37,6 +37,14 @@ for i,s in enumerate(deepcopy(appendix),1):
  s['title']=f'A{i} / '+s['title'];s['section']='APPENDIX';s['minutes']=0
  slides.append(s)
 
+# Resolve the key-derivation reference after all teaching slides are assembled.
+pages_by_title = {s['title']: number for number, s in enumerate(slides, 1)}
+key_start = pages_by_title['Where did the round key come from?']
+key_end = pages_by_title['Recover the six key bits we used']
+first_round = slides[pages_by_title['What enters the first Feistel round?'] - 1]
+first_round['blocks'].insert(2, P(
+ f'(We derive this key from the master key on slides {key_start}–{key_end}.)'))
+
 # Make the classroom example's appendix reference navigable in the exported PDF.
 first_worked = appendix.index(FEISTEL_APPENDIX[0]) + 1
 example = next(s for s in slides if s['title'] == 'Two rounds: follow encryption and decryption')

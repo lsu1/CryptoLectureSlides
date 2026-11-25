@@ -1972,7 +1972,7 @@
     "notes": "Keep the toy function R AND K fixed in both directions. Distinguish the round state (L₂,R₂) from the externally serialized ciphertext (R₂,L₂). Give students three minutes to calculate the reverse steps using K₂ and then K₁ before discussing the result.",
     "minutes": 6.0,
     "source": "",
-    "jump_page": 97
+    "jump_page": 98
   },
   {
     "title": "Break / 10 minutes",
@@ -2032,7 +2032,7 @@
     "take": "DES shows how a bit-level construction becomes an efficiently reversible keyed permutation.",
     "kind": "normal",
     "notes": "Frame this as historical technical study, not deployment advice. DES originated in IBM research and was standardized by the US National Bureau of Standards, now NIST. AES details belong to a later lecture. TDEA withdrawal took effect on 1 January 2024.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2077,7 +2077,7 @@
     "take": "The block length, effective key length, and subkey length are three different quantities.",
     "kind": "normal",
     "notes": "Prevent the common conflation of 64-bit block size with 64-bit security. For each fixed effective key, DES permutes the set of 64-bit blocks. The key schedule expands neither the independent key entropy nor the block size.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2104,7 +2104,7 @@
     "take": "Each byte contributes seven independent key bits. Across eight bytes, the secret key has 8 × 7 = 56 bits.",
     "kind": "normal",
     "notes": "Start with the full example key and point to its first byte, 13 in hexadecimal. Read each hex digit as four bits. Then regroup the same eight bits as seven key bits and one check bit. To generate a key, choose the seven key bits per byte freely and set the last bit to make the total number of ones odd. Ask what the check bit would be if the seven key bits already contained an odd number of ones (0). A single flipped bit fails the check. Two flipped bits in the same byte preserve parity.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2127,7 +2127,7 @@
     "take": "Our first goal is to apply IP and calculate L₁ and R₁, the two halves that enter round 2.",
     "kind": "normal",
     "notes": "Follow the full path from plaintext to ciphertext. IP rearranges the plaintext bits, which we split into L₀ and R₀. Round 1 uses K₁ to produce L₁ and R₁. Point to these halves on the arrow into round 2. The omitted rounds follow the same Feistel rule, each with its own subkey. Only after round 16 do we join R₁₆ before L₁₆ and apply IP⁻¹.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2251,7 +2251,7 @@
     "take": "Row 1 gives the first output byte, 1100 1100 = CC. For this plaintext the eight rows give CC 00 CC FF F0 AA F0 AA.",
     "kind": "normal",
     "notes": "DES specifies the same public table for every key and block. Point to entry 58 and the boxed 1 in EF. This byte occupies positions 57–64, so 58 is its second bit from the left. The next entry, 50, points to the boxed second bit of CD, which occupies positions 49–56. Read the remaining six entries to finish the first output byte, CC. Row 2 produces the second byte, 00. Use the eight output bytes to identify the two halves on the next slide.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2270,6 +2270,10 @@
         19
       ],
       [
+        "p",
+        "(We derive this key from the master key on slides 74–77.)"
+      ],
+      [
         "math",
         "L_1=R_0,\\qquad R_1=L_0\\oplus F(R_0,K_1)."
       ]
@@ -2279,7 +2283,7 @@
     "take": "We can already write L₁ = F0AAF0AA. To calculate R₁, we need the value of F.",
     "kind": "normal",
     "notes": "Point to the first CC byte students have just calculated. The first eight hex digits make up L0 and the last eight make up R0. Treat K1 as given while working on the message. We derive this exact subkey after completing the round.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2299,8 +2303,32 @@
     "sub": "",
     "take": "F returns 32 bits so its output can be XORed with the 32 bits of L₀.",
     "kind": "normal",
-    "notes": "Point to the widths and the key entering at the XOR. Eight independent lookup tables shrink the result to 32 bits. The fixed permutation P is the last operation inside F. Leave the unchanged left input on the board until the end of the round.",
-    "minutes": 2.0,
+    "notes": "Point to the widths and the key entering at the XOR. E is the expansion function, which copies selected bits of the right half. Eight lookup tables shrink the result to 32 bits. The fixed permutation P is the last operation inside F. Leave the unchanged left input on the board until the end of the round.",
+    "minutes": 1.9047619047619047,
+    "source": ""
+  },
+  {
+    "title": "How expansion turns 32 bits into 48",
+    "blocks": [
+      [
+        "diagram",
+        "des_stage",
+        {
+          "active": 0
+        }
+      ],
+      [
+        "diagram",
+        "des_expansion_rule",
+        {}
+      ]
+    ],
+    "section": "DES",
+    "sub": "",
+    "take": "Read each row from left to right. Each entry after the group number gives an input bit position to copy, counting from 1.",
+    "kind": "normal",
+    "notes": "Begin with the 32-bit right half, with positions numbered from the left. Split it into eight four-bit groups. For each group, copy the previous bit to its left and the following bit to its right. At either end, wrap around: bit 32 precedes bit 1, and bit 1 follows bit 32. Read the first two rows as position numbers, then ask which positions surround the last group. Join the eight six-bit groups in order to obtain 48 bits. These are ready for the 48-bit key XOR before the S-boxes.",
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2314,63 +2342,19 @@
         }
       ],
       [
-        "code",
-        "READ THE TWO ENDS OF THE RIGHT HALF",
-        "R₀ = F0AAF0AA     first byte F0 = 11110000     last digit A = 1010",
-        17
-      ],
-      [
-        "table",
-        [
-          "Output position",
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6"
-        ],
-        [
-          [
-            "Read input bit",
-            "32",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"
-          ],
-          [
-            "Bit copied",
-            "0",
-            "1",
-            "1",
-            "1",
-            "1",
-            "0"
-          ]
-        ],
-        [
-          190,
-          111.0,
-          111.0,
-          111.0,
-          111.0,
-          111.0,
-          111.0
-        ]
-      ],
-      [
-        "p",
-        "The last bit is 0. The first five are 11110. Joining them in the order shown gives <b>011110</b>, the first six bits of E(R₀)."
+        "diagram",
+        "des_expansion_example",
+        {
+          "value": 4037734570
+        }
       ]
     ],
     "section": "DES",
     "sub": "",
-    "take": "Expansion builds eight six-bit groups from 32 bits. Neighbouring groups reuse boundary bits. The full E table is in A4.",
+    "take": "Repeat for the other seven groups. Joining the eight six-bit results gives E(R₀), ready for the key XOR.",
     "kind": "normal",
-    "notes": "Read positions 32, 1, 2, 3, 4, 5 aloud. Circle the last bit of A, then take the four bits of F and the leading zero of the next digit. The next group uses positions 4 through 9, so positions 4 and 5 appear again.",
-    "minutes": 3.0,
+    "notes": "Keep the first four bits, 1111, in the centre. Bit 32, the final bit of the right half, is 0 and is copied to the left. Bit 5, immediately after the first group, is 0 and is copied to the right. Read 0 | 1111 | 0 as 011110, preserving its leading zero. Ask students which input positions supply the second group: 4, 5, 6, 7, 8, 9. Its result is 100001. The complete expansion table is also in appendix A4.",
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2412,7 +2396,7 @@
     "take": "Split the 48-bit XOR result into eight groups of six. Send the first group, 011000, to S₁.",
     "kind": "normal",
     "notes": "Compare the six aligned columns on the left. Bit 4 is 1 in both inputs, so the output there is 0. The hex view on the right shows the same operation across all eight groups. Six-bit boundaries can fall in the middle of a hex digit.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2512,7 +2496,7 @@
     "take": "S₁ returns decimal 5. Write it as 0101, the first four bits of the 32-bit S-box output.",
     "kind": "normal",
     "notes": "The two outside bits form a two-bit row number. The four middle bits form a four-bit column number. Rows and columns both start at zero. Follow the highlighted row and column to 5. Since this table maps 64 inputs to 16 values, different inputs can produce the same output.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2545,9 +2529,9 @@
     "take": "See appendix A14 for all eight calculations, from the expansion and key bits to each S-box output.",
     "kind": "normal",
     "notes": "Let students answer before interpreting the output strip. For 010001, outer bits 01 select row 1 and inner bits 1000 select column 8. S2 gives 12 in decimal, written C in hex or 1100 in four bits.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": "",
-    "jump_page": 99
+    "jump_page": 100
   },
   {
     "title": "Permute the 32 output bits",
@@ -2608,7 +2592,7 @@
     "take": "After P, the value of F(R₀, K₁) is 234AA9BB. It is ready to mix into the left half.",
     "kind": "normal",
     "notes": "To check another bit, select input position 20, the last bit of the fifth digit B = 1011. It supplies the 1 in output position 3. P just rearranges all 32 bits. The complete table appears in A4.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2647,7 +2631,7 @@
     "take": "Round 1 ends with (L₁, R₁) = (F0AAF0AA, EF4A6544). These two halves are the input to round 2.",
     "kind": "normal",
     "notes": "Ask which half was copied and which required the entire F calculation. Point back to the same two operations on slide 57. The output of F alone is not the right-half output of the round.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2702,7 +2686,7 @@
     "take": "The expansion depends only on R₀. The subkey first affects the result at the XOR.",
     "kind": "normal",
     "notes": "Use the question as a pause before the key schedule. Ask a student to point to the 5 from S1 and the 2 that starts the final output of F. The S-boxes supply nonlinearity, while E and P are fixed public bit selections.",
-    "minutes": 1.0,
+    "minutes": 0.9523809523809523,
     "source": ""
   },
   {
@@ -2723,7 +2707,7 @@
     "take": "The same 56 effective master-key bits determine all sixteen round keys.",
     "kind": "normal",
     "notes": "The message halves L and R are set aside here. C and D below are halves of the key. Expand the abbreviations: PC1 is Permuted Choice 1, and PC2 is Permuted Choice 2.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2745,7 +2729,7 @@
     "take": "Each key half contains 28 bits. The full PC1 and PC2 tables are in A5.",
     "kind": "normal",
     "notes": "Key positions 8, 16, …, 64 carry parity. PC1 selects all the remaining positions once and rearranges them. Ask how seven hex digits correspond to 28 bits. The first digit F of C0 starts with the 1 just identified.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2773,7 +2757,7 @@
     "take": "Round numbers 1, 2, 9 and 16 rotate by one place. The other rounds rotate by two, starting from the previous halves.",
     "kind": "normal",
     "notes": "Have students follow the leading 1 to the right end of C1. D0 rotates within its own 28 positions. Joining the halves before rotating would give a different result. A6 lists the shifts and every computed subkey.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2842,7 +2826,7 @@
     "take": "The first six bits are 000110, exactly the bits we XORed with 011110 to enter S₁.",
     "kind": "normal",
     "notes": "Read the first copied bit from position 14 of the combined 56 bits. Complete the first six selections together. The remaining 42 selections follow the same rule. K1 is one 48-bit subkey derived from the original key.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -2870,7 +2854,7 @@
     "take": "Repeat this round rule through round 16, using the next subkey each time. Appendix A11 lists the sixteen output pairs.",
     "kind": "normal",
     "notes": "Ask for L2 before uncovering the last box. The class can now follow later rounds without manually performing another eight lookups. Verify that round 2 starts from the pair at the end of round 1 and consumes K2 from the same key schedule.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2898,7 +2882,7 @@
     "take": "The plaintext 0123456789ABCDEF encrypts to 85E813540F0AB405 with master key 133457799BBCDFF1.",
     "kind": "normal",
     "notes": "Point out the order of the two halves in the concatenation. FP is IP inverse, so it uses the full table in A3. Bits 33 to 40 of the swapped block form hex 43, ending in 1. This matches the leading bit of the ciphertext, which begins with hex 8.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2926,7 +2910,7 @@
     "take": "The first decryption round gives (R₁₅, L₁₅) = (43423234, C28C960D).",
     "kind": "normal",
     "notes": "IP undoes the FP just applied during encryption. The right half entering F is L16, equal to R15, so using K16 reproduces F = C8C04F98 from the last encryption round. XOR cancels it. Use A11 to compare the resulting pair with the round 15 pair in exchanged order.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -2950,7 +2934,7 @@
     "take": "The last swap restores the two halves in their original order. FP returns them to their original plaintext bit positions.",
     "kind": "normal",
     "notes": "Compare the value after the swap with the IP output at the start. The same F, S-boxes, initial and final permutations work in both directions. Only the order of subkeys changes, as in the two-round Feistel example.",
-    "minutes": 1.0,
+    "minutes": 0.9523809523809523,
     "source": ""
   },
   {
@@ -2978,7 +2962,7 @@
     "take": "Hardware and cost estimates age; the structural limitation is the small 56-bit key space.",
     "kind": "normal",
     "notes": "Retain the historical exhaustive-search lesson without presenting the old 2006 hardware budget as a current benchmark. A candidate match should be checked against additional data as needed. Multiple encryption must be analyzed rather than judged by the count of nominal key bits.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -3006,7 +2990,7 @@
     "take": "Two 56-bit keys do not automatically provide 112-bit security.",
     "kind": "normal",
     "notes": "Keep this to the equality and cost intuition; a detailed attack lecture is outside the scope. The memory estimate is enormous. A single 64-bit plaintext/ciphertext pair permits many key-pair candidates, so a table match is not by itself proof of the unique correct keys.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -3033,7 +3017,7 @@
     "take": "If all three keys are equal, EDE collapses to ordinary DES: the middle inverse cancels one encryption.",
     "kind": "normal",
     "notes": "Read the composition from the innermost operation outward, matching the diagram from plaintext to ciphertext. EDE was chosen in part for compatibility with single-DES behavior when all keys coincide. The inverse and historical key options follow on the next page.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {
@@ -3082,7 +3066,7 @@
     "take": "The block size remains 64 bits; extra key material does not remove the data-volume limits of a small block.",
     "kind": "normal",
     "notes": "Separate nominal effective key material from achieved attack resistance. Do not label the two-key option as 112-bit secure just because it contains 112 independent key bits. The 64-bit block creates restrictive data-volume limits in common modes, which are covered later. TDEA stands for Triple Data Encryption Algorithm. NIST withdrawal concerns new cryptographic protection; processing previously protected data has separate transition guidance.",
-    "minutes": 3.0,
+    "minutes": 2.857142857142857,
     "source": ""
   },
   {
@@ -3123,7 +3107,7 @@
     "take": "",
     "kind": "normal",
     "notes": "Use the last minutes for clarification and returning to the difference between a theorem of independence and a computational security assessment. The optional appendix is a reference, not material to rush through.",
-    "minutes": 2.0,
+    "minutes": 1.9047619047619047,
     "source": ""
   },
   {

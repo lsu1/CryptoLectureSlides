@@ -251,13 +251,64 @@ def draw(c,name,options,x,y,w):
   h=189
  elif name=='des_f':
   gap=24;cw=(w-3*gap)/4
-  labels=[('Expand E','32 → 48 bits'),('XOR Kᵢ','48 → 48 bits'),('S₁ … S₈','48 → 32 bits'),('Permute P','32 → 32 bits')]
+  labels=[('Apply expansion E','32 → 48 bits'),('XOR Kᵢ','48 → 48 bits'),('S₁ … S₈','48 → 32 bits'),('Permute P','32 → 32 bits')]
   for i,(a,b) in enumerate(labels):
-   xx=i*(cw+gap);box(c,xx,57,cw,91,a,b,i==2)
+   xx=i*(cw+gap);box(c,xx,57,cw,91,a,b)
    if i<3:arrow(c,xx+cw+3,102,xx+cw+gap-3,102)
   xx=cw+gap+cw/2;text(c,xx,20,'48-bit round key Kᵢ',13,True,TEAL,True);arrow(c,xx,27,xx,52)
   text(c,w/2,187,'Each S-box receives 6 bits and outputs 4 bits.',15,center=True)
   h=210
+ elif name=='des_expansion_rule':
+  text(c,0,17,'Apply the same rule to every group',16,True,TEAL)
+  instructions=[
+   (48,'1. Split the 32-bit right half into'),
+   (68,'   eight groups of four bits.'),
+   (99,'2. Copy the preceding bit to the left'),
+   (119,'   and the following bit to the right.'),
+   (150,'3. Wrap at the ends. Before bit 1,'),
+   (170,'   use bit 32. After bit 32, use bit 1.'),
+   (201,'4. Join the eight groups in order.'),
+   (221,'   8 × 6 = 48 output bits.'),
+  ]
+  for top,label in instructions:text(c,0,top,label,15)
+  table_x=w*.51;table_w=w-table_x
+  text(c,table_x,17,'Fixed, public DES expansion table',14,True,TEAL)
+  widths=[48,52,table_w-152,52]
+  centers=[];left=table_x
+  for width in widths:
+   centers.append(left+width/2);left+=width
+  c.setFillColor(NAVY);c.rect(table_x,-52,table_w,25,fill=1,stroke=0)
+  for center,label in zip(centers,['Group','Left','Original four','Right']):
+   text(c,center,44,label,12,True,WHITE,True)
+  for group in range(8):
+   start=4*group+1
+   previous=(start-2)%32+1
+   following=(start+3)%32+1
+   top=52+25*group
+   c.setFillColor(LIGHT if group%2==0 else colors.HexColor('#EFF2EF'))
+   c.rect(table_x,-top-25,table_w,25,fill=1,stroke=0)
+   labels=[str(group+1),str(previous),' '.join(str(i) for i in range(start,start+4)),str(following)]
+   for index,(center,label) in enumerate(zip(centers,labels)):
+    text(c,center,top+18,label,14,color=TEAL if index in (1,3) else INK,center=True,mono=True)
+  h=262
+ elif name=='des_expansion_example':
+  value=int(options['value'])
+  if not 0<=value<1<<32:raise ValueError('DES expansion requires a 32-bit input')
+  bits=f'{value:032b}'
+  text(c,0,19,f'R₀ = {value:08X}',19,mono=True)
+  text(c,0,48,'Build group 1 from its four bits and their two neighbours.',16)
+  gap=20;widths=[(w-2*gap)*.27,(w-2*gap)*.46,(w-2*gap)*.27]
+  labels=[('Previous neighbour','Bit 32',bits[-1]),('Original group','Bits 1–4',bits[:4]),('Next neighbour','Bit 5',bits[4])]
+  left=0
+  for width,(label,position,value_bits) in zip(widths,labels):
+   c.setFillColor(LIGHT);c.roundRect(left,-167,width,99,6,fill=1,stroke=0)
+   text(c,left+width/2,89,label,14,True,TEAL,True)
+   text(c,left+width/2,114,position,14,color=MUTED,center=True)
+   text(c,left+width/2,149,value_bits,27,center=True,mono=True)
+   left+=width+gap
+  output=bits[-1]+bits[:4]+bits[4]
+  text(c,w/2,205,f'{bits[-1]} | {bits[:4]} | {bits[4]} = {output}',23,True,TEAL,True,True)
+  h=218
  elif name=='key_schedule':
   gap=24;cw=(w-3*gap)/4
   for i,(a,b) in enumerate([('PC1','64 → 56 bits'),('Split','C₀, D₀: 28 bits each'),('Rotate','1 or 2 positions'),('PC2','56 → 48 bits')]):

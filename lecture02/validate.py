@@ -449,12 +449,11 @@ def des_printed_checks(dc):
     expanded_bits = f'{first["expanded"]:048b}'
     key_bits = f'{first["key"]:048b}'
     xor_bits = ''.join(str(int(a) ^ int(b)) for a, b in zip(expanded_bits, key_bits))
+    example = des_slide('Build the first six expansion bits')[0]
+    expansion_inputs = [b[2]['value'] for b in walk_blocks(example['blocks'])
+                        if b[:2] == ('diagram', 'des_expansion_example')]
     checked('Worked expansion group independently copies R0 and retains its leading zero',
-            e_bits == expanded_bits[:6] == '011110'
-            and normalized_rows(one_table(des_slide('Build the first six expansion bits'),
-                ['Output position'] + [str(i) for i in range(1, 7)])) ==
-            [['Read input bit'] + list(map(str, e_positions)),
-             ['Bit copied'] + list(e_bits)])
+            expansion_inputs == [cx.DES_TRACE['r0']] and e_bits == expanded_bits[:6] == '011110')
     checked('Worked first six expanded and subkey bits XOR to the actual S1 input',
             key_bits[:6] == '000110' and xor_bits[:6] == '011000'
             and int(xor_bits, 2) == first['xored'] == 0x6117BA866527
@@ -568,10 +567,14 @@ def source_glyph_checks(slides):
         """Record the diagram renderer's actual strings and selected fonts."""
         font = 'Sans'
 
+        def __init__(self):
+            self.labels = []
+
         def setFont(self, name, size):
             self.font = name
 
         def drawString(self, x, y, text):
+            self.labels.append(text)
             scan(text, self.font, location + ' / diagram')
 
         drawCentredString = drawString
@@ -600,7 +603,21 @@ def source_glyph_checks(slides):
                     for cell in row:
                         scan(cell, 'Sans', location + ' / table body')
             elif kind == 'diagram':
-                draw_diagram(DiagramCanvas(), block[1], block[2], 0, 0, 856)
+                canvas = DiagramCanvas()
+                draw_diagram(canvas, block[1], block[2], 0, 0, 856)
+                if block[1] == 'des_expansion_rule':
+                    # Each printed row names the group and six original bit positions.
+                    printed = [int(n) for label in canvas.labels if re.fullmatch(r'[\d ]+', label)
+                               for n in label.split()]
+                    expected = []
+                    for group in range(8):
+                        expected.append(group + 1)
+                        expected.extend(cx.E[6*group:6*group+6])
+                    checked('The expansion overview displays all 48 DES E positions in order',
+                            printed == expected)
+                if block[1] == 'des_expansion_example':
+                    checked('The worked expansion diagram displays both neighbours and the six-bit result',
+                            '0 | 1111 | 0 = 011110' in canvas.labels)
             # math blocks are rendered using their separate TeX fonts.
     if missing:
         raise AssertionError('Missing source-font glyphs: ' + json.dumps(missing, ensure_ascii=False))

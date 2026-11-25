@@ -1,6 +1,6 @@
 {
   "edition": "Lecture 02: one-time pads and block ciphers",
-  "checks_passed": 80,
+  "checks_passed": 82,
   "checks": [
     "Letter OTP known answer and decryption",
     "Every printed letter-OTP addition matches the original example",
@@ -72,6 +72,8 @@
     "Wall-clock interval and per-slide allocation: 9:00 pm\u201310:00 pm",
     "Session spans 6:30\u201310:00 pm and covers every main slide once",
     "Exactly two ten-minute break slides display the scheduled wall-clock times",
+    "The expansion overview displays all 48 DES E positions in order",
+    "The worked expansion diagram displays both neighbours and the six-bit result",
     "Every visible slide string and vector diagram label has glyphs in its selected font",
     "Lecture renderer reports no content, font-size, or footer overflows",
     "Lecture02_OTP_and_Block_Ciphers.pdf page count",
@@ -83,7 +85,7 @@
     "Lecture02_Instructor_Guide.pdf embeds every referenced font",
     "Lecture02_Instructor_Guide.pdf text uses glyphs covered by its DejaVu fonts"
   ],
-  "teaching_pages": 85,
+  "teaching_pages": 86,
   "appendix_pages": 14,
   "session_minutes": 210,
   "teaching_minutes": 190,
@@ -98,7 +100,7 @@
       "missing": []
     },
     "Mono": {
-      "unique_characters": 65,
+      "unique_characters": 64,
       "missing": []
     },
     "Italic": {
@@ -108,22 +110,22 @@
   },
   "pdfs": {
     "Lecture02_OTP_and_Block_Ciphers.pdf": {
-      "pages": 99,
-      "bytes": 368217,
-      "sha256": "e3d1edbedcf01552f8824487f408230367b470a1aaf1594dcee34ef958924a18",
-      "rendered_pages": 99,
+      "pages": 100,
+      "bytes": 370587,
+      "sha256": "93d71a93e04fb30991ea38a0f830633027388e970e90fd9c9ad473b889f4c119",
+      "rendered_pages": 100,
       "all_fonts_embedded": true,
       "fonts": {
-        "106:AAAAAA+DejaVuSans": true,
-        "110:AAAAAA+DejaVuSans-Bold": true,
-        "114:AAAAAA+DejaVuSansMono": true,
-        "246:IZNHNL+LMMathItalic12-Regular": true,
-        "252:YIVAKR+LMMathSymbols10-Regular": true,
-        "258:QZMDXF+LMRoman17-Regular": true,
-        "277:UUYMEV+LMMathExtension10-Regular": true,
-        "329:RAZVEJ+MSBM10": true,
-        "350:RZWMKQ+LMSans17-Regular": true,
-        "361:CWZWNC+LMRoman12-Regular": true
+        "107:AAAAAA+DejaVuSans": true,
+        "111:AAAAAA+DejaVuSans-Bold": true,
+        "115:AAAAAA+DejaVuSansMono": true,
+        "248:IZNHNL+LMMathItalic12-Regular": true,
+        "254:YIVAKR+LMMathSymbols10-Regular": true,
+        "260:QZMDXF+LMRoman17-Regular": true,
+        "279:UUYMEV+LMMathExtension10-Regular": true,
+        "331:RAZVEJ+MSBM10": true,
+        "352:RZWMKQ+LMSans17-Regular": true,
+        "363:CWZWNC+LMRoman12-Regular": true
       },
       "text_bounds_tolerance_pt": 0.75,
       "problems": [],
@@ -131,8 +133,8 @@
     },
     "Lecture02_Instructor_Guide.pdf": {
       "pages": 12,
-      "bytes": 102583,
-      "sha256": "78234ab7e67ed9d204d1585efc1767b5e5fe8d9f711a17b1c5443a27d77d525e",
+      "bytes": 103076,
+      "sha256": "dda91c6f28d3fcc21af13cf50a1ed94f132984ca81f1c4476bf4bc9b495335cb",
       "rendered_pages": 12,
       "all_fonts_embedded": true,
       "fonts": {

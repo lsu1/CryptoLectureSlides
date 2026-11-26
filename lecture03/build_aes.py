@@ -7,6 +7,7 @@ import fitz
 from reportlab.lib import colors
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen.canvas import Canvas
+from reportlab.platypus import Paragraph
 
 from content import slides, MAIN_COUNT
 from algorithm import MAP_TITLE, ROUND_TITLE, STAGES, OPERATIONS, STAGE_EXAMPLES, OPERATION_EXAMPLES, location
@@ -92,8 +93,11 @@ def draw_stage_map(c, descriptions, x, top, w):
         box(c, x + 10, y + 10, 31, 30, TEAL, 5)
         write(c, str(i+1), x + 25, y + 18, 15, WHITE, 'Bold', 'center')
         write(c, label, x + 55, y + 18, 17, NAVY, 'Bold')
-        end = style.para(c, description, x + 200, y + rowh - 7, w - 210, 14)
-        assert end > y + 1, (label, end, y)
+        paragraph = Paragraph(description, style.styles[14])
+        _, paragraph_height = paragraph.wrap(w - 210, rowh - 5)
+        assert paragraph_height <= rowh - 9, label
+        paragraph_bottom = y + 3 + (rowh - 5 - paragraph_height) / 2
+        paragraph.drawOn(c, x + 200, paragraph_bottom)
         link_to_slide(c, STAGE_EXAMPLES[i], (x, y + 2, x + w, y + rowh - 2))
     return top - len(descriptions) * rowh - 14
 
@@ -115,13 +119,13 @@ def draw_operation_map(c, descriptions, x, top, w):
 
 def draw_round_paths(c, x, top, w):
     entries = [
-        ('3  Full rounds', 'A  →  B  →  C  →  D', 'Run rounds 1 through r − 1.'),
-        ('4  Final round', 'A  →  B  →  D', 'ShiftRows feeds directly into AddRoundKey.'),
+        ('Step 3 · Full rounds', 'A  →  B  →  C  →  D', 'Run rounds 1 through r − 1.'),
+        ('Step 4 · Final round', 'A  →  B  →  D', 'ShiftRows feeds directly into AddRoundKey.'),
     ]
     for i, (label, sequence, note) in enumerate(entries):
         y = top - i * 35
         write(c, label, x + 12, y - 17, 15, NAVY, 'Bold')
-        write(c, sequence, x + 180, y - 17, 16, TEAL, 'Bold')
+        write(c, sequence, x + 215, y - 17, 16, TEAL, 'Bold')
         write(c, note, x + 410, y - 17, 15)
     return top - 81
 
@@ -170,6 +174,55 @@ def draw_boxmap(c, inverse, x, top, w):
     return top - 17 * rowh - 13
 
 
+def draw_xtime_chain(c, start, selected_powers, x, top, w):
+    """Expose the shift and polynomial reduction before retaining each byte."""
+    widths = [54, 196, 220, 216, 70, 100]
+    assert sum(widths) == w
+    headings = [
+        ('Power', 'of x'), ('Before shift', 'hex · eight bits'),
+        ('Shift left', 'nine bits · hex'), ('Reduce to one byte', 'XOR if the ninth bit is 1'),
+        ('Result', 'hex'), ('Use for 83', ''),
+    ]
+    header_height, row_height = 37, 27
+    c.setFillColor(NAVY)
+    c.rect(x, top - header_height, w, header_height, fill=1, stroke=0)
+    left = x
+    for width, (heading, detail) in zip(widths, headings, strict=True):
+        write(c, heading, left + 8, top - 14, 11, WHITE, 'Bold')
+        write(c, detail, left + 8, top - 29, 10, WHITE)
+        left += width
+
+    current = start
+    for power in range(8):
+        bits = f'{current:08b}'
+        before = f'{current:02X} · {bits[:4]} {bits[4:]}'
+        shifted_text, reduction = '—', 'Starting value'
+        result = current
+        if power:
+            shifted = current << 1
+            nine_bits = f'{shifted:09b}'
+            shifted_text = f'{nine_bits[0]} {nine_bits[1:5]} {nine_bits[5:]} · {shifted:03X}'
+            reduction = 'Fits in eight bits'
+            if shifted & 0x100:
+                result = shifted ^ 0x11B
+                reduction = f'{shifted:03X} XOR 11B = {result:03X}'
+            else:
+                result = shifted
+        values = [str(power), before, shifted_text, reduction, f'{result:02X}',
+                  'Keep' if power in selected_powers else '']
+        bottom = top - header_height - (power + 1) * row_height
+        c.setFillColor(LIGHT if power % 2 == 0 else SOFT)
+        c.rect(x, bottom, w, row_height, fill=1, stroke=0)
+        left = x
+        for column, (width, value) in enumerate(zip(widths, values, strict=True)):
+            selected = power in selected_powers and column >= 4
+            write(c, value, left + 8, bottom + 8, 14,
+                  TEAL if selected else INK, 'Bold' if column == 5 else 'Mono')
+            left += width
+        current = result
+    return top - header_height - 8 * row_height - 13
+
+
 def draw_blocks(c, blocks, x, top, width, number):
     for block in blocks:
         kind = block[0]
@@ -185,6 +238,8 @@ def draw_blocks(c, blocks, x, top, width, number):
             top = draw_timeline(c, block[1], x, top, width)
         elif kind == 'boxmap':
             top = draw_boxmap(c, block[1], x, top, width)
+        elif kind == 'xtime_chain':
+            top = draw_xtime_chain(c, block[1], block[2], x, top, width)
         else:
             top = style.drawblocks(c, [block], x, top, width, number)
     return top

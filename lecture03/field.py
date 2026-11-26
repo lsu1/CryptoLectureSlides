@@ -185,7 +185,6 @@ slides = [
             ['57 = 0101 0111', '0 1010 1110 = 0AE', 'AE (degree below 8)'],
             ['AE = 1010 1110', '1 0101 1100 = 15C', '15C XOR 11B = 047, giving 47'],
         ], [1.25, 2.05, 2.4]),
-        P('In an eight-bit register the extra bit falls away. If the original high bit was 1, XOR the low eight bits with 1B. AES calls this calculation xtime.'),
     ], 3, 'In the second row trace the outgoing high bit. Cancel the degree-eight term by XORing 11B. Discarding the extra bit and XORing 1B has the same effect.', focus='math_product'),
 
     lesson('Try two products with the same byte', [
@@ -209,10 +208,9 @@ slides = [
     ], 3, 'Pause for the class to choose three powers of x. Distinguish polynomial bit positions from the bit numbering used in DES permutations. Here position j is the exponent of x.', focus='math_product'),
 
     lesson('Follow seven shifts from 57', [
-        P('Each arrow multiplies the current byte by x and reduces the result. A high input bit of 1 triggers the XOR with 1B.'),
-        C('POWER OF x MULTIPLYING 57', 'Power     0     1     2     3     4     5     6     7\nByte     57 →  AE →  47 →  8E →  07 →  0E →  1C →  38', 18),
-        P('For the step from power 3 to 4, shift 8E to 11C. Cancel the high bit by computing 11C XOR 11B = 07. The next three shifts all fit in one byte.'),
-    ], 3, 'Have students fill in 07 before following the last three arrows. The three values selected by the multiplier are 38, AE and 57.', focus='math_product'),
+        P('Each step multiplies by x. Keep the ninth bit until reduction. A leading 1 requires XOR with 11B. For 83 = x⁷ + x + 1, save powers 0, 1 and 7.'),
+        ('xtime_chain', 0x57, (0, 1, 7)),
+    ], 3, 'Read each row from left to right. Begin with 57 = 01010111 and shift left to get 0 10101110. The result AE already fits in eight bits. Next, AE shifts to 1 01011100 = 15C. XOR 11B to cancel the ninth bit and obtain 047, stored as 47. The same reduction turns 11C into 007 after shifting 8E. Preserve the leading zeros in 07 and 0E. The highlighted results at powers 0, 1 and 7 are 57, AE and 38. XOR them on the next slide.', focus='math_product'),
 
     lesson('Combine the three selected bytes', [
         C('SELECT POWERS 7, 1 AND 0', 'x⁷ · 57   38      0011 1000\nx  · 57   AE      1010 1110\n1  · 57   57      0101 0111'),
@@ -228,14 +226,19 @@ slides = [
     ], 3, 'Trace the duplicated terms in the three rows before collecting coefficients. The expanded product is encoded by hex 2B79.', focus='math_product'),
 
     lesson('Reduce the degree-13 product by long division', [
-        P('The binary coefficients of the product encode hex 2B79. To remove its leading power x¹³, XOR the product with x⁵ times the degree-eight modulus m.'),
-        T(['Current value', 'Multiple of the modulus', 'Remainder after XOR'], [
-            ['2B79 (degree 13)', 'x⁵m → 2360', '2B79 XOR 2360 = 0819 (degree 11)'],
-            ['0819 (degree 11)', 'x³m → 08D8', '0819 XOR 08D8 = 00C1 (degree 7)'],
-        ], [1.35, 1.7, 2.5]),
-        M(r'P(x)=(x^5+x^3)m(x)+(x^7+x^6+1).'),
-        P('The remainder has degree below eight. Its bits are 1100 0001, which encode the same C1 we obtained by repeated xtime.'),
-    ], 3, 'Recompute the first step by hand as a polynomial subtraction: in GF(2) it is an XOR. The remaining degree-seven polynomial fits in a byte and the division stops.', focus='math_product'),
+        P('Hex 2B79 encodes the unreduced product P(x) from slide 36. Each row adds a shifted copy of the AES modulus m(x), using XOR on the coefficients.'),
+        T(['Current polynomial', 'Add this shifted modulus', 'Remainder after XOR'], [
+            ['2B79 ↔ P(x) = x¹³ + x¹¹ + x⁹ + x⁸ + x⁶ + x⁵ + x⁴ + x³ + 1',
+             '2360 ↔ x⁵m(x) = x¹³ + x⁹ + x⁸ + x⁶ + x⁵',
+             '0819 ↔ r₁(x) = x¹¹ + x⁴ + x³ + 1'],
+            ['0819 ↔ r₁(x) = x¹¹ + x⁴ + x³ + 1',
+             '08D8 ↔ x³m(x) = x¹¹ + x⁷ + x⁶ + x⁴ + x³',
+             '00C1 ↔ r₂(x) = x⁷ + x⁶ + 1'],
+        ], [2.0, 1.8, 1.65]),
+        M(r'\begin{aligned}r_1(x)&=P(x)+x^5m(x)=x^{11}+x^4+x^3+1,\\'
+          r'r_2(x)&=r_1(x)+x^3m(x)=x^7+x^6+1.\end{aligned}'),
+        P('The final remainder has degree 7. It encodes 1100 0001 = C1, the byte product found by repeated shifts.'),
+    ], 3, 'Point back to the unreduced product on slide 36. The table shows each hexadecimal encoding with all its polynomial terms. XOR cancels each term that occurs in both polynomials. The first step cancels x¹³ and leaves degree 11. The second cancels x¹¹ and leaves degree 7, so division stops. The two steps give P(x) = (x⁵ + x³)m(x) + (x⁷ + x⁶ + 1).', focus='math_product'),
 
     lesson('What would it mean to invert 05?', [
         P('To construct the S-box entry for 05, the first step is to find a byte that gives 01 when multiplied by 05. Write b(x) = x² + 1 for the byte 05.'),
@@ -244,14 +247,20 @@ slides = [
     ], 3, 'Point to d(x), the coefficient of the byte polynomial. It plays the same role as the coefficient −2 of 12 in the integer example. A zero input requires the special S-box convention.', focus='math_inverse'),
 
     lesson('Divide the AES modulus by x² + 1', [
-        P('At each step, cancel the leading term using a shifted copy of b(x). Hexadecimal values below encode the coefficients, including the ninth bit when present.'),
-        T(['Current polynomial', 'Choose quotient term', 'XOR its multiple of 05', 'Remainder'], [
-            ['11B, degree 8', 'x⁶ (8 − 2 = 6)', '11B XOR 140', '05B, degree 6'],
-            ['05B, degree 6', 'x⁴ (6 − 2 = 4)', '05B XOR 050', '00B, degree 3'],
-            ['00B, degree 3', 'x (3 − 2 = 1)', '00B XOR 00A', '001, degree 0'],
-        ], [1.25, 1.45, 1.4, 1.35]),
+        P('The divisor is 05 ↔ b(x) = x² + 1. The dividend is 11B ↔ m(x) = x⁸ + x⁴ + x³ + x + 1. In each row, XOR a shifted divisor into the current polynomial.'),
+        T(['Current polynomial', 'XOR with this shifted divisor', 'Remainder'], [
+            ['11B ↔ x⁸ + x⁴ + x³ + x + 1',
+             '140 ↔ x⁶b(x) = x⁸ + x⁶',
+             '05B ↔ x⁶ + x⁴ + x³ + x + 1'],
+            ['05B ↔ x⁶ + x⁴ + x³ + x + 1',
+             '050 ↔ x⁴b(x) = x⁶ + x⁴',
+             '00B ↔ x³ + x + 1'],
+            ['00B ↔ x³ + x + 1',
+             '00A ↔ xb(x) = x³ + x',
+             '001 ↔ 1'],
+        ], [1.85, 1.8, 1.8]),
         M(r'm(x)=(x^6+x^4+x)b(x)+1'),
-    ], 4, 'Explain 140 by shifting binary 101 left six positions. Read the chosen terms down the middle column. The remainder 1 has degree below the divisor and is the last nonzero remainder.', focus='math_inverse'),
+    ], 4, 'Read each row as a polynomial addition over GF(2). To cancel degree 8 using the degree-2 divisor, multiply b(x) by x⁶. Thus 11B XOR 140 gives 05B. Next use x⁴b(x), so 05B XOR 050 gives 00B. Finally xb(x) gives 00B XOR 00A = 001. The quotient terms are x⁶, x⁴ and x. Each displayed hexadecimal encoding has its full polynomial beside it. The remainder 1 has degree below the divisor and is the last nonzero remainder.', focus='math_inverse'),
 
     lesson('Read the inverse and check it', [
         P('Modulo m(x), the division identity gives (x⁶ + x⁴ + x)b(x) = 1. Since 1 + 1 = 0 in GF(2), each polynomial is its own additive inverse.'),

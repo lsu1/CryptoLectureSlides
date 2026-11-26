@@ -15,26 +15,15 @@ from algorithm import MAP_TITLE, ROUND_TITLE, STAGES, OPERATIONS, STAGE_EXAMPLES
 import build_lecture as style
 from aes_trace import SBOX, INV_SBOX, verify_examples
 from math_typesetting import compile_equations
+from slide_style import CORAL, INK, LIGHT, MUTED, NAVY, PAPER, TEAL, WHITE, box, write
+from sbox_diagrams import draw_bits, draw_matrix, draw_rotation
 
 ROOT = Path(__file__).resolve().parent
 DEST = ROOT / 'Lecture03_AES.pdf'
 W, H = style.W, style.H
-NAVY, TEAL, PAPER, CORAL = style.NAVY, style.TEAL, style.PAPER, style.CORAL
-INK, MUTED, LIGHT, WHITE = style.INK, style.MUTED, style.LIGHT, colors.white
 PALE = colors.HexColor('#CFDFDE')
 SOFT = colors.HexColor('#EFF2EF')
 COOL = colors.HexColor('#C2DBDC')
-
-
-def write(c, text, x, y, size, color=INK, face='Sans', align='left'):
-    c.setFont(face, size)
-    c.setFillColor(color)
-    {'left': c.drawString, 'center': c.drawCentredString, 'right': c.drawRightString}[align](x, y, text)
-
-
-def box(c, x, y, w, h, color, radius=6):
-    c.setFillColor(color)
-    c.roundRect(x, y, w, h, radius, stroke=0, fill=1)
 
 
 def draw_states(c, states, x, top, w):
@@ -306,6 +295,33 @@ def draw_inverse_division(c, rows, x, top, width):
     return top - 32
 
 
+def draw_sbox_construction(c, x, top, width):
+    """Mark the bytes at the start, between the two operations, and at the end."""
+    stages = [('Original input a', '05'), ('Intermediate b', '52'), ('Final output S(a)', '6B')]
+    operations = ['1. Invert in GF(2⁸)', '2. Apply the affine map']
+    card_width, height = 160, 59
+    gap = (width - 3 * card_width) / 2
+    for i, (label, byte) in enumerate(stages):
+        left = x + i * (card_width + gap)
+        box(c, left, top - height, card_width, height, TEAL if i == 2 else LIGHT)
+        color = WHITE if i == 2 else NAVY
+        write(c, label, left + card_width / 2, top - 18, 13, color, 'Bold', 'center')
+        write(c, byte, left + card_width / 2, top - 47, 25, color, 'Mono', 'center')
+        if i == 1:
+            link_to_slide(c, 'Why the quotient is the multiplicative inverse',
+                          (left, top - height, left + card_width, top))
+        if i < len(operations):
+            start, end = left + card_width + 8, left + card_width + gap - 8
+            y = top - 34
+            write(c, operations[i], (start + end) / 2, y + 8, 13, TEAL, 'Bold', 'center')
+            c.setStrokeColor(TEAL)
+            c.setLineWidth(1.5)
+            c.line(start, y, end, y)
+            c.line(end - 6, y + 4, end, y)
+            c.line(end - 6, y - 4, end, y)
+    return top - height - 16
+
+
 def draw_sbox_inverse(c, input_byte, x, top, width):
     """Connect a highlighted lookup with the inverse used to construct it."""
     row, selected_column = divmod(input_byte, 16)
@@ -464,6 +480,14 @@ def draw_blocks(c, blocks, x, top, width, number):
             top = draw_algebra_table(c, block[1], block[2], x, top, width)
         elif kind == 'sbox_inverse':
             top = draw_sbox_inverse(c, block[1], x, top, width)
+        elif kind == 'sbox_construction':
+            top = draw_sbox_construction(c, x, top, width)
+        elif kind == 'sbox_rotation':
+            top = draw_rotation(c, x, top, width)
+        elif kind == 'sbox_bits':
+            top = draw_bits(c, x, top, width)
+        elif kind == 'sbox_matrix':
+            top = draw_matrix(c, x, top, width)
         elif kind == 'inverse_division':
             top = draw_inverse_division(c, block[1], x, top, width)
         elif kind == 'inverse_proof':
@@ -498,6 +522,7 @@ def reference_links():
         'Keep a product inside one byte': 'Which binary polynomials are irreducible?',
         'What would it mean to invert 05?': 'Forward S-box',
         'SubBytes replaces one byte at a time': 'Forward S-box',
+        'Construct S-box entry 05 using rotation and XOR': 'Forward S-box',
         'Apply the lookup to all 16 bytes': 'Forward S-box',
         'Where do the MixColumns weights come from?': 'How polynomial coefficients wrap into four rows',
         'Read the MixColumns matrix one row at a time': 'Why the fixed column multiplier has an inverse',

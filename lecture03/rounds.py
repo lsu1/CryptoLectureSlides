@@ -46,50 +46,47 @@ slides = [
         notes='Start with 05 because its field inverse was derived earlier. Point to the row and column headers, then let students find 30. S-box coordinates index a byte value, regardless of its position in the state.',
         minutes=3),
 
-    round_slide('sub', 'How does AES construct the S-box?', [
-        P('First take the multiplicative inverse of the input byte in the AES field. For input 00, assign the intermediate byte 00. Call the resulting byte b.'),
-        P('Next combine b with four rotated copies and the fixed byte 63, all by XOR. This second step is called an affine transformation.'),
-        M(r'S(a)= b \oplus R(b)\oplus R^2(b)\oplus R^3(b)\oplus R^4(b)\oplus\mathtt{63}'),
-        C('R ROTATES AN EIGHT-BIT BYTE LEFT BY ONE POSITION',
-          'b7 b6 b5 b4 b3 b2 b1 b0  →  b6 b5 b4 b3 b2 b1 b0 b7', 17),
-    ], take='R² means applying the rotation twice. The leftmost bit wraps around to the rightmost position.',
-        notes='Number the bits from b0 at the right to b7 at the left. Field inversion gives the S-box its nonlinearity. Each rotation acts on a single byte. Rotations here and row shifts later act on different units.',
+    round_slide('sub', 'How does AES construct an S-box entry?', [
+        P('The fixed S-box has 256 entries, one per input byte from 00 to FF (hex). '
+          'We found the inverse of 05 earlier. How does it give the 6B we just looked up in row 0, column 5?'),
+        ('sbox_construction',),
+        P('R rotates a byte left by one bit, wrapping the leftmost bit to the right. '
+          'Rᵏ rotates it left by k bits. The symbol ⊕ means bitwise XOR.'),
+        M(r'S(a)=b\oplus R(b)\oplus R^2(b)\oplus R^3(b)\oplus R^4(b)\oplus\mathtt{63}'),
+        P('AES fixes the four rotation counts and the hexadecimal constant 63. '
+          'Zero has no multiplicative inverse, so AES uses b = 00 for input 00.'),
+    ], take='Choose one way to do step 2. Rotations and XOR, bit-by-bit XOR and a matrix over GF(2) all give the same output.',
+        notes='Start with the cell in row 0, column 5 on the previous slide. Ask what the earlier '
+              'calculation 05 × 52 = 01 tells us about 52. Select the intermediate byte to revisit '
+              'the proof if needed. Point out the two operations, inversion and the affine transformation. '
+              'The next three slides each start the affine step from the same byte 52.',
         minutes=3),
 
-
-    round_slide('sub', 'Compute one output bit of the S-box', [
-        P('Write b₀ for the least significant bit of the inverse byte. Write cᵢ for bit i of the constant 63 and sᵢ for bit i of the S-box output. Every subscript on b wraps modulo 8.'),
-        M(r's_i=b_i\oplus b_{i+4}\oplus b_{i+5}\oplus b_{i+6}\oplus b_{i+7}\oplus c_i'),
-        C('EXAMPLE FOR BIT 0 WHEN b = 52 AND c = 63',
-          'Bit index        7  6  5  4  3  2  1  0\n'
-          '52 in binary     0  1  0  1  0  0  1  0\n'
-          's₀ = b₀ ⊕ b₄ ⊕ b₅ ⊕ b₆ ⊕ b₇ ⊕ c₀ = 0 ⊕ 1 ⊕ 0 ⊕ 1 ⊕ 0 ⊕ 1 = 1', 15),
-    ], take='Each output bit uses five input bits and one constant bit. Next, arrange those selections into a matrix.',
-        notes='The four rotated words contribute bits b(i−1) through b(i−4), with indices modulo 8. Written in increasing offsets these are i+4, i+5, i+6, i+7.', minutes=3),
-
-    round_slide('sub', 'Read the affine matrix with bit 0 at the top', [
-        P('Each row selects the bits of b to XOR. Multiply over GF(2), then XOR the constant vector. The example uses the field inverse b = 52 for input 05.'),
-        M(r'\begin{pmatrix}1&0&0&0&1&1&1&1\\1&1&0&0&0&1&1&1\\'
-          r'1&1&1&0&0&0&1&1\\1&1&1&1&0&0&0&1\\1&1&1&1&1&0&0&0\\'
-          r'0&1&1&1&1&1&0&0\\0&0&1&1&1&1&1&0\\0&0&0&1&1&1&1&1\end{pmatrix}'
-          r'\begin{pmatrix}0\\1\\0\\0\\1\\0\\1\\0\end{pmatrix}'
-          r'\oplus\begin{pmatrix}1\\1\\0\\0\\0\\1\\1\\0\end{pmatrix}'
-          r'=\begin{pmatrix}1\\1\\0\\1\\0\\1\\1\\0\end{pmatrix}'),
-    ], take='Read the result from bottom to top in conventional binary order. 01101011 gives 6B.',
-        notes='The first row is the preceding slide’s calculation. For row 1 select b0, b1, b5, b6 and b7. Their sum is 0 modulo 2, then c1 = 1 gives output bit 1. Ask students to check one additional row.', minutes=3),
-
-    round_slide('sub', 'Build the entry for input 05', [
-        P('The field inverse of 05 is 52. Start with its eight bits and rotate one position at a time.'),
-        C('THE FIVE COPIES IN THE AFFINE TRANSFORMATION',
-          'Left rotations       0         1         2         3         4\n'
-          'Binary        01010010  10100100  01001001  10010010  00100101\n'
-          'Hex                 52        A4        49        92        25', 16),
-        C('XOR THE FIVE COPIES AND THE CONSTANT 63',
-          '52 ⊕ A4 = F6      F6 ⊕ 49 = BF      BF ⊕ 92 = 2D\n'
-          '2D ⊕ 25 = 08      08 ⊕ 63 = 6B', 17),
-        P('For input 00, every rotated copy is 00, so the same rule gives S(00) = 63.'),
-    ], notes='Verify the wrap when A4 becomes 49: the 1 on the far left moves to the right. Compare the two calculated values 6B and 63 with the first row of the S-box.',
+    round_slide('sub', 'Construct S-box entry 05 using rotation and XOR', [
+        ('sbox_rotation',),
+    ], notes='Start from the inverse 52. Track the leading 1 in A4 as it wraps to the right, giving 49. '
+             'Ask what happens to that bit in an eight-bit shift and in field multiplication by 02. '
+             'Read the vertical binary XOR one column at a time, then use the running hex totals '
+             'to check the same calculation. Locate 6B in row 0, column 5. For input 00, '
+             'only the constant 63 contributes.',
         minutes=4),
+
+    round_slide('sub', 'The same affine transformation, one bit at a time', [
+        ('sbox_bits',),
+    ], notes='Begin with the result 6B from the preceding slide. Keep the inverse 52 and constant 63 '
+             'in view. Work from the rightmost bit to compute s₀ and then s₁. All subscripts of b '
+             'wrap modulo 8. The wrap from b₈ to b₀ selects the same bit that crossed the byte boundary '
+             'in the rotation method. Ask students to check s₂ and then read the whole byte from bit 7 to bit 0.',
+        minutes=3),
+
+    round_slide('sub', 'The same affine transformation in matrix form', [
+        ('sbox_matrix',),
+    ], notes='Read the first row of the fixed matrix aloud, selecting a bit for each 1. This reproduces '
+             'the equation for s₀ from the preceding slide after adding c₀. Have students trace '
+             'the row for s₁. The vectors have bit 0 at the top, so start at the bottom of the output '
+             'to write 0110 1011. Invite students to choose any one method to explain how an entry is '
+             'constructed. During encryption a precomputed table can supply the substitution directly.',
+        minutes=3),
 
     round_slide('sub', 'Apply the lookup to all 16 bytes', [
         ('states', [

@@ -224,6 +224,88 @@ def draw_xtime_chain(c, start, selected_powers, x, top, w):
     return top - header_height - 8 * row_height - 13
 
 
+def draw_inverse_division(c, rows, x, top, width):
+    """Show the degree rule, its first application and the complete division."""
+    top = style.para(
+        c, 'Find the multiplicative inverse of 05 in the AES finite field. '
+        'First divide modulus 11B by the polynomial for 05.',
+        x, top, width, 15,
+    ) - 5
+    write(c, 'Dividend  m(x) = x⁸ + x⁴ + x³ + x + 1  ↔  11B',
+          x, top - 14, 14, NAVY)
+    write(c, 'Fixed divisor  b(x) = x² + 1  ↔  05',
+          x + 495, top - 14, 14, TEAL, 'Bold')
+    top -= 24
+    box(c, x, top - 29, width, 29, LIGHT, 4)
+    write(c, 'Required shift = current polynomial degree − divisor degree',
+          x + 12, top - 20, 16, CORAL, 'Bold')
+    top -= 37
+    top = style.para(
+        c, 'Match the highest powers, XOR to cancel them, then carry the remainder forward. '
+        'Multiplying by xᵏ shifts the binary bits left k places. In GF(2), addition and subtraction are XOR.',
+        x, top, width, 14,
+    ) - 5
+
+    write(c, 'First step   x⁸ ÷ x² = x⁶, so 8 − 2 = 6',
+          x, top - 14, 15, NAVY, 'Bold')
+    polynomial_x = x + 84
+    for offset, label, polynomial in [
+        (34, 'Current', 'x⁸ + x⁴ + x³ + x + 1'),
+        (52, 'Add x⁶b', 'x⁸ + x⁶'),
+    ]:
+        baseline = top - offset
+        write(c, label, x, baseline, 13, MUTED)
+        write(c, polynomial, polynomial_x, baseline, 15)
+        c.setStrokeColor(CORAL)
+        c.setLineWidth(1.2)
+        c.roundRect(polynomial_x - 2, baseline - 3,
+                    pdfmetrics.stringWidth('x⁸', 'Sans', 15) + 4, 18, 2,
+                    fill=0, stroke=1)
+    write(c, 'XOR', x, top - 70, 13, TEAL, 'Bold')
+    write(c, 'x⁸ + x⁸ = 0', x + 410, top - 52, 13, CORAL, 'Bold')
+    write(c, '05B = x⁶ + x⁴ + x³ + x + 1  (degree 6)',
+          polynomial_x, top - 70, 14, TEAL)
+    binary_x = x + 568
+    write(c, 'The same XOR in binary', binary_x, top - 14, 13, TEAL, 'Bold')
+    for line, text in enumerate([
+        '11B   100011011', '140   101000000',
+        '      ---------', 'XOR   001011011 = 05B',
+    ]):
+        write(c, text, binary_x, top - 31 - 14 * line, 13, INK, 'Mono')
+    write(c, '140 is 05 shifted left six places as an unreduced binary-polynomial product.',
+          x, top - 91, 13, MUTED)
+    top -= 102
+
+    widths = [110, 115, 135, 250, width - 610]
+    colors_by_column = [NAVY, NAVY, CORAL, TEAL, NAVY]
+    headers = ['Current value', 'Current degree', 'Required shift', 'Shifted divisor', 'XOR result → next current value']
+    header_height, row_height = 24, 25
+    c.setFillColor(NAVY)
+    c.rect(x, top - header_height, width, header_height, fill=1, stroke=0)
+    left = x
+    for column_width, heading in zip(widths, headers, strict=True):
+        assert pdfmetrics.stringWidth(heading, 'Bold', 11) <= column_width - 10
+        write(c, heading, left + 5, top - 16, 11, WHITE, 'Bold')
+        left += column_width
+    for row_number, (current, degree, shift, multiple, remainder) in enumerate(rows):
+        bottom = top - header_height - (row_number + 1) * row_height
+        c.setFillColor(LIGHT if row_number % 2 == 0 else SOFT)
+        c.rect(x, bottom, width, row_height, fill=1, stroke=0)
+        values = [current, str(degree), f'{degree} − 2 = {shift}', multiple, remainder]
+        left = x
+        for column, (column_width, value) in enumerate(zip(widths, values, strict=True)):
+            indent = 20 if column == 0 else 5
+            if column == 0 and row_number:
+                write(c, '↓', left + 4, bottom + 7, 14, CORAL, 'Bold')
+            assert pdfmetrics.stringWidth(value, 'Sans', 13) <= column_width - indent - 4
+            write(c, value, left + indent, bottom + 7, 13, colors_by_column[column])
+            left += column_width
+    top -= header_height + len(rows) * row_height
+    write(c, 'Collect x⁶, x⁴, x → Q(x) = x⁶ + x⁴ + x.  R(x) = 1. Stop when deg R < deg b, here 0 < 2.',
+          x, top - 20, 14, NAVY, 'Bold')
+    return top - 32
+
+
 def draw_sbox_inverse(c, input_byte, x, top, width):
     """Connect a highlighted lookup with the inverse used to construct it."""
     row, selected_column = divmod(input_byte, 16)
@@ -271,6 +353,65 @@ def draw_sbox_inverse(c, input_byte, x, top, width):
             write(c, '→', left + card_width + gap / 2, top - 125, 18,
                   TEAL, 'Sans', 'center')
     return top - 157
+
+
+def draw_inverse_proof(c, x, top, width):
+    """Connect the division remainder, field inverse and byte encoding."""
+    write(c, 'Find d(x) so that b(x)d(x) ≡ 1 (mod m(x)).', x, top - 16, 16)
+
+    box(c, x, top - 78, width, 50, LIGHT)
+    write(c, 'Ordinary integer division', x + 12, top - 44, 12, TEAL, 'Bold')
+    write(c, '11 = 2 × 5 + 1', x + 12, top - 67, 17, NAVY, 'Bold')
+    write(c, 'Dividend = Quotient × Divisor + Remainder',
+          x + 250, top - 47, 15, NAVY, 'Bold')
+    write(c, '11 is the dividend, 5 the divisor, 2 the quotient and 1 the remainder.',
+          x + 250, top - 68, 13)
+
+    write(c, 'Use the polynomial division identity', x, top - 99, 14, TEAL, 'Bold')
+    proof_lines = [
+        'm(x) = (x⁶ + x⁴ + x)b(x) + 1',
+        '⇒ Q(x)b(x) = m(x) + 1',
+        '⇒ Q(x)b(x) ≡ 1 (mod m(x))',
+        'Therefore d(x) = Q(x) = x⁶ + x⁴ + x.',
+    ]
+    for index, text in enumerate(proof_lines):
+        write(c, text, x, top - 123 - 23 * index, 16,
+              TEAL if index == 3 else INK, 'Bold' if index == 3 else 'Sans')
+    write(c, 'In GF(2), addition and subtraction both use XOR.',
+          x, top - 212, 13)
+
+    right = x + 480
+    card_width = width - 480
+    box(c, right, top - 213, card_width, 122, LIGHT)
+    write(c, 'Encode d(x) = x⁶ + x⁴ + x', right + 12, top - 111,
+          14, TEAL, 'Bold')
+    write(c, 'Power', right + 12, top - 140, 13, NAVY, 'Bold')
+    write(c, 'Bit', right + 12, top - 167, 13, NAVY, 'Bold')
+    cell_width = (card_width - 78) / 8
+    for column, power in enumerate(range(7, -1, -1)):
+        center = right + 72 + (column + .5) * cell_width
+        coefficient = 1 if power in (6, 4, 1) else 0
+        write(c, str(power), center, top - 140, 14, INK, 'Mono', 'center')
+        box(c, center - cell_width / 2 + 1, top - 174,
+            cell_width - 2, 23, TEAL if coefficient else WHITE, 2)
+        write(c, str(coefficient), center, top - 167, 14,
+              WHITE if coefficient else INK, 'Mono', 'center')
+    write(c, '0101 0010 = 52 (hex)', right + card_width / 2, top - 199,
+          17, TEAL, 'Bold', 'center')
+
+    box(c, x, top - 283, width, 59, LIGHT)
+    write(c, 'Verify in the AES byte field using 05 = x² + 1',
+          x + 12, top - 241, 13, TEAL, 'Bold')
+    write(c, '52 · 05 = (x² + 1) · 52', x + 12, top - 268, 16)
+    write(c, '52 → A4 → 53     53 XOR 52 = 01',
+          x + 365, top - 268, 16, INK, 'Mono')
+    write(c, 'Multiplicative inverse of 05 = 52', x, top - 306, 19, TEAL, 'Bold')
+    bottom = style.para(
+        c, 'This quotient gives the inverse directly because the first division leaves '
+        'remainder 1. Other bytes can require more extended Euclidean steps.',
+        x, top - 319, width, 14,
+    )
+    return bottom - 13
 
 
 def draw_algebra_table(c, headers, rows, x, top, width):
@@ -323,6 +464,10 @@ def draw_blocks(c, blocks, x, top, width, number):
             top = draw_algebra_table(c, block[1], block[2], x, top, width)
         elif kind == 'sbox_inverse':
             top = draw_sbox_inverse(c, block[1], x, top, width)
+        elif kind == 'inverse_division':
+            top = draw_inverse_division(c, block[1], x, top, width)
+        elif kind == 'inverse_proof':
+            top = draw_inverse_proof(c, x, top, width)
         else:
             top = style.drawblocks(c, [block], x, top, width, number)
     return top

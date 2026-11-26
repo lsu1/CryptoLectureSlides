@@ -269,28 +269,17 @@ slides = [
         P('This is polynomial inversion, following the integer example. Since m(x) is irreducible, its gcd with any nonzero byte polynomial is 1.'),
     ], 3, 'Recall the S-box from the algorithm overview. Input 05 selects row 0 and column 5 in the fixed table, so SubBytes outputs 6B. Point to both highlighted labels and the table cell. Explain how AES constructs this entry in two steps: find the multiplicative inverse in the AES byte field, then apply a fixed affine bit transformation. Our immediate goal is the first step, finding d with 05 times d equal to 01 modulo m. The next two slides derive d = 52. The later S-box section shows that the affine transformation takes 52 to 6B. Point to d(x) in the Bézout identity. It plays the same role as the coefficient −2 of 12 in the integer example. The zero input uses a separate convention, shown when we construct the full S-box.', focus='math_inverse'),
 
-    lesson('Divide the AES modulus by x² + 1', [
-        P('The divisor is 05 ↔ b(x) = x² + 1. The dividend is 11B ↔ m(x) = x⁸ + x⁴ + x³ + x + 1. In each row, XOR a shifted divisor into the current polynomial.'),
-        T(['Current polynomial', 'XOR with this shifted divisor', 'Remainder'], [
-            ['11B ↔ x⁸ + x⁴ + x³ + x + 1',
-             '140 ↔ x⁶b(x) = x⁸ + x⁶',
-             '05B ↔ x⁶ + x⁴ + x³ + x + 1'],
-            ['05B ↔ x⁶ + x⁴ + x³ + x + 1',
-             '050 ↔ x⁴b(x) = x⁶ + x⁴',
-             '00B ↔ x³ + x + 1'],
-            ['00B ↔ x³ + x + 1',
-             '00A ↔ xb(x) = x³ + x',
-             '001 ↔ 1'],
-        ], [1.85, 1.8, 1.8]),
-        M(r'm(x)=(x^6+x^4+x)b(x)+1'),
-    ], 4, 'Read each row as a polynomial addition over GF(2). To cancel degree 8 using the degree-2 divisor, multiply b(x) by x⁶. Thus 11B XOR 140 gives 05B. Next use x⁴b(x), so 05B XOR 050 gives 00B. Finally xb(x) gives 00B XOR 00A = 001. The quotient terms are x⁶, x⁴ and x. Each displayed hexadecimal encoding has its full polynomial beside it. The remainder 1 has degree below the divisor and is the last nonzero remainder.', focus='math_inverse'),
+    lesson('Finding the inverse of 05: polynomial long division', [
+        ('inverse_division', [
+            ['11B', 8, 6, 'x⁶b(x) = 140 = x⁸ + x⁶', '11B XOR 140 = 05B'],
+            ['05B', 6, 4, 'x⁴b(x) = 050 = x⁶ + x⁴', '05B XOR 050 = 00B = x³ + x + 1'],
+            ['00B', 3, 1, 'xb(x) = 00A = x³ + x', '00B XOR 00A = 001 = 1'],
+        ]),
+    ], 4, 'We seek the multiplicative inverse of 05 in the AES byte field. First divide the modulus m by the fixed polynomial b = x² + 1. The degree-difference rule aligns the leading powers. In the first step, 8 − 2 = 6, so multiply b by x⁶. The matching x⁸ terms cancel in the polynomial sum. Read the same operation in nine-bit binary: 100011011 XOR 101000000 = 001011011. Thus 11B XOR 140 = 05B, whose degree is 6. The value 140 is the unreduced binary-polynomial product of 05 with x⁶, before field reduction. Carry 05B down to the next row. Repeat with differences 6 − 2 = 4 and 3 − 2 = 1. The divisor stays x² + 1 throughout. Collect one quotient term from each shift to obtain Q = x⁶ + x⁴ + x. The remainder 1 has degree 0, below the divisor degree 2, so division stops. The following slide connects this result to ordinary division and derives the inverse.', focus='math_inverse'),
 
-    lesson('Read the inverse and check it', [
-        P('Modulo m(x), the division identity gives (x⁶ + x⁴ + x)b(x) = 1. Since 1 + 1 = 0 in GF(2), each polynomial is its own additive inverse.'),
-        C('ENCODE THE QUOTIENT', 'x⁶ + x⁴ + x   →   0101 0010   →   52'),
-        C('CHECK 05 TIMES 52 USING 05 = x² + 1', 'xtime(52) = A4       xtime(A4) = 48 XOR 1B = 53\n05 · 52   = 53 XOR 52 = 01', 18),
-        P('Thus 52 is the inverse of 05. The S-box will apply one further transformation to 52.'),
-    ], 3, 'Show the difference between an inverse and an S-box output. The reference example is completed when 52 is put through the affine transformation.', focus='math_inverse'),
+    lesson('Why the quotient is the multiplicative inverse', [
+        ('inverse_proof',),
+    ], 3, 'Begin with ordinary integer division, 11 = 2 × 5 + 1. Identify the dividend, divisor, quotient and remainder before matching those roles to m, b, Q and 1. The previous slide obtained Q(x) = x⁶ + x⁴ + x with remainder 1. Since addition and subtraction of binary-polynomial coefficients both use XOR, rearrange m = Qb + 1 as Qb = m + 1. Reducing modulo m gives Qb congruent to 1, so d = Q is the required multiplicative inverse. Read the coefficients from power 7 down to power 0: 0, 1, 0, 1, 0, 0, 1, 0. This byte is 52 in hexadecimal. Verify the field product by multiplying 52 by x twice, obtaining A4 and 53, then XOR with the original 52 to get 01. The raw second shift is 148, and 148 XOR 11B = 053. The quotient supplies the inverse directly here because this first polynomial division has remainder 1. Other inputs can require further extended Euclidean steps. The later S-box construction applies the affine map to 52 to produce 6B.', focus='math_inverse'),
 
     lesson('Where do these operations appear in AES?', [
         T(['Arithmetic we can now do', 'Where it enters a round'], [

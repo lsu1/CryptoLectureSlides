@@ -224,6 +224,55 @@ def draw_xtime_chain(c, start, selected_powers, x, top, w):
     return top - header_height - 8 * row_height - 13
 
 
+def draw_sbox_inverse(c, input_byte, x, top, width):
+    """Connect a highlighted lookup with the inverse used to construct it."""
+    row, selected_column = divmod(input_byte, 16)
+    assert selected_column < 8
+    table_width, gutter = 430, 46
+    cell_width, row_height = (table_width - gutter) / 8, 24
+    output = SBOX[input_byte]
+    write(c, 'A fragment of the fixed AES S-box', x, top - 14, 13, TEAL, 'Bold')
+    for line in range(2):
+        bottom = top - 24 - (line + 1) * row_height
+        box(c, x, bottom, gutter - 2, row_height - 1, NAVY, 1)
+        write(c, 'Col' if line == 0 else f'{row:X}',
+              x + gutter / 2, bottom + 7, 12, WHITE, 'Bold', 'center')
+        for column in range(8):
+            left = x + gutter + column * cell_width
+            selected = column == selected_column
+            box(c, left, bottom, cell_width - 2, row_height - 1,
+                TEAL if selected else LIGHT, 1)
+            label = f'{column:X}' if line == 0 else f'{SBOX[16 * row + column]:02X}'
+            write(c, label, left + (cell_width - 2) / 2, bottom + 6,
+                  14, WHITE if selected else INK, 'Mono', 'center')
+    style.para(c,
+               f'Input <b>{input_byte:02X}</b> selects row <b>{row:X}</b>, column '
+               f'<b>{selected_column:X}</b>.<br/>'
+               f'The highlighted entry gives <b>S({input_byte:02X}) = {output:02X}</b>.',
+               x + 452, top - 25, width - 452, 15)
+
+    labels = [
+        ('Input byte', f'{input_byte:02X}'),
+        ('1. Field inverse', f'Find d with {input_byte:02X} · d = 01'),
+        ('2. Affine map', 'Fixed bit mixing + XOR 63'),
+        ('SubBytes output', f'{output:02X}'),
+    ]
+    gap, height = 24, 48
+    card_width = (width - 3 * gap) / 4
+    for index, (heading, detail) in enumerate(labels):
+        left = x + index * (card_width + gap)
+        selected = index in (0, 3)
+        box(c, left, top - 144, card_width, height, TEAL if selected else LIGHT, 4)
+        write(c, heading, left + card_width / 2, top - 114, 13,
+              WHITE if selected else NAVY, 'Bold', 'center')
+        write(c, detail, left + card_width / 2, top - 134, 12,
+              WHITE if selected else INK, 'Mono' if selected else 'Sans', 'center')
+        if index < 3:
+            write(c, '→', left + card_width + gap / 2, top - 125, 18,
+                  TEAL, 'Sans', 'center')
+    return top - 157
+
+
 def draw_algebra_table(c, headers, rows, x, top, width):
     """Keep formal axioms, existing rules and examples together on one slide."""
     data = []
@@ -272,6 +321,8 @@ def draw_blocks(c, blocks, x, top, width, number):
             top = draw_xtime_chain(c, block[1], block[2], x, top, width)
         elif kind == 'algebra_table':
             top = draw_algebra_table(c, block[1], block[2], x, top, width)
+        elif kind == 'sbox_inverse':
+            top = draw_sbox_inverse(c, block[1], x, top, width)
         else:
             top = style.drawblocks(c, [block], x, top, width, number)
     return top
@@ -300,6 +351,7 @@ def reference_links():
     references = {
         'Find an inverse by tracing remainders': 'A second integer inverse by back-substitution',
         'Keep a product inside one byte': 'Which binary polynomials are irreducible?',
+        'What would it mean to invert 05?': 'Forward S-box',
         'SubBytes replaces one byte at a time': 'Forward S-box',
         'Apply the lookup to all 16 bytes': 'Forward S-box',
         'Where do the MixColumns weights come from?': 'How polynomial coefficients wrap into four rows',

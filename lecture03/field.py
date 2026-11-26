@@ -261,10 +261,13 @@ slides = [
     ], 3, 'Point back to the unreduced product on slide 36. The table shows each hexadecimal encoding with all its polynomial terms. XOR cancels each term that occurs in both polynomials. The first step cancels x¹³ and leaves degree 11. The second cancels x¹¹ and leaves degree 7, so division stops. The two steps give P(x) = (x⁵ + x³)m(x) + (x⁷ + x⁶ + 1).', focus='math_product'),
 
     lesson('What would it mean to invert 05?', [
-        P('To construct the S-box entry for 05, the first step is to find a byte that gives 01 when multiplied by 05. Write b(x) = x² + 1 for the byte 05.'),
-        M(r'b(x)d(x)+m(x)c(x)=1\quad\Longrightarrow\quad b(x)d(x)\equiv 1\pmod{m(x)}'),
-        P('This is the polynomial version of the integer inverse calculation. Irreducibility of m guarantees that its greatest common divisor with a nonzero byte polynomial is 1.'),
-    ], 3, 'Point to d(x), the coefficient of the byte polynomial. It plays the same role as the coefficient −2 of 12 in the integer example. A zero input requires the special S-box convention.', focus='math_inverse'),
+        P('Recall SubBytes replaces each byte using a fixed S-box. We will construct its entry for 05.'),
+        ('sbox_inverse', 0x05),
+        M(r'\begin{aligned}\mathtt{05}&\leftrightarrow b(x)=x^2+1,\\'
+          r'b(x)d(x)+m(x)c(x)&=1\quad\Longrightarrow\quad b(x)d(x)\equiv 1\pmod{m(x)}.'
+          r'\end{aligned}'),
+        P('This is polynomial inversion, following the integer example. Since m(x) is irreducible, its gcd with any nonzero byte polynomial is 1.'),
+    ], 3, 'Recall the S-box from the algorithm overview. Input 05 selects row 0 and column 5 in the fixed table, so SubBytes outputs 6B. Point to both highlighted labels and the table cell. Explain how AES constructs this entry in two steps: find the multiplicative inverse in the AES byte field, then apply a fixed affine bit transformation. Our immediate goal is the first step, finding d with 05 times d equal to 01 modulo m. The next two slides derive d = 52. The later S-box section shows that the affine transformation takes 52 to 6B. Point to d(x) in the Bézout identity. It plays the same role as the coefficient −2 of 12 in the integer example. The zero input uses a separate convention, shown when we construct the full S-box.', focus='math_inverse'),
 
     lesson('Divide the AES modulus by x² + 1', [
         P('The divisor is 05 ↔ b(x) = x² + 1. The dividend is 11B ↔ m(x) = x⁸ + x⁴ + x³ + x + 1. In each row, XOR a shifted divisor into the current polynomial.'),

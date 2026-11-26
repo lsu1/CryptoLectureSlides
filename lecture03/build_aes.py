@@ -5,9 +5,10 @@ from xml.sax.saxutils import escape
 
 import fitz
 from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Paragraph, Table, TableStyle
 
 from content import slides, MAIN_COUNT
 from algorithm import MAP_TITLE, ROUND_TITLE, STAGES, OPERATIONS, STAGE_EXAMPLES, OPERATION_EXAMPLES, location
@@ -223,6 +224,35 @@ def draw_xtime_chain(c, start, selected_powers, x, top, w):
     return top - header_height - 8 * row_height - 13
 
 
+def draw_algebra_table(c, headers, rows, x, top, width):
+    """Keep formal axioms, existing rules and examples together on one slide."""
+    data = []
+    for row_number, row in enumerate([headers, *rows]):
+        paragraph_style = ParagraphStyle(
+            'algebra-cell', fontName='Bold' if row_number == 0 else 'Sans',
+            fontSize=12.5, leading=15.5, textColor=WHITE if row_number == 0 else INK,
+        )
+        data.append([
+            Paragraph(escape(cell).replace('\n', '<br/>'), paragraph_style)
+            for cell in row
+        ])
+    table = Table(data, colWidths=[85, 355, 260, width - 700])
+    table.setStyle(TableStyle([
+        ('FONTNAME', (0, 0), (-1, -1), 'Sans'),
+        ('BACKGROUND', (0, 0), (-1, 0), NAVY),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [LIGHT, SOFT]),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 7),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 7),
+        ('TOPPADDING', (0, 0), (-1, -1), 6),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('LINEBELOW', (0, 0), (-1, 0), 1, TEAL),
+    ]))
+    _, height = table.wrap(width, H)
+    table.drawOn(c, x, top - height)
+    return top - height - 13
+
+
 def draw_blocks(c, blocks, x, top, width, number):
     for block in blocks:
         kind = block[0]
@@ -240,6 +270,8 @@ def draw_blocks(c, blocks, x, top, width, number):
             top = draw_boxmap(c, block[1], x, top, width)
         elif kind == 'xtime_chain':
             top = draw_xtime_chain(c, block[1], block[2], x, top, width)
+        elif kind == 'algebra_table':
+            top = draw_algebra_table(c, block[1], block[2], x, top, width)
         else:
             top = style.drawblocks(c, [block], x, top, width, number)
     return top

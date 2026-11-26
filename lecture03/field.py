@@ -12,12 +12,32 @@ def lesson(title, blocks, minutes, notes, take='', *, focus='math_byte'):
 slides = [
     lesson('What does a field let us do?', [
         P('In SubBytes we will need the multiplicative inverse of a byte. Which algebraic rules guarantee that we can find one?'),
-        T(['Structure', 'Rules we will use', 'Familiar example'], [
-            ['Group', 'A closed, associative operation has an identity and an inverse for each element.', 'Integers under addition. The inverse of 3 is −3.'],
-            ['Ring with identity', 'Addition is a commutative group. Multiplication is closed and associative, has an identity, and distributes over addition.', 'Integers with addition and multiplication.'],
-            ['Field', 'A commutative ring with 0 ≠ 1. Every nonzero element has a multiplicative inverse.', 'Rational numbers. The inverse of 3 is 1/3.'],
-        ], [1.05, 3.8, 2.1]),
-    ], 3, 'Start with the distinction between an additive inverse and a multiplicative inverse. In a ring the latter may exist for some elements. In a field it exists for every nonzero element.'),
+        ('algebra_table', ['Structure', 'Formal definition', 'Rules we will use', 'Familiar example'], [
+            ['Group',
+             '(G, ∗) with an operation ∗: G × G → G.\n'
+             '∀a, b, c ∈ G, (a ∗ b) ∗ c = a ∗ (b ∗ c).\n'
+             '∃e ∈ G, ∀a ∈ G, e ∗ a = a ∗ e = a.\n'
+             '∀a ∈ G, ∃a⁻¹ ∈ G, a ∗ a⁻¹ = a⁻¹ ∗ a = e.',
+             'A closed, associative operation has an identity and an inverse for each element.',
+             'Integers under addition. The inverse of 3 is −3.'],
+            ['Ring with identity',
+             '(R, +) is a group, and ∀a, b ∈ R, a + b = b + a.\n'
+             '·: R × R → R, with (ab)c = a(bc) ∀a, b, c ∈ R.\n'
+             '∃1 ∈ R, ∀a ∈ R, 1a = a1 = a.\n'
+             '∀a, b, c ∈ R, a(b + c) = ab + ac\n'
+             'and (a + b)c = ac + bc.',
+             'Addition is a commutative group. Multiplication is closed and associative, has an identity, and distributes over addition.',
+             'Integers with addition and multiplication.'],
+            ['Field',
+             '(F, +, ·) is a ring with identity.\n'
+             '0 ≠ 1 and ab = ba for all a, b ∈ F.\n'
+             '∀a ∈ F with a ≠ 0, ∃a⁻¹ ∈ F\n'
+             'such that aa⁻¹ = a⁻¹a = 1.',
+             'A commutative ring with 0 ≠ 1. Every nonzero element has a multiplicative inverse.',
+             'Rational numbers. The inverse of 3 is 1/3.'],
+        ]),
+        P('The symbol ∀ means “for all”. The symbol ∃ means “there exists”.'),
+    ], 3, 'Introduce each formal definition before reading its rules and example across the row. A binary operation maps a pair of elements back into the same set, which states closure. Read the universal and existential quantifiers aloud. A group has one operation, with a two-sided identity and two-sided inverses. For the ring, addition forms an abelian group and multiplication has its own identity. Both distributive laws hold. For a field, multiplication also commutes, 0 and 1 are distinct, and every nonzero element has a multiplicative inverse. Relate the additive inverse −3 in the integers to the multiplicative inverse 1/3 in the rationals.'),
 
     lesson('Why do repeated divisions find the gcd?', [
         P('For positive integers a and b, divide a by b. The quotient q counts whole copies of b and the remainder r is smaller than b.'),

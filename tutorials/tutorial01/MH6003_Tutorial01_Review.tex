@@ -7,7 +7,15 @@
 \usepackage{tcolorbox}
 \input{glyphtounicode}
 \pdfgentounicode=1
-\hypersetup{hidelinks,pdftitle={MH6003 Cryptography - Tutorial 1 (Lectures 1 and 2)},pdfauthor={MH6003 Cryptography},pdfsubject={Tutorial questions and worked solutions}}
+% Compile this file or MH6003_Tutorial01_Questions.tex from this directory.
+\newif\ifshowsolutions
+\ifdefined\QuestionsOnly
+  \newcommand{\editionlabel}{Practice questions}
+\else
+  \showsolutionstrue
+  \newcommand{\editionlabel}{Questions and worked solutions}
+\fi
+\hypersetup{hidelinks,pdftitle={MH6003 Cryptography - Tutorial 1 (Lectures 1 and 2)},pdfauthor={MH6003 Cryptography},pdfsubject={\editionlabel}}
 \definecolor{ink}{HTML}{132B3C}
 \definecolor{teal}{HTML}{076E73}
 \definecolor{pale}{HTML}{EDF4F3}
@@ -24,35 +32,30 @@
 \fancyhf{}
 \fancyhead[L]{\small\bfseries MH6003\enspace\textcolor{teal}{/}\enspace Cryptography}
 \fancyhead[R]{\small Tutorial 1\enspace\textcolor{teal}{/}\enspace Lectures 1 and 2}
-\newcommand{\slideref}{}
-\fancyfoot[L]{\footnotesize\color{muted}\slideref}
-\fancyfoot[R]{\footnotesize\color{muted}Questions and worked solutions\quad\textbar\quad\thepage}
+\fancyfoot[R]{\footnotesize\color{muted}\editionlabel\quad\textbar\quad\thepage}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\headrule}{\hbox to\headwidth{\color{linecol}\leaders\hrule height \headrulewidth\hfill}}
-\newcommand{\topic}[4]{%
-  \renewcommand{\slideref}{#4}%
+\newcommand{\topic}[3]{%
   \pdfbookmark[1]{#1. #2}{q#1}%
   {\small\bfseries\color{teal}QUESTION #1 OF 7}\par
   {\raggedright\fontsize{24}{28}\selectfont\bfseries #2\par}
   {\color{muted}#3\par}\vspace{5pt}}
 \newcommand{\task}[2]{\par\noindent\hangindent=1.8em\hangafter=1\makebox[1.8em][l]{\bfseries\color{teal}(#1)}#2\par}
-\newcommand{\workarea}{\par\vspace{6pt}{\footnotesize\color{muted}Your working}\par
-  {\color{linecol}\vspace{7pt}\hrule height 0.25pt\vspace{15pt}\hrule height 0.25pt}\par}
-\newcommand{\solution}{\par\vspace{9pt}{\color{linecol}\hrule}\vspace{8pt}{\color{teal}\large\bfseries Worked solution}\par\vspace{2pt}}
+\newcommand{\solution}{\par\vspace{1.5cm}{\color{teal}\large\bfseries Worked solution}\par\vspace{2pt}}
 \newcommand{\step}[2]{\par\textbf{(#1) #2}\par}
 \newcommand{\bits}[1]{\texttt{#1}}
 \newtcolorbox{data}{colback=pale,colframe=linecol,boxrule=0.45pt,arc=1mm,left=9pt,right=9pt,top=5pt,bottom=5pt,before skip=5pt,after skip=5pt}
 \newcommand{\answer}[1]{\par\vspace{3pt}{\color{teal}\bfseries #1}\par}
 \begin{document}
 
-\topic{1}{Recover a shift key}{A colleague used the same Caesar shift to encrypt every letter of a short message. You know the first plaintext letter was W.}{Lecture 1, slides 12--17}
+\topic{1}{Recover a shift key}{A colleague used the same Caesar shift to encrypt every letter of a short message. You know the first plaintext letter was W.}
 \begin{data}
 Ciphertext\quad\bits{FXATBQXY}\par
 Number letters $\mathrm{A}=0,\ldots,\mathrm{Z}=25$. Encryption uses $c=(p+k)\bmod 26$.
 \end{data}
 \task{a}{Use the known first letter to find the key $k$ between 0 and 25.}
 \task{b}{Decrypt the eight letters. Show a subtraction that wraps around the alphabet, then re-encrypt the last letter to check your answer.}
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Find the shift from one matching pair.}
 The plaintext W has value 22. Its ciphertext F has value 5. Subtract the plaintext value from the ciphertext value and reduce modulo 26.
@@ -73,8 +76,9 @@ Plaintext & W & O & R & K & S & H & O & P\\\bottomrule
 \answer{The plaintext is WORKSHOP.}
 The last letter P has value 15. Encrypting it gives $15+9=24$, or Y, as required.
 
+\fi
 \newpage
-\topic{2}{Two messages, one pad}{Two eight-bit messages were encrypted using the same eight-bit pad $K$. You know the first plaintext and have both ciphertexts.}{Lecture 2, slides 5--10}
+\topic{2}{Two messages, one pad}{Two eight-bit messages were encrypted using the same eight-bit pad $K$. You know the first plaintext and have both ciphertexts.}
 \begin{data}
 \begin{tabular}{@{}ll@{}}First plaintext $P_1$ & \bits{0110 1001}\\
 First ciphertext $C_1$ & \bits{1010 0110}\\
@@ -83,7 +87,7 @@ Second ciphertext $C_2$ & \bits{1110 0010}\end{tabular}
 For each message, $C_i=P_i\oplus K$. The symbol $\oplus$ means bitwise XOR. Spaces group the bits in fours.
 \task{a}{Recover the pad $K$, then use it to decrypt $C_2$.}
 \task{b}{Calculate $C_1\oplus C_2$ and $P_1\oplus P_2$ separately. Why do these two results agree in this example?}
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Undo the first XOR, then use the recovered pad.}
 XORing with the same bit twice cancels it. Line up the two operands and compare one column at a time. Equal bits give 0 and different bits give 1.
@@ -105,10 +109,10 @@ In the ciphertext XOR the pad appears twice. Regrouping gives
 $(P_1\oplus P_2)\oplus(K\oplus K)=P_1\oplus P_2$.
 \answer{The reused pad reveals the XOR of the messages. Knowing the first message lets you recover the second.}
 
+\fi
 \newpage
 \topic{3}{Read and reverse a DES bit permutation}
 {A DES test block has the eight plaintext bytes shown below. The fixed initial permutation (IP) copies each plaintext bit into exactly one output position.}
-{Lecture 2, slides 62--64}
 
 \begin{data}
 Plaintext (hex)\quad \bits{D3 2A 79 86 C1 5C B4 E7}\par
@@ -126,7 +130,7 @@ Number input and output bits from the left, starting at 1. In each row below, re
 
 \task{a}{Calculate the first two bytes of the IP output in binary and hex. For output bit 1, identify the input byte and the bit within that byte.}
 \task{b}{A test requires the first output byte to become \bits{F5}, with the other seven output bytes unchanged. Find the single plaintext bit to flip and the new value of its byte. Which 32-bit half of the IP output changes?}
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Find the source byte before copying the bit.}
 The last byte, \bits{E7}, holds positions 57--64. It is \bits{1110 0111} in binary, so position 58 is its second bit from the left, a 1. Position 50 is the second bit of \bits{B4}, a 0. Continuing across the first IP row takes the second bit of each byte in reverse byte order. The next IP row takes the fourth bit of those same bytes.
@@ -143,10 +147,10 @@ Fourth bit from left & 0 & 1 & 1 & 0 & 0 & 1 & 0 & 1\\
 
 \step{b}{Trace the differing output bit back through the table.}
 Comparing \bits{B5} (\bits{1011 0101}) with \bits{F5} (\bits{1111 0101}) shows that only output bit 2 changes. The IP table maps this position back to input bit 50. Flip the second bit of \bits{B4}. Its binary value \bits{1011 0100} becomes \bits{1111 0100}, or \bits{F4}. Output bit 2 belongs to the left half $L_0$ (positions 1--32). IP uses input bit 50 only once, so the other 63 output bits keep their values.
+\fi
 \newpage
 \topic{4}{A ciphertext bit and a biased pad}
 {Let the plaintext bit be $P$, the key bit be $K$, and $C=P\oplus K$. The key is independent of the plaintext. The prior is $\Pr[P=1]=3/4$. You observe $C=1$.}
-{Lecture 2, slides 13--24}
 
 \begin{data}
 Case A, $\Pr[K=0]=\Pr[K=1]=1/2$.\qquad
@@ -156,7 +160,7 @@ Case B, $\Pr[K=0]=3/4$, $\Pr[K=1]=1/4$.
 \task{a}{For the fair key in Case A, list the joint probabilities of the four $(P,K)$ pairs and compute $\Pr[P=1\mid C=1]$.}
 \task{b}{Repeat for Case B. Compare each posterior with the prior $3/4$. Does independence of $P$ and $K$ alone ensure that the ciphertext leaves this prior unchanged?}
 
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Form the joint probabilities for the fair key.}
 Independence gives $\Pr[P=p,K=k]=\Pr[P=p]\Pr[K=k]$.
@@ -195,10 +199,10 @@ $9/10$. Independence alone is therefore insufficient.
 
 \answer{The change from 75\% to 90\% gives a counterexample to perfect secrecy for the biased key.}
 
+\fi
 \newpage
 \topic{5}{Two Feistel rounds, in both directions}
 {Use four-bit halves and the toy function $F(R,K)=R\mathbin{\mathrm{AND}}K$, with AND applied bit by bit. Each round sets $L_{\mathrm{new}}=R$ and $R_{\mathrm{new}}=L\oplus F(R,K)$. After two rounds, swap the final halves before writing the output.}
-{Lecture 2, slides 53--57}
 
 \begin{data}
 $L_0=$\bits{1011},\quad $R_0=$\bits{0110},\qquad
@@ -208,7 +212,7 @@ $K_1=$\bits{1101},\quad $K_2=$\bits{1011}.
 \task{a}{Encrypt. For each round, list the input halves, key, AND result, and output halves. Apply the final swap to obtain the eight-bit ciphertext.}
 \task{b}{Decrypt that ciphertext using the same two-round construction with the keys in reverse order. Show both rounds and the final swap.}
 
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Encrypt with $K_1$, then $K_2$}
 Read each row from left to right. The AND result is $F(R,K)$. The new right
@@ -254,10 +258,10 @@ Swap the final halves once more to recover
 \bits{1011}\,$\|$\,\bits{0110} $=$ \bits{10110110}.
 
 \answer{The ciphertext is \bits{11011111}. Decryption returns \bits{10110110}.}
+\fi
 \newpage
 \topic{6}{Build two pieces of the first DES round key}
 {Permuted Choice 1 (PC1) has already selected the 56 effective key bits and split them into two 28-bit halves. You will derive the first and last six bits of the 48-bit round key $K_1$.}
-{Lecture 2, slides 74--77 and appendix A5}
 
 \begin{data}
 $C_0=\mathtt{9A71C3D}$ and $D_0=\mathtt{584E2B6}$, both in hexadecimal. One hex digit represents four bits.\par
@@ -273,7 +277,7 @@ Bits of $K_1$ & \multicolumn{6}{c}{Input positions in $C_1\,\|\,D_1$, in order}\
 
 \task{a}{Write $C_1$ and $D_1$ as seven hex digits each. Identify which bit wraps around in each half.}
 \task{b}{Use the two rows of PC2 to find bits 1--6 and 43--48 of $K_1$. Show which position within $D_1$ supplies bit 43.}
-\workarea
+\ifshowsolutions
 \solution
 \step{a}{Rotate the halves separately.}
 The leading bit of $C_0$ is 1 and becomes the final bit of $C_1$. The leading bit of $D_0$ is 0 and becomes the final bit of $D_1$.
@@ -297,8 +301,9 @@ Copied bit & 1 & 1 & 1 & 0 & 1 & 1\\\bottomrule
 \end{tabular}
 \end{center}
 \answer{The first six bits of $K_1$ are \bits{011100}. The last six are \bits{111011}.}
+\fi
 \newpage
-\topic{7}{Trace one bit through a DES round}{Work through two S-boxes, then use their outputs to count exactly how many bits change in the whole round.}{Lecture 2, slides 64--72 and appendix A7}
+\topic{7}{Trace one bit through a DES round}{Work through two S-boxes, then use their outputs to count exactly how many bits change in the whole round.}
 
 The round sends \((L,R)\) to \((R,L\oplus F(R,K))\). The right half is \(R=\mathtt{6B24D891}\) in hexadecimal. The first two six-bit groups of the round key \(K\) are \bits{100101} and \bits{011010}, respectively. Count bit positions in \(R\) from the left, starting at 1.
 
@@ -329,18 +334,7 @@ S2 & 0 & 15 & 1 & 8 & 14 & 6 & 11 & 3 & 4 & 9 & 7 & 2 & 13 & 12 & 0 & 5 & 10\\
 \end{tabular}}
 \end{center}
 
-\textbf{Your working}\par
-\begin{center}
-\renewcommand{\arraystretch}{1.6}
-\begin{tabularx}{\linewidth}{@{}l*{5}{>{\centering\arraybackslash}X}@{}}
-\toprule Input / box & Expansion & After XOR & Row & Column & Output\\\midrule
-Original $R$, $S_1$ &&&&&\\\midrule
-Original $R$, $S_2$ &&&&&\\\midrule
-Flipped bit 5, $S_1$ &&&&&\\\midrule
-Flipped bit 5, $S_2$ &&&&&\\\bottomrule
-\end{tabularx}
-\end{center}
-
+\ifshowsolutions
 \newpage
 {\small\bfseries\color{teal}QUESTION 7 OF 7\quad\textbar\quad WORKED SOLUTION}\par
 {\raggedright\fontsize{24}{28}\selectfont\bfseries Trace one bit through a DES round\par}\vspace{6pt}
@@ -380,4 +374,5 @@ The first two S-box outputs change from \bits{0010 0011} to \bits{1110 0101}. Th
 
 The new right half is \(L\oplus F(R,K)\). XOR with the same \(L\) preserves all four differences. The new left half is a copy of the input \(R\), so it differs in one bit.
 \answer{The Hamming distance is 4 at the output of \(F\) and \(1+4=5\) across the complete round output.}
+\fi
 \end{document}
